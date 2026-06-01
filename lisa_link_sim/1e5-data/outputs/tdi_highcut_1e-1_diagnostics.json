@@ -1,0 +1,19 @@
+{
+  "frequency_low_hz": 1e-05,
+  "frequency_high_hz": 0.1,
+  "tdi_samples": 1500000,
+  "tdi_start_index": 6000,
+  "noisy_x_std_hz": 9.938318039038929e-06,
+  "noisy_a_std_hz": 9.663897854380171e-06,
+  "gw_tdi_samples": 1500000,
+  "gw_x_max_hz": 0.00015582573535344595,
+  "gw_a_max_hz": 0.0001728142249653322,
+  "xyz_signal_start_lisa": 61539202.977664,
+  "xyz_signal_stop_lisa": 61546248.477664,
+  "xyz_signal_center_lisa": 61542725.727664,
+  "xyz_visual_signal_scale": 0.3513712326181256,
+  "aet_signal_start_lisa": 61538462.977664,
+  "aet_signal_stop_lisa": 61546253.677664,
+  "aet_signal_center_lisa": 61542358.327664,
+  "aet_visual_signal_scale": 0.37351243748476654
+}
