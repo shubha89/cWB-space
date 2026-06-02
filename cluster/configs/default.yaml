@@ -1,0 +1,51 @@
+parameters:
+  total_mass_min: 1.0e4
+  total_mass_max: 1.0e8
+  eta_min: 0.15
+  eta_max: 0.25
+  distance_mpc_min: 1.0e3
+  distance_mpc_max: 2.0e4
+  f_min_hz: 1.0e-4
+
+waveform:
+  raw_dt_s: 1.0
+  raw_half_duration_s: 300000.0
+
+simulation:
+  dt_s: 0.1
+  science_duration_s: 150000.0
+  burn_in_seconds: 600.0
+  frequency_low_hz: 1.0e-5
+  frequency_high_hz: 1.0e-1
+  tdi_generation: 2
+
+psd:
+  reference_work_dir: lisa_link_sim/eta-1_5
+  offsource_guard_seconds: 500.0
+  nperseg: 16384
+  output_csv: cluster/runs/noise_psd.csv
+
+wdm:
+  target_dt_s: 1.0
+  M: 512
+  freq_min_hz: 1.0e-5
+  freq_max_hz: 1.0e-1
+  patch_freq_bins: 128
+  patch_time_bins: 128
+  patch_duration_seconds: 30000.0
+
+dataset:
+  runs_root: cluster/runs/simulations
+  catalog_csv: cluster/runs/catalog.csv
+  dataset_npz: cluster/runs/wdm_patches.npz
+  metadata_csv: cluster/runs/wdm_patches_metadata.csv
+
+autoencoder:
+  latent_dim: 64
+  epochs: 50
+  batch_size: 32
+  learning_rate: 1.0e-3
+
+clustering:
+  min_cluster_size: 5
+  metric: euclidean

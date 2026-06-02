@@ -1,0 +1,137 @@
+{
+  "config": {
+    "work_dir": "cluster/runs/simulations/smbhb_00000",
+    "output_dir": "choronagraphic-cluster/runs/smbhb_00000_multires_smoke",
+    "source": "gw_only",
+    "nside": 1,
+    "chunk_duration_s": 4096.0,
+    "target_dt_s": 1.0,
+    "wdm_m": 512,
+    "wdm_k": 32,
+    "wdm_beta_order": 6,
+    "wdm_precision": 6,
+    "wdm_backend": "numba",
+    "top_pixels": 80,
+    "freq_min_hz": 0.0001,
+    "freq_max_hz": 0.1,
+    "min_cluster_size": 5,
+    "min_samples": null,
+    "make_plots": false,
+    "wdm_ms": [
+      128,
+      256
+    ],
+    "top_pixel_fraction": 0.1
+  },
+  "mode": "multi_resolution",
+  "wdm_ms": [
+    128,
+    256
+  ],
+  "n_resolutions": 2,
+  "n_sky_directions": 12,
+  "chunk_start_s": 72952.0,
+  "chunk_stop_s": 77047.0000000149,
+  "dt_s": 1.000000000003638,
+  "resolutions": [
+    {
+      "config": {
+        "work_dir": "cluster/runs/simulations/smbhb_00000",
+        "output_dir": "choronagraphic-cluster/runs/smbhb_00000_multires_smoke",
+        "source": "gw_only",
+        "nside": 1,
+        "chunk_duration_s": 4096.0,
+        "target_dt_s": 1.0,
+        "wdm_m": 128,
+        "wdm_k": 32,
+        "wdm_beta_order": 6,
+        "wdm_precision": 6,
+        "wdm_backend": "numba",
+        "top_pixels": 80,
+        "freq_min_hz": 0.0001,
+        "freq_max_hz": 0.1,
+        "min_cluster_size": 5,
+        "min_samples": null,
+        "make_plots": false,
+        "wdm_ms": [
+          128,
+          256
+        ],
+        "top_pixel_fraction": 0.1
+      },
+      "wdm_m": 128,
+      "wdm_shape": [
+        129,
+        32
+      ],
+      "n_valid_pixels": 800,
+      "selected_fraction": 0.1,
+      "n_candidates": 80,
+      "n_sky_directions": 12,
+      "chunk_start_s": 72952.0,
+      "chunk_stop_s": 77047.0000000149,
+      "dt_s": 1.000000000003638,
+      "cluster_counts": {
+        "-1": 9,
+        "0": 8,
+        "1": 6,
+        "2": 28,
+        "3": 14,
+        "4": 15
+      },
+      "source_ra": 5.224559736950979,
+      "source_dec": -0.7645632619750642,
+      "median_true_sky_sep_deg": 69.2876490441847
+    },
+    {
+      "config": {
+        "work_dir": "cluster/runs/simulations/smbhb_00000",
+        "output_dir": "choronagraphic-cluster/runs/smbhb_00000_multires_smoke",
+        "source": "gw_only",
+        "nside": 1,
+        "chunk_duration_s": 4096.0,
+        "target_dt_s": 1.0,
+        "wdm_m": 256,
+        "wdm_k": 32,
+        "wdm_beta_order": 6,
+        "wdm_precision": 6,
+        "wdm_backend": "numba",
+        "top_pixels": 80,
+        "freq_min_hz": 0.0001,
+        "freq_max_hz": 0.1,
+        "min_cluster_size": 5,
+        "min_samples": null,
+        "make_plots": false,
+        "wdm_ms": [
+          128,
+          256
+        ],
+        "top_pixel_fraction": 0.1
+      },
+      "wdm_m": 256,
+      "wdm_shape": [
+        257,
+        16
+      ],
+      "n_valid_pixels": 816,
+      "selected_fraction": 0.10049019607843138,
+      "n_candidates": 82,
+      "n_sky_directions": 12,
+      "chunk_start_s": 72952.0,
+      "chunk_stop_s": 77047.0000000149,
+      "dt_s": 1.000000000003638,
+      "cluster_counts": {
+        "-1": 5,
+        "0": 9,
+        "1": 49,
+        "2": 9,
+        "3": 10
+      },
+      "source_ra": 5.224559736950979,
+      "source_dec": -0.7645632619750642,
+      "median_true_sky_sep_deg": 69.2876490441847
+    }
+  ],
+  "source_ra": 5.224559736950979,
+  "source_dec": -0.7645632619750642
+}

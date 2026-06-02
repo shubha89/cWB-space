@@ -1,0 +1,9 @@
+{
+  "source_id": "smbhb_m1e6",
+  "total_mass": 1000000.0,
+  "ra": 0.7,
+  "dec": -0.55,
+  "noisy_rows": 1500000,
+  "gw_rows": 1506000,
+  "note": "six-link products complete; TDI stage intentionally not used for WDM+kappa"
+}

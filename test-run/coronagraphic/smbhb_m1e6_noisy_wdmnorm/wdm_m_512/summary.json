@@ -1,0 +1,52 @@
+{
+  "config": {
+    "work_dir": "test-run/simulations/smbhb_m1e6",
+    "output_dir": "test-run/coronagraphic/smbhb_m1e6_noisy_wdmnorm",
+    "source": "noisy",
+    "nside": 4,
+    "chunk_duration_s": 32768.0,
+    "target_dt_s": 1.0,
+    "wdm_m": 512,
+    "wdm_k": 32,
+    "wdm_beta_order": 6,
+    "wdm_precision": 6,
+    "wdm_backend": "numba",
+    "top_pixels": 80,
+    "freq_min_hz": 0.0001,
+    "freq_max_hz": 0.1,
+    "min_cluster_size": 5,
+    "min_samples": null,
+    "make_plots": true,
+    "wdm_ms": [
+      128,
+      256,
+      512
+    ],
+    "top_pixel_fraction": 0.1,
+    "selection_normalization": "frequency-median",
+    "offsource_edge_fraction": 0.2
+  },
+  "wdm_m": 512,
+  "wdm_shape": [
+    513,
+    64
+  ],
+  "n_valid_pixels": 6528,
+  "selected_fraction": 0.10003063725490197,
+  "n_candidates": 653,
+  "n_sky_directions": 192,
+  "chunk_start_s": 58616.0,
+  "chunk_stop_s": 91383.00000011921,
+  "dt_s": 1.000000000003638,
+  "cluster_counts": {
+    "-1": 70,
+    "0": 11,
+    "1": 34,
+    "2": 11,
+    "3": 18,
+    "4": 509
+  },
+  "source_ra": 0.7,
+  "source_dec": -0.55,
+  "median_true_sky_sep_deg": 41.697806485047586
+}

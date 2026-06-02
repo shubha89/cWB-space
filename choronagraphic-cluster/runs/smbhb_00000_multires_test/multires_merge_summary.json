@@ -1,0 +1,19 @@
+{
+  "run_dir": "choronagraphic-cluster/runs/smbhb_00000_multires_test",
+  "output_dir": "choronagraphic-cluster/runs/smbhb_00000_multires_test",
+  "n_pixels": 488,
+  "n_coherent_pixels": 409,
+  "n_layer_clusters": 22,
+  "n_hdbscan_event_clusters": 4,
+  "n_multires_event_candidates": 2,
+  "event_cluster_counts": {
+    "-1": 198,
+    "0": 107,
+    "1": 23,
+    "2": 145,
+    "3": 15
+  },
+  "event_summary_csv": "choronagraphic-cluster/runs/smbhb_00000_multires_test/multires_event_summary.csv",
+  "merged_pixels_csv": "choronagraphic-cluster/runs/smbhb_00000_multires_test/merged_pixel_clusters.csv",
+  "representatives_csv": "choronagraphic-cluster/runs/smbhb_00000_multires_test/layer_cluster_representatives.csv"
+}

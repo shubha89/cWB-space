@@ -1,0 +1,13 @@
+{
+  "source_id": "smbhb_m1e7",
+  "work_dir": "test-run/simulations/smbhb_m1e7",
+  "noisy_tdi_csv": "test-run/simulations/smbhb_m1e7/outputs/tdi_michelson_XYZ_AET.csv",
+  "gw_tdi_csv": "test-run/simulations/smbhb_m1e7/outputs/tdi_gw_only_XYZ_AET.csv",
+  "tdi_samples": 1500000,
+  "tdi_start_index": 6000,
+  "noisy_x_std_hz": 9.00148538927325e-06,
+  "noisy_a_std_hz": 1.6852932197811297e-05,
+  "gw_tdi_samples": 1500000,
+  "gw_x_max_hz": 5.176787391824485e-05,
+  "gw_a_max_hz": 0.0008760177880147304
+}

@@ -1,0 +1,17 @@
+{
+  "run_dir": "test-run/coronagraphic/smbhb_m1e7_noisy",
+  "output_dir": "test-run/coronagraphic/smbhb_m1e7_noisy",
+  "n_pixels": 1946,
+  "n_coherent_pixels": 1805,
+  "n_layer_clusters": 10,
+  "n_hdbscan_event_clusters": 2,
+  "n_multires_event_candidates": 2,
+  "event_cluster_counts": {
+    "-1": 141,
+    "0": 29,
+    "1": 1776
+  },
+  "event_summary_csv": "test-run/coronagraphic/smbhb_m1e7_noisy/multires_event_summary.csv",
+  "merged_pixels_csv": "test-run/coronagraphic/smbhb_m1e7_noisy/merged_pixel_clusters.csv",
+  "representatives_csv": "test-run/coronagraphic/smbhb_m1e7_noisy/layer_cluster_representatives.csv"
+}
