@@ -15,7 +15,7 @@ Both simulations generated full noisy six-link products with `lisainstrument`:
 - `outputs/tdi_michelson_XYZ_AET.csv`
 - `outputs/tdi_gw_only_XYZ_AET.csv`
 
-The final kappa analysis was run on `--source noisy`, not `gw_only`. WDM pixel selection can now use proper pyTDI A/E products while the kappa scan still uses the six-link Sagnac construction.
+The final kappa analysis was run on `--source noisy`, not `gw_only`. WDM pixel selection now requires proper pyTDI A/E products while the kappa scan still uses the six-link Sagnac construction.
 
 ## Commands Used
 
@@ -43,7 +43,7 @@ conda run -n lisa-tf python test-run/generate_tdi_from_existing_h5.py \
 Noisy multi-resolution WDM+kappa command pattern:
 
 ```bash
-conda run -n lisa-tf python choronagraphic-cluster/run_one_smbhb.py \
+conda run -n lisa-tf python -m scripts.coronagraphic_kappa_scan \
   --work-dir test-run/simulations/<source_id> \
   --output-dir test-run/coronagraphic/<source_id>_noisy \
   --source noisy \
@@ -57,7 +57,7 @@ conda run -n lisa-tf python choronagraphic-cluster/run_one_smbhb.py \
 pyTDI-AET WDM selection plus separate six-link kappa scan:
 
 ```bash
-conda run -n lisa-tf python choronagraphic-cluster/run_one_smbhb.py \
+conda run -n lisa-tf python -m scripts.coronagraphic_kappa_scan \
   --work-dir test-run/simulations/<source_id> \
   --output-dir test-run/coronagraphic/<source_id>_noisy_pytdi_aet_offsource_wdmnorm \
   --source noisy \
@@ -66,7 +66,6 @@ conda run -n lisa-tf python choronagraphic-cluster/run_one_smbhb.py \
   --wdm-ms 128,256,512 \
   --top-pixel-fraction 0.10 \
   --min-cluster-size 5 \
-  --wdm-aet-source pytdi \
   --selection-normalization offsource-frequency-median \
   --offsource-edge-fraction 0.20
 ```
@@ -74,7 +73,7 @@ conda run -n lisa-tf python choronagraphic-cluster/run_one_smbhb.py \
 Off-source WDM-background-normalized command pattern:
 
 ```bash
-conda run -n lisa-tf python choronagraphic-cluster/run_one_smbhb.py \
+conda run -n lisa-tf python -m scripts.coronagraphic_kappa_scan \
   --work-dir test-run/simulations/<source_id> \
   --output-dir test-run/coronagraphic/<source_id>_noisy_offsource_wdmnorm \
   --source noisy \

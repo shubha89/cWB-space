@@ -549,50 +549,40 @@ def compare_gw_reference_to_clusters(config: TwoSMBHBEndToEndConfig) -> dict[str
     run_config = proto.RunConfig(**run_config_data)
     _, _, resample_poly, _, WDM = proto.require_dependencies()
 
-    gw_df = pd.read_csv(work_dir / "outputs" / "six_links_gw_only.csv")
-    science_df = gw_df[gw_df["is_science"].astype(bool)].reset_index(drop=True)
-    t_raw = science_df["t_waveform"].to_numpy(dtype=float)
+    t_aet_raw, a_raw, e_raw = proto.load_pytdi_aet(work_dir, "gw_only")
+    t_raw, _ = proto.load_links(work_dir, "gw_only")
     center_s = float(t_raw[0]) + 0.5 * (float(t_raw[-1]) - float(t_raw[0]))
 
     merged_pixels = pd.read_csv(run_dir / "merged_pixel_clusters.csv")
     merged_pixels["event_cluster"] = merged_pixels["event_cluster"].astype(int)
 
-    reference_rows: list[dict[str, object]] = []
-    for source_idx, source_id in enumerate(["smbhb_A", "smbhb_B"]):
-        links = {lab: science_df[f"gw_{source_id}_{lab}_hz"].to_numpy(dtype=float) for lab in LINK_LABELS}
-        t, links_ds, dt = proto.crop_and_downsample_links(
-            t_raw,
-            links,
-            center_s=center_s,
-            duration_s=run_config.chunk_duration_s,
-            target_dt_s=run_config.target_dt_s,
-            resample_poly=resample_poly,
-        )
-        geometry = proto.LISAGeometry.equilateral(proto.LISA_ARM_M / proto.C_M_PER_S)
-        michelson = proto.compute_michelson_response_from_links(
-            links_ds,
-            dt=dt,
-            geometry=geometry,
-            generation="second",
-            channels="aet",
-            output_domain="time",
-        )
-        power_a, freqs, times = proto.wdm_power(np.asarray(michelson["time"]["A"]), dt=dt, t0=float(t[0]), config=run_config, WDM=WDM)
-        power_e, _, _ = proto.wdm_power(np.asarray(michelson["time"]["E"]), dt=dt, t0=float(t[0]), config=run_config, WDM=WDM)
-        candidates = proto.select_candidate_pixels(
-            power_a,
-            power_e,
-            freqs,
-            times,
-            top_pixels=None,
-            top_pixel_fraction=config.top_pixel_fraction,
-            freq_min_hz=run_config.freq_min_hz,
-            freq_max_hz=run_config.freq_max_hz,
-        )
-        for row in candidates.to_dict(orient="records"):
-            reference_rows.append({"source_id": source_id, "source_index": source_idx, **row})
-
-    reference = pd.DataFrame(reference_rows)
+    t, a_t, e_t, dt = proto.crop_and_downsample_aet(
+        t_aet_raw,
+        a_raw,
+        e_raw,
+        center_s=center_s,
+        duration_s=run_config.chunk_duration_s,
+        target_dt_s=run_config.target_dt_s,
+        resample_poly=resample_poly,
+    )
+    power_a, freqs, times = proto.wdm_power(np.asarray(a_t), dt=dt, t0=float(t[0]), config=run_config, WDM=WDM)
+    power_e, _, _ = proto.wdm_power(np.asarray(e_t), dt=dt, t0=float(t[0]), config=run_config, WDM=WDM)
+    reference = proto.select_candidate_pixels(
+        power_a,
+        power_e,
+        freqs,
+        times,
+        top_pixels=None,
+        top_pixel_fraction=config.top_pixel_fraction,
+        freq_min_hz=run_config.freq_min_hz,
+        freq_max_hz=run_config.freq_max_hz,
+        selection_normalization=run_config.selection_normalization,
+        offsource_edge_fraction=run_config.offsource_edge_fraction,
+        selection_start_guard_s=run_config.selection_start_guard_s,
+        selection_end_guard_s=run_config.selection_end_guard_s,
+    )
+    reference.insert(0, "source_id", "combined_gw_only_pytdi_aet")
+    reference.insert(1, "source_index", -1)
     reference.to_csv(run_dir / "gw_signal_reference_pixels.csv", index=False)
 
     background_layer_summary = json.loads((run_dir / f"wdm_m_{config.background_m}" / "summary.json").read_text(encoding="utf-8"))

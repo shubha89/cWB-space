@@ -1,4 +1,4 @@
-"""Compute Michelson XYZ and orthogonal AET TDI products."""
+"""Compute Michelson XYZ/AET and Sagnac TDI products with PyTDI."""
 
 from __future__ import annotations
 
@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from pytdi import Data
 import pytdi.michelson
+import pytdi.sagnac
 
 from .six_link_generation import LisaLinkSimulationConfig, LisaLinkSimulationPaths
 from .plotting_utils import plot_link_columns
@@ -40,6 +41,34 @@ def _tdi_combinations(config: LisaLinkSimulationConfig):
     raise ValueError("tdi_generation must be 1 or 2.")
 
 
+def _sagnac_combinations(config: LisaLinkSimulationConfig):
+    if config.tdi_generation == 2:
+        return (
+            ("alpha2", pytdi.sagnac.ALPHA2),
+            ("beta2", pytdi.sagnac.BETA2),
+            ("gamma2", pytdi.sagnac.GAMMA2),
+            ("zeta21", pytdi.sagnac.ZETA21),
+            ("zeta22", pytdi.sagnac.ZETA22),
+            ("zeta23", pytdi.sagnac.ZETA23),
+        )
+    if config.tdi_generation == 1:
+        return (
+            ("alpha1", pytdi.sagnac.ALPHA1),
+            ("beta1", pytdi.sagnac.BETA1),
+            ("gamma1", pytdi.sagnac.GAMMA1),
+            ("zeta1", pytdi.sagnac.ZETA1),
+        )
+    raise ValueError("tdi_generation must be 1 or 2.")
+
+
+def _build_kwargs(data: Data, config: LisaLinkSimulationConfig) -> dict[str, object]:
+    build_kwargs: dict[str, object] = {"order": config.interpolation_order}
+    delay_derivatives = get_delay_derivatives_if_available(data)
+    if delay_derivatives is not None:
+        build_kwargs["delay_derivatives"] = delay_derivatives
+    return build_kwargs
+
+
 def _crop_tdi_to_science(
     arrays: Sequence[np.ndarray],
     t_lisa_meta: np.ndarray,
@@ -63,10 +92,7 @@ def _crop_tdi_to_science(
 
 def _evaluate_michelson_tdi(data: Data, config: LisaLinkSimulationConfig) -> tuple[np.ndarray, ...]:
     x_comb, y_comb, z_comb, suffix = _tdi_combinations(config)
-    build_kwargs = {"order": config.interpolation_order}
-    delay_derivatives = get_delay_derivatives_if_available(data)
-    if delay_derivatives is not None:
-        build_kwargs["delay_derivatives"] = delay_derivatives
+    build_kwargs = _build_kwargs(data, config)
 
     x_built = x_comb.build(data.delays, data.fs, **build_kwargs)
     y_built = y_comb.build(data.delays, data.fs, **build_kwargs)
@@ -80,6 +106,16 @@ def _evaluate_michelson_tdi(data: Data, config: LisaLinkSimulationConfig) -> tup
     t = (x + y + z) / np.sqrt(3.0)
     n = min(len(x), len(y), len(z), len(a), len(e), len(t))
     return x[:n], y[:n], z[:n], a[:n], e[:n], t[:n], suffix
+
+
+def _evaluate_sagnac_tdi(data: Data, config: LisaLinkSimulationConfig) -> tuple[dict[str, np.ndarray], str]:
+    build_kwargs = _build_kwargs(data, config)
+    channels: dict[str, np.ndarray] = {}
+    for name, combination in _sagnac_combinations(config):
+        built = combination.build(data.delays, data.fs, **build_kwargs)
+        channels[name] = built(data.measurements, unit=config.tdi_unit)
+    n = min(len(arr) for arr in channels.values())
+    return {name: arr[:n] for name, arr in channels.items()}, str(config.tdi_generation)
 
 
 def compute_tdi_from_instrument(
@@ -145,6 +181,59 @@ def compute_tdi_from_instrument(
         "tdi_start_index": int(start),
         "noisy_x_std_hz": float(np.std(x)),
         "noisy_a_std_hz": float(np.std(a)),
+    }
+
+
+def compute_sagnac_tdi_from_instrument(
+    config: LisaLinkSimulationConfig,
+    paths: LisaLinkSimulationPaths,
+    *,
+    make_plots: bool = True,
+) -> dict[str, float | int]:
+    """Compute noisy Sagnac TDI channels from the full lisainstrument output."""
+
+    gw_meta = pd.read_csv(paths.gw_links_csv, usecols=["t_waveform", "t_lisa", "is_science"])
+    t_lisa_meta = gw_meta["t_lisa"].to_numpy()
+    t_waveform_meta = gw_meta["t_waveform"].to_numpy()
+    is_science = gw_meta["is_science"].astype(bool).to_numpy()
+    dt_tdi = float(np.median(np.diff(t_waveform_meta)))
+
+    data = Data.from_instrument(str(paths.instrument_h5), signals="fluctuations", skipped=0)
+    channels, suffix = _evaluate_sagnac_tdi(data, config)
+    names = list(channels)
+    cropped, t_lisa, t_waveform, start = _crop_tdi_to_science(
+        [channels[name] for name in names], t_lisa_meta, t_waveform_meta, is_science, config
+    )
+    channels = {
+        name: apply_frequency_cut(arr, dt_tdi, config.frequency_low_hz, config.frequency_high_hz)
+        for name, arr in zip(names, cropped)
+    }
+
+    sample = np.arange(len(t_lisa))
+    df = pd.DataFrame(
+        {
+            "sample": sample,
+            "instrument_sample": sample + start,
+            "t_waveform": t_waveform,
+            "t_lisa": t_lisa,
+            **channels,
+        }
+    )
+    df.to_csv(paths.noisy_sagnac_tdi_csv, index=False)
+
+    if make_plots:
+        plot_link_columns(
+            t_lisa,
+            channels,
+            f"Sagnac TDI generation {suffix}",
+            "TDI frequency combination [Hz]",
+            paths.noisy_tdi_sagnac_plot,
+        )
+
+    return {
+        "sagnac_tdi_samples": len(df),
+        "sagnac_tdi_start_index": int(start),
+        **{f"noisy_{name}_std_hz": float(np.std(arr)) for name, arr in channels.items()},
     }
 
 
@@ -219,4 +308,63 @@ def compute_tdi_from_gws(
         "gw_tdi_samples": len(df),
         "gw_x_max_hz": float(np.max(np.abs(x))),
         "gw_a_max_hz": float(np.max(np.abs(a))),
+    }
+
+
+def compute_sagnac_tdi_from_gws(
+    config: LisaLinkSimulationConfig,
+    paths: LisaLinkSimulationPaths,
+    *,
+    make_plots: bool = True,
+) -> dict[str, float | int]:
+    """Compute GW-only Sagnac TDI channels and convert the result to Hz."""
+
+    gw_meta = pd.read_csv(paths.gw_links_csv, usecols=["t_waveform", "t_lisa", "is_science"])
+    t_lisa_meta = gw_meta["t_lisa"].to_numpy()
+    t_waveform_meta = gw_meta["t_waveform"].to_numpy()
+    is_science = gw_meta["is_science"].astype(bool).to_numpy()
+    dt_tdi = float(np.median(np.diff(t_waveform_meta)))
+
+    data = Data.from_gws(
+        str(paths.gws_h5),
+        str(paths.orbits_h5),
+        skipped=0,
+        gw_dataset=config.gw_dataset,
+        orbit_dataset=config.orbit_dataset,
+    )
+    channels, suffix = _evaluate_sagnac_tdi(data, config)
+    names = list(channels)
+    cropped, t_lisa, t_waveform, start = _crop_tdi_to_science(
+        [channels[name] for name in names], t_lisa_meta, t_waveform_meta, is_science, config
+    )
+    channels = {
+        name: config.central_freq_hz
+        * apply_frequency_cut(arr, dt_tdi, config.frequency_low_hz, config.frequency_high_hz)
+        for name, arr in zip(names, cropped)
+    }
+
+    sample = np.arange(len(t_lisa))
+    df = pd.DataFrame(
+        {
+            "sample": sample,
+            "source_sample": sample + start,
+            "t_waveform": t_waveform,
+            "t_lisa": t_lisa,
+            **{f"{name}_gw_hz": arr for name, arr in channels.items()},
+        }
+    )
+    df.to_csv(paths.gw_sagnac_tdi_csv, index=False)
+
+    if make_plots:
+        plot_link_columns(
+            t_lisa,
+            {f"{name}_gw_hz": arr for name, arr in channels.items()},
+            f"GW-only Sagnac TDI generation {suffix} converted to Hz",
+            "GW-only TDI frequency combination [Hz]",
+            paths.gw_tdi_sagnac_plot,
+        )
+
+    return {
+        "gw_sagnac_tdi_samples": len(df),
+        **{f"gw_{name}_max_hz": float(np.max(np.abs(arr))) for name, arr in channels.items()},
     }

@@ -26,6 +26,7 @@ def main() -> None:
         science_duration=150_000.0,
         burn_in_seconds=600.0,
         center_waveform_peak=True,
+        edge_taper_seconds=10_000.0,
         ra=3.141592653589793 / 4.0,
         dec=0.3,
         central_freq_hz=2.816e14,

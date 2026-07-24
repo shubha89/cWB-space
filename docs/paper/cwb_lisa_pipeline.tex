@@ -1,0 +1,312 @@
+\documentclass[%
+ reprint,
+ amsmath,amssymb,
+ aps,
+ prd,
+]{revtex4-2}
+
+\usepackage{graphicx}
+\usepackage{dcolumn}
+\usepackage{bm}
+\usepackage{hyperref}
+
+\begin{document}
+
+\preprint{LISA-TF/2026-01}
+
+\title{cWB-LISA:\ A coherent WaveBurst-inspired pipeline for template-free searches in LISA data}
+
+\author{Shubhanshu Tiwari}
+\affiliation{Department of Earth and Planetary Sciences, ETH Zurich.}
+
+\date{\today}
+
+\begin{abstract}
+The Laser Interferometer Space Antenna (LISA) will observe gravitational waves in the millihertz band using a moving triangular constellation and time-delay interferometry (TDI).  This setting creates a qualitatively different environment from the ground-based detector networks for which coherent WaveBurst (cWB) was developed: the data are multi-channel TDI observables rather than geographically separated strain measurements, the detector response is strongly time dependent, and long-lived source confusion and instrumental effects are expected to be central analysis challenges.  We describe the design of cWB-LISA, a modular pipeline intended to adapt the cWB philosophy of template-free, coherent time-frequency detection to LISA-like data.  The pipeline is organized into four modules: simulation of synthetic data, TDI computation, coherence definition, and detection-statistic construction.  The current implementation produces synthetic six-link data using waveform, orbit, response, and instrument simulators; computes pyTDI-based Michelson variables and orthogonal A/E/T channels; builds multi-resolution time-frequency maps; and prototypes a coronagraphic TDI path based on Sagnac variables and sky-dependent nulling.  We emphasize the software and statistical interfaces required for a robust LISA burst search, identify the present mixed state of pyTDI and local static-TDI calculations, and define the development steps needed to turn the prototype into a validated coherent search.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+
+The coherent WaveBurst algorithm was designed for unmodeled gravitational-wave transients in ground-based detector networks.  Its central idea is to search for excess power in a time-frequency representation and then rank coherent event candidates using consistency across multiple detectors, without requiring a phase-accurate waveform template for every source class \cite{Drago2021cWB}.  This strategy is valuable whenever the signal morphology is uncertain, the source population is broad, or the goal is to preserve sensitivity to unexpected transients.
+
+LISA requires a different realization of the same principle.  The detector is a constellation of three spacecraft connected by six laser links, and the science data are formed by time-shifting and linearly combining inter-spacecraft measurements through TDI \cite{Tinto2005TDI}.  Common analysis bases include Michelson-like variables $(X,Y,Z)$ and quasi-orthogonal combinations $(A,E,T)$ \cite{LISA2017}.  In addition, Sagnac and coronagraphic TDI constructions can provide null or near-null information that may be useful for sky localization, glitch rejection, and model-agnostic consistency tests \cite{CostaBarroso2024Coronagraphic}.  Therefore, a cWB-like search for LISA must be built around TDI observables and a LISA response model, not around independent strain channels from separated observatories.
+
+This paper describes a proposed and partially implemented pipeline, here called cWB-LISA.  The name is provisional but useful: it makes explicit both the inheritance from cWB and the adaptation to LISA-specific data products.  The goal is not to claim a final detection statistic.  Instead, the purpose is to define a clean architecture, document the current implementation status, and identify the technical decisions that must be stabilized before sensitivity or false-alarm claims can be made.
+
+The paper is organized as follows.  Section~\ref{sec:requirements} states the design requirements.  Section~\ref{sec:architecture} defines the four target modules.  Section~\ref{sec:tdi} describes the TDI layer and its current pyTDI status.  Section~\ref{sec:tf} summarizes the time-frequency and clustering path.  Section~\ref{sec:coherence} outlines the coherence problem and possible likelihood structure.  Section~\ref{sec:validation} gives the validation plan.  Technical coding details are collected in the appendices.
+
+\section{Design requirements}
+\label{sec:requirements}
+
+A LISA adaptation of cWB should satisfy four requirements.
+
+First, the input data must be reproducible.  The pipeline should be able to regenerate synthetic data from source parameters, waveform settings, orbit files, response settings, instrument-noise settings, and a random seed.  This is essential because algorithmic changes in TDI, whitening, clustering, or ranking must be tested against fixed reference data.
+
+Second, TDI computation must be treated as a first-class module rather than a hidden preprocessing detail.  Laser-frequency noise cancellation, delay conventions, units, interpolation order, and generation choice enter before any time-frequency analysis is meaningful.  The preferred strategy is to use pyTDI for standard combinations whenever possible, because pyTDI provides symbolic and numerical tools for LISA TDI combinations and ready-to-use standard observables \cite{PyTDI}.
+
+Third, the definition of coherence must be LISA-specific.  In ground-based cWB, coherence means consistency across detectors with different antenna patterns, noise spectra, and time delays.  In LISA, the corresponding objects are TDI channels whose noise covariance and response depend on TDI basis, frequency, sky direction, and the moving constellation.  A coherent statistic must therefore be formulated in the TDI data space.
+
+Fourth, detection statistics must be separated from implementation details.  The ranking statistic, likelihood approximation, false-alarm calibration, and event summary should be defined independently from the scripts used to generate a given run.  This separation is needed for reproducibility and for comparing alternative TDI bases, clustering methods, and background-estimation strategies.
+
+\section{Target pipeline architecture}
+\label{sec:architecture}
+
+The target architecture contains four modules, summarized in Table~\ref{tab:modules}.  The modules are intentionally broad.  Their purpose is to set stable interfaces before optimizing the individual algorithms.
+
+\begin{table*}
+\caption{Target modules for the cWB-LISA pipeline.  The coherence and likelihood modules are not yet final; they define the interface for the next development stage.}
+\label{tab:modules}
+\begin{ruledtabular}
+\begin{tabular}{p{0.20\textwidth}p{0.33\textwidth}p{0.36\textwidth}}
+Module & Primary role & Main outputs \\
+\hline
+Simulation of synthetic data & Generate waveform, orbit, response, and instrument products from reproducible configuration files. & GW-only six-link data, noisy six-link data, orbit files, response metadata, run provenance. \\
+TDI computation & Convert six-link products into standard and experimental TDI observables, using pyTDI as the source of truth where possible. & Michelson $(X,Y,Z)$, orthogonal $(A,E,T)$, Sagnac $(\alpha,\beta,\gamma)$, coronagraphic or null combinations, TDI diagnostics. \\
+Coherence definition & Define signal consistency in the TDI data space. & Coherent energy, residual energy, null consistency, sky-dependent response consistency, per-pixel or per-cluster coherence features. \\
+Detection statistics and signal likelihood & Rank candidate events and calibrate significance. & Event ranking statistic, likelihood or likelihood-ratio proxy, background-calibrated significance, injection-efficiency and sensitivity summaries. \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\subsection{Module 1: simulation of synthetic data}
+\label{subsec:simulation}
+
+The first module generates the synthetic data used for development and validation.  Conceptually, it contains a waveform simulator, a LISA orbit and response layer, and an instrument simulator.  The intended output is the set of six directed inter-spacecraft link measurements, both with and without instrument noise.  This six-link representation is the natural boundary between simulation and TDI.
+
+For the current supermassive black-hole binary examples, the waveform stage can use a compact-binary waveform model such as IMRPhenomXPHM \cite{Pratten2021IMRPhenomXPHM}.  The response and instrument stages are handled through LISA simulation tools: LISA Orbits for spacecraft state vectors and delays, LISA GW Response for link responses, and LISA Instrument for the measurement chain and noise model \cite{LISAOrbits,LISAGWResponse,LISAInstrument,Bayle2023Instrument}.  The simulation module should not assume that all future sources are compact binaries; it should accept any source model that can be converted into link-level response products.
+
+The minimum reproducibility contract is a manifest containing the source parameters, waveform model and version, orbit file, response settings, instrument settings, sample rate, time origin, science duration, burn-in duration, random seed, and output file names.  This manifest should be written with every synthetic dataset.
+
+\subsection{Module 2: TDI computation from six-link data}
+\label{subsec:tdi_module}
+
+The second module converts six-link data into TDI observables.  It has two primary paths.  The Michelson path maps the six links to pyTDI $(X,Y,Z)$ and then to $(A,E,T)$.  The Sagnac path maps the six links to pyTDI $(\alpha,\beta,\gamma)$ and then to coronagraphic or other null combinations.  These paths should share common configuration for units, interpolation order, delay derivatives, TDI generation, and output metadata.
+
+The current production-level path is Michelson-to-A/E/T.  The present code computes pyTDI Michelson observables for noisy instrument data and GW-only data, then forms A/E/T by a local orthonormal linear transform of X/Y/Z.  The Sagnac path is less mature: pyTDI Sagnac variables are available in a diagnostic script, but the main coronagraphic prototype still uses a local static first-generation Sagnac construction for the kappa projection.  This mixed state is acceptable for prototyping but not for final validation.
+
+\subsection{Module 3: coherence definition}
+\label{subsec:coherence_module}
+
+The third module defines coherence.  In a generic TDI basis, let $\mathbf d_p$ be the vector of whitened TDI coefficients in time-frequency pixel $p$, and let $\mathbf R_p(\Omega)$ be the response matrix for sky position and other extrinsic parameters denoted collectively by $\Omega$.  A simple coherent model can be written as
+\begin{equation}
+\mathbf d_p = \mathbf R_p(\Omega)\mathbf h_p + \mathbf n_p,
+\label{eq:data_model}
+\end{equation}
+where $\mathbf h_p$ represents the two gravitational-wave polarizations or a reduced signal basis and $\mathbf n_p$ is noise with covariance $\mathbf C_p$.
+
+For a fixed $\Omega$, the coherent projection energy may be written schematically as
+\begin{equation}
+E_{\rm coh}(p,\Omega) =
+\mathbf d_p^\dagger \mathbf C_p^{-1}\mathbf R_p
+\left(\mathbf R_p^\dagger \mathbf C_p^{-1}\mathbf R_p\right)^{-1}
+\mathbf R_p^\dagger \mathbf C_p^{-1}\mathbf d_p .
+\label{eq:ecoherent}
+\end{equation}
+The residual energy is the component orthogonal to the signal subspace,
+\begin{equation}
+E_{\rm res}(p,\Omega) =
+\mathbf d_p^\dagger \mathbf C_p^{-1}\mathbf d_p - E_{\rm coh}(p,\Omega).
+\label{eq:eresidual}
+\end{equation}
+Equations~(\ref{eq:ecoherent}) and (\ref{eq:eresidual}) are not yet the final statistic.  They define a useful target interface: the coherence module should return quantities that separate signal-consistent energy from incoherent residuals, include null-channel information where available, and can be evaluated per pixel or per cluster.
+
+\subsection{Module 4: detection statistics and likelihood}
+\label{subsec:detection_module}
+
+The fourth module converts clusters and coherence features into event-level rankings.  A minimal detection statistic could combine coherent energy, residual suppression, cluster size, time-frequency morphology, null-channel consistency, and sky-response concentration.  A likelihood-based statistic would compare a signal-plus-noise model to a noise-only model over all pixels in a candidate cluster $C$,
+\begin{equation}
+\ln \Lambda_C =
+\sum_{p\in C}\left[\ln p(\mathbf d_p|\mathcal H_{\rm sig})
+-\ln p(\mathbf d_p|\mathcal H_{\rm noise})\right].
+\label{eq:likelihood_ratio}
+\end{equation}
+The first implementation does not need to be a fully marginalized Bayesian likelihood.  A robust ranking statistic, calibrated against noise-only and injection data, is a practical intermediate goal.
+
+\section{TDI layer and current implementation status}
+\label{sec:tdi}
+
+The most mature part of the current pipeline is the Michelson TDI path.  The code uses pyTDI data interfaces for both noisy and GW-only products.  Noisy TDI is computed from instrument HDF5 files, while GW-only TDI is computed from gravitational-wave response files and orbit files.  The configured generation selects either first-generation or second-generation pyTDI Michelson observables.  The resulting X/Y/Z streams are converted to A/E/T through
+\begin{align}
+A &= \frac{Z-X}{\sqrt{2}}, \\
+E &= \frac{X-2Y+Z}{\sqrt{6}}, \\
+T &= \frac{X+Y+Z}{\sqrt{3}}.
+\label{eq:aet}
+\end{align}
+For GW-only products, the current implementation multiplies fractional-frequency pyTDI outputs by the configured central laser frequency in order to store frequency-like units.  This choice must remain explicit in output metadata.
+
+The Sagnac and coronagraphic path is the major TDI development priority.  Coronagraphic TDI introduces a sky-dependent combination, often denoted $\kappa(f,\beta,\lambda)$, with the useful property that the gravitational-wave contribution is suppressed when the tested sky direction approaches the true source direction \cite{CostaBarroso2024Coronagraphic}.  In the prototype, candidate pixels are selected from pyTDI A/E time-frequency maps, while $\kappa$ is evaluated using locally built static Sagnac variables from six-link data.  A separate diagnostic script evaluates pyTDI Sagnac observables and compares them to the static construction.  The next stable version should make pyTDI Sagnac products part of the same production TDI layer as Michelson/A/E/T.
+
+\section{Time-frequency maps, candidate pixels, and clustering}
+\label{sec:tf}
+
+Following the cWB strategy, the pipeline searches in a time-frequency representation rather than in the raw time domain.  The current prototype builds multi-resolution Wilson-Daubechies-Meyer-like maps for A and E channels and selects high-power pixels for downstream analysis.  The exact transform implementation is currently a software dependency and should be treated as replaceable: the pipeline interface should accept WDM, wavelet, or other time-frequency maps as long as the resulting pixels carry channel, time, frequency, resolution, and normalization metadata.
+
+For the coronagraphic prototype, the selected pixels are evaluated over a HEALPix sky grid.  At each selected pixel and sky direction, the pipeline computes a kappa response or suppression measure.  Each pixel is assigned features such as the best-null sky direction, the minimum kappa power, the median sky response, the sky contrast, and the sky sharpness.  HDBSCAN clustering is then used to group pixels with similar sky-response features and time-frequency support \cite{Campello2013HDBSCAN,Campello2015HDBSCAN}.  Multi-resolution runs repeat this procedure at several WDM resolutions and then merge coherent structures across resolutions.
+
+This clustering path should be interpreted as a prototype.  It is useful because it tests whether pixels from the same injected source prefer a common sky region under a model-agnostic nulling construction.  It is not yet a final coherent likelihood, and it currently inherits the limitations of the static coronagraphic response model.
+
+\section{Coherence and detection statistics}
+\label{sec:coherence}
+
+The central open problem is to define a LISA-native coherent statistic.  Three candidate ingredients are already clear.
+
+First, the statistic should reward energy that is consistent with the response of a common gravitational-wave signal in a chosen TDI basis.  This is the role of $E_{\rm coh}$ in Eq.~(\ref{eq:ecoherent}).
+
+Second, the statistic should penalize energy that cannot be explained by the same signal subspace.  This is the role of $E_{\rm res}$ in Eq.~(\ref{eq:eresidual}) and of any explicit null-channel or coronagraphic veto.
+
+Third, the statistic should use cluster-level structure.  A real signal should not only be loud in isolated pixels; it should form a time-frequency morphology consistent across channels and, where applicable, across sky-dependent response features.  Therefore, the event statistic should combine per-pixel coherence with cluster morphology and background calibration.
+
+A practical first ranking statistic could take the form
+\begin{equation}
+\eta_C = f\left(
+\sum_{p\in C} E_{\rm coh}(p),
+\sum_{p\in C} E_{\rm res}(p),
+N_C,
+\Delta t_C,
+\Delta f_C,
+S_{\rm null},
+S_{\rm sky}
+\right),
+\label{eq:ranking}
+\end{equation}
+where $N_C$ is the number of pixels in the cluster, $\Delta t_C$ and $\Delta f_C$ characterize its time-frequency extent, $S_{\rm null}$ measures null consistency, and $S_{\rm sky}$ measures sky-response concentration.  The function $f$ should initially be simple and interpretable.  More flexible machine-learning or likelihood models should only be introduced after the physical diagnostics are stable.
+
+\section{Validation strategy}
+\label{sec:validation}
+
+The validation plan has five stages.
+
+First, the pipeline must reproduce a fixed reference simulation from a clean configuration.  This checks that waveform generation, response generation, instrument simulation, TDI computation, and output paths are deterministic under fixed seeds and versions.
+
+Second, TDI products must be validated independently.  The Michelson path should compare pyTDI X/Y/Z and A/E/T outputs across noisy and GW-only products, including unit checks and delay-derivative handling.  The Sagnac path should compare pyTDI Sagnac observables to local static formulas only in regimes where the static assumptions are expected to hold.
+
+Third, the time-frequency stage should be tested by injection recovery.  A fixed injected signal should occupy stable regions of the A/E maps under changes in WDM resolution, whitening, crop, and normalization choices.
+
+Fourth, the coherence and ranking stage should be tested against noise-only data and controlled injections.  The relevant metrics are detection efficiency, false-alarm probability, cluster purity, sky-localization error for coronagraphic features, waveform-reconstruction error, and runtime.
+
+Fifth, the background model must be made LISA-specific.  Terrestrial detector time slides do not transfer directly to a single LISA constellation.  Candidate alternatives include noise-only simulations, off-source regions, bootstrap resampling, phase randomization, and controlled source-subtraction studies.
+
+\section{Discussion}
+\label{sec:discussion}
+
+The current prototype already contains the main ingredients of a cWB-inspired LISA search: synthetic link generation, pyTDI Michelson/A/E/T products, multi-resolution time-frequency maps, candidate-pixel selection, and exploratory coronagraphic clustering.  The most important architectural decision is to make TDI computation a robust and explicit module.  Without this, downstream coherence and likelihood definitions are not meaningful.
+
+The largest current gap is the Sagnac/coronagraphic production path.  The prototype mixes pyTDI A/E selection with local static Sagnac kappa computation.  This is useful for rapid exploration, but a validated pipeline should either derive the coronagraphic response for the exact pyTDI Sagnac observables used in the data or clearly restrict the method to a static first-generation approximation with quantified errors.
+
+A second gap is the lack of a final coherent statistic.  The proposed data-model and projection equations define one possible starting point, but the final statistic must account for TDI noise covariance, sky-dependent LISA response, time-varying geometry, and source confusion.  The correct development sequence is therefore: stabilize TDI, stabilize time-frequency maps, define an interpretable coherent statistic, and only then calibrate detection significance.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+cWB-LISA is a proposed modular pipeline for template-free gravitational-wave searches in LISA-like data.  It preserves the cWB philosophy of coherent time-frequency event detection while replacing the ground-based detector network with a LISA-specific TDI data space.  The pipeline is organized around four modules: synthetic-data simulation, TDI computation, coherence definition, and detection statistics.  The current implementation has a robust pyTDI-based Michelson/A/E/T path and an exploratory coronagraphic clustering prototype.  The next development priority is to make pyTDI Sagnac computation a validated production path and to define a LISA-native coherent statistic that can be calibrated on injections and noise backgrounds.
+
+\begin{acknowledgments}
+This draft describes an in-development research pipeline.  The implementation currently uses the LISA-TF repository structure and associated simulation, TDI, WDM, and coronagraphic prototype scripts.  The author acknowledges the broader LISA simulation and cWB software ecosystems on which the design builds.
+\end{acknowledgments}
+
+\appendix
+
+\section{Current code map}
+\label{app:code_map}
+
+The current repository is organized around reusable scripts and prototype analysis directories.  The most relevant files are listed here because they define the present implementation state.
+
+\begin{itemize}
+\item \texttt{scripts/six\_link\_generation.py}: generates aligned waveform files, orbit files, six GW-only links, and six noisy links.
+\item \texttt{scripts/tdi\_computation.py}: computes noisy and GW-only pyTDI Michelson X/Y/Z and derived A/E/T products.
+\item \texttt{scripts/wdm\_computation.py}: computes multi-resolution time-frequency products and A/E maps.
+\item \texttt{scripts/lisa\_link\_simulation.py}: compatibility wrapper for the end-to-end link and TDI simulation path.
+\item \texttt{scripts/tdi\_wdm\_pipeline.py}: compatibility wrapper for TDI and WDM post-processing.
+\item \texttt{coronagraphic\_tdi.py}: local static-geometry implementation of Sagnac, Michelson, A/E/T transforms, and coronagraphic kappa utilities.
+\item \texttt{choronagraphic-cluster/run\_one\_smbhb.py}: prototype pyTDI-A/E WDM selection and coronagraphic pixel clustering workflow.  The directory name currently preserves the misspelling \texttt{choronagraphic-cluster}.
+\item \texttt{scripts/pytdi\_sagnac\_kappa\_example.py}: diagnostic bridge comparing pyTDI Sagnac variables with the current static kappa projection.
+\item \texttt{test-run/generate\_tdi\_from\_existing\_h5.py}: post-processing utility to regenerate pyTDI XYZ/AET CSVs from existing HDF5 products.
+\end{itemize}
+
+\section{pyTDI Michelson implementation details}
+\label{app:pytdi_michelson}
+
+The current Michelson production path imports \texttt{Data} from \texttt{pytdi} and imports \texttt{pytdi.michelson}.  The generation selector maps the pipeline configuration to either \texttt{pytdi.michelson.X1/Y1/Z1} or \texttt{pytdi.michelson.X2/Y2/Z2}.  Each combination is built with the data delays and sampling frequency.  If available, delay derivatives are passed into the pyTDI build step.
+
+Noisy TDI is computed from instrument output using \texttt{Data.from\_instrument(..., signals="fluctuations", skipped=0)}.  GW-only TDI is computed with \texttt{Data.from\_gws(...)} using the gravitational-wave response file and orbit file.  Both paths then crop to the science segment using metadata from the six-link CSV file.  A simple FFT-domain frequency cut is applied after cropping.
+
+The stored noisy output is
+\begin{center}
+\texttt{outputs/tdi\_michelson\_XYZ\_AET.csv},
+\end{center}
+with columns for sample index, instrument sample index, waveform time, LISA time, X/Y/Z, and A/E/T.  The stored GW-only output is
+\begin{center}
+\texttt{outputs/tdi\_gw\_only\_XYZ\_AET.csv},
+\end{center}
+with analogous columns and a \texttt{\_gw\_hz} suffix for GW-only TDI channels after conversion to frequency-like units.
+
+The A/E/T transform is local but applied only after X/Y/Z are generated by pyTDI.  Therefore, the current A/E/T products should be described as pyTDI-derived rather than independently implemented TDI combinations.
+
+\section{Sagnac and coronagraphic prototype details}
+\label{app:sagnac_details}
+
+The static coronagraphic module implements first-generation Sagnac combinations from six directed link streams.  In frequency space, a Sagnac observable is represented schematically as
+\begin{equation}
+\alpha(f) = \sum_{\ell} s_{\ell}\exp[-2\pi i f\tau_{\ell}]\,y_{\ell}(f),
+\label{eq:sagnac_schematic}
+\end{equation}
+with analogous expressions for $\beta$ and $\gamma$.  Here $y_{\ell}$ is a directed link measurement, $s_{\ell}$ is a sign, and $\tau_{\ell}$ is the sum of static light-travel delays applied before that link contribution.  The current implementation assumes an equilateral static LISA geometry for this construction.
+
+The coronagraphic variable is computed as
+\begin{equation}
+\kappa(f,\Omega) = \mathbf A(f,\Omega)\cdot
+\begin{pmatrix}
+\alpha(f)\\
+\beta(f)\\
+\gamma(f)
+\end{pmatrix},
+\label{eq:kappa}
+\end{equation}
+where $\mathbf A$ is built from the plus and cross response projectors for the tested sky direction $\Omega=(\beta,\lambda)$.  In the idealized model, $\kappa$ is suppressed when the tested direction approaches the source direction.
+
+The pyTDI Sagnac diagnostic path evaluates \texttt{pytdi.sagnac.ALPHA*}, \texttt{BETA*}, and \texttt{GAMMA*} combinations for noisy or GW-only data.  It can also request \texttt{\_ETA} combinations, but those require \texttt{eta\_ij} measurements to be available in the input data.  Current instrument products contain science, reference, and test-mass interferometer beatnotes rather than all required \texttt{eta\_ij} measurements, so the \texttt{\_ETA} path is not always available.
+
+The next production version should choose one of two strategies.  Either pyTDI Sagnac observables become the standard data vector and the coronagraphic response is derived for their exact convention, or the static local Sagnac implementation remains a clearly labeled approximation used only for controlled validation studies.
+
+\section{Time-frequency and clustering implementation details}
+\label{app:tf_clustering}
+
+The current WDM-selection path loads pyTDI-derived A/E products and crops them around the source or analysis segment.  It optionally downsamples to a target cadence, computes WDM power maps for A and E, and forms an A+E selection map.  Candidate pixels are chosen either by a fixed count or a top fraction of valid pixels, with optional frequency-band cuts and off-source normalization.
+
+For each selected pixel, the coronagraphic prototype scans a HEALPix sky grid.  The main saved products are:
+\begin{itemize}
+\item \texttt{candidate\_pixels.csv}: selected time-frequency pixels;
+\item \texttt{healpix\_sky\_grid.csv}: tested sky directions;
+\item \texttt{kappa\_features.csv}: best-null sky direction and response features for each pixel;
+\item \texttt{kappa\_sky\_responses.npz}: raw response matrix indexed by candidate pixel and sky direction;
+\item \texttt{pixel\_clusters.csv}: HDBSCAN labels and per-pixel features;
+\item \texttt{summary.json}: run configuration and compact diagnostics.
+\end{itemize}
+Multi-resolution runs write the same products under one subdirectory per WDM resolution and then merge selected pixels across resolutions.
+
+The current HDBSCAN feature vector includes sky-direction coordinates and logarithmic response features.  This is a practical exploratory choice, not a final detection statistic.  The final clustering interface should allow replacement by connected components, graph clustering, cWB-like constrained clustering, or a likelihood-driven event builder.
+
+\section{Immediate development to-do list}
+\label{app:todo}
+
+The following list is the recommended near-term development sequence.
+
+\begin{enumerate}
+\item Freeze one reference synthetic dataset and one reference configuration.
+\item Treat pyTDI Michelson/A/E/T generation as the current validated baseline.
+\item Promote pyTDI Sagnac generation into the same production TDI layer.
+\item Validate Sagnac sign, scaling, Fourier, delay, unit, and generation conventions.
+\item Decide whether local static Sagnac and Michelson formulas are retained only as reference tools.
+\item Define standard output schemas for Michelson, A/E/T, Sagnac, and coronagraphic products.
+\item Define the first LISA-native coherent statistic in a short mathematical note.
+\item Implement a minimal event ranking statistic and compare it to incoherent A/E excess power.
+\item Build noise-only and injection datasets for false-alarm and efficiency studies.
+\item Produce a standard event report containing maps, clusters, sky-response diagnostics, ranking score, and metadata.
+\end{enumerate}
+
+\bibliography{cwb_lisa_pipeline}
+
+\end{document}

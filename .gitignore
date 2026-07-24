@@ -50,6 +50,13 @@ Thumbs.db
 # Project specific
 outputs/plots/*
 outputs/diagnostics/*
+diagnostics/mbhb_sixlinks/outputs/
+diagnostics/mbhb_sixlinks_*/
+examples/runs/
+test-run/coronagraphic/
+test-run/pytdi_sagnac_kappa_example/
+test-run/slide_plots/
+lisa_link_sim/1e5-data/outputs/
 .pytest_cache/
 test_*.py
 *.pyc

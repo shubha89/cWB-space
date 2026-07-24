@@ -3,11 +3,13 @@
 This prototype tests a physics-guided clustering idea on one SMBHB:
 
 1. Load one simulated SMBHB six-link data product.
-2. Build A/E WDM maps and select high-power time-frequency pixels.
+2. Build A/E WDM maps from pyTDI-generated TDI files and select high-power time-frequency pixels.
 3. Build first-generation Sagnac generators from the same links.
 4. For every selected WDM pixel, scan coronagraphic `kappa` over a HEALPix sky grid.
 5. Assign each pixel to its best coronagraphic-null sky direction.
 6. Cluster pixels using compact sky-response features.
+
+The retained workflow requires A/E to come from pyTDI. The six-link data are still used for the coronagraphic kappa/null computation, but WDM pixel selection never uses the older internal A/E approximation.
 
 The folder name follows the requested spelling, `choronagraphic-cluster/`. The implementation calls the existing `coronagraphic_tdi.py` module.
 
@@ -16,7 +18,7 @@ The folder name follows the requested spelling, `choronagraphic-cluster/`. The i
 Use a small HEALPix grid first:
 
 ```bash
-conda run -n lisa-tf python choronagraphic-cluster/run_one_smbhb.py \
+conda run -n lisa-tf python -m scripts.coronagraphic_kappa_scan \
   --work-dir cluster/runs/simulations/smbhb_00000 \
   --output-dir choronagraphic-cluster/runs/smbhb_00000_smoke \
   --source gw_only \
@@ -29,7 +31,7 @@ conda run -n lisa-tf python choronagraphic-cluster/run_one_smbhb.py \
 Then scale:
 
 ```bash
-conda run -n lisa-tf python choronagraphic-cluster/run_one_smbhb.py \
+conda run -n lisa-tf python -m scripts.coronagraphic_kappa_scan \
   --work-dir cluster/runs/simulations/smbhb_00000 \
   --output-dir choronagraphic-cluster/runs/smbhb_00000 \
   --source gw_only \
@@ -51,7 +53,7 @@ This mode scans several WDM resolutions. For each WDM layer, it:
 Small validation run:
 
 ```bash
-conda run -n lisa-tf python choronagraphic-cluster/run_one_smbhb.py \
+conda run -n lisa-tf python -m scripts.coronagraphic_kappa_scan \
   --work-dir cluster/runs/simulations/smbhb_00000 \
   --output-dir choronagraphic-cluster/runs/smbhb_00000_multires_test \
   --source gw_only \
@@ -64,7 +66,7 @@ conda run -n lisa-tf python choronagraphic-cluster/run_one_smbhb.py \
 Fuller prototype run:
 
 ```bash
-conda run -n lisa-tf python choronagraphic-cluster/run_one_smbhb.py \
+conda run -n lisa-tf python -m scripts.coronagraphic_kappa_scan \
   --work-dir cluster/runs/simulations/smbhb_00000 \
   --output-dir choronagraphic-cluster/runs/smbhb_00000_multires \
   --source gw_only \
@@ -80,6 +82,7 @@ Each run writes:
 
 - `candidate_pixels.csv`: selected A/E WDM pixels.
 - `healpix_sky_grid.csv`: scanned sky directions.
+- `kappa_features.csv`: selected pixels plus best-null sky/kappa features before HDBSCAN.
 - `pixel_clusters.csv`: per-pixel best sky direction and HDBSCAN label.
 - `kappa_sky_responses.npz`: raw response matrix `[candidate_pixel, sky_direction]`.
 - `summary.json`: run summary.
@@ -88,6 +91,7 @@ Each run writes:
 For multi-resolution runs, each layer is written under:
 
 - `wdm_m_<M>/candidate_pixels.csv`
+- `wdm_m_<M>/kappa_features.csv`
 - `wdm_m_<M>/pixel_clusters.csv`
 - `wdm_m_<M>/kappa_sky_responses.npz`
 - `wdm_m_<M>/summary.json`
@@ -95,6 +99,7 @@ For multi-resolution runs, each layer is written under:
 The top-level output directory also contains:
 
 - `candidate_pixels_all_resolutions.csv`
+- `kappa_features_all_resolutions.csv`
 - `pixel_clusters_all_resolutions.csv`
 - `healpix_sky_grid.csv`
 - `summary.json`
@@ -111,6 +116,14 @@ This writes:
 
 - `plots/multires_selected_overlay_on_wdm.png`
 - `plots/multires_coherent_overlay_on_wdm.png`
+
+To rerun the per-layer HDBSCAN step without recomputing WDM or kappa:
+
+```bash
+conda run -n lisa-tf python -m scripts.coronagraphic_hdbscan \
+  --run-dir choronagraphic-cluster/runs/smbhb_00000_multires_test \
+  --min-cluster-size 5
+```
 
 To merge coherent clusters across WDM resolutions with a second HDBSCAN pass:
 

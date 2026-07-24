@@ -27,7 +27,6 @@ from coronagraphic_tdi import (  # noqa: E402
     _freq_to_time_plus,
     _time_to_freq_plus,
     build_sagnac_from_links,
-    compute_michelson_response_from_links,
     coronagraphic_kappa,
 )
 
@@ -59,7 +58,8 @@ class RunConfig:
     top_pixel_fraction: float | None = None
     selection_normalization: str = "raw"
     offsource_edge_fraction: float = 0.20
-    wdm_aet_source: str = "internal"
+    wdm_aet_source: str = "pytdi"
+    run_hdbscan: bool = True
     selection_start_guard_s: float = 0.0
     selection_end_guard_s: float = 0.0
 
@@ -552,13 +552,19 @@ def run_wdm_layer(
         WDM,
     )
 
-    clustered = cluster_pixel_features(
-        features,
-        min_cluster_size=config.min_cluster_size,
-        min_samples=config.min_samples,
-        hdbscan=hdbscan,
-        StandardScaler=StandardScaler,
-    )
+    if config.run_hdbscan:
+        clustered = cluster_pixel_features(
+            features,
+            min_cluster_size=config.min_cluster_size,
+            min_samples=config.min_samples,
+            hdbscan=hdbscan,
+            StandardScaler=StandardScaler,
+        )
+    else:
+        clustered = features.copy()
+        clustered["cluster"] = -1
+        clustered["cluster_probability"] = 0.0
+        clustered["cluster_method"] = "not_run"
 
     if "ra" in metadata and "dec" in metadata:
         clustered["true_sky_sep_deg"] = angular_separation_deg(
@@ -570,6 +576,7 @@ def run_wdm_layer(
 
     candidates.to_csv(output_dir / "candidate_pixels.csv", index=False)
     sky.to_csv(output_dir / "healpix_sky_grid.csv", index=False)
+    features.to_csv(output_dir / "kappa_features.csv", index=False)
     clustered.to_csv(output_dir / "pixel_clusters.csv", index=False)
     np.savez_compressed(output_dir / "kappa_sky_responses.npz", responses=responses)
 
@@ -588,7 +595,8 @@ def run_wdm_layer(
         "selection_chunk_start_s": float(selection_t[0]),
         "selection_chunk_stop_s": float(selection_t[-1]),
         "selection_dt_s": float(selection_dt),
-        "wdm_aet_source": config.wdm_aet_source,
+        "wdm_aet_source": "pytdi",
+        "run_hdbscan": bool(config.run_hdbscan),
         "cluster_counts": {str(k): int(v) for k, v in cluster_counts.items()},
         "source_ra": metadata.get("ra"),
         "source_dec": metadata.get("dec"),
@@ -607,6 +615,8 @@ def run_wdm_layer(
 
 def run(config: RunConfig) -> dict:
     hp, hdbscan, resample_poly, StandardScaler, WDM = require_dependencies()
+    if config.wdm_aet_source != "pytdi":
+        raise ValueError("This pipeline only supports pyTDI-computed A/E for WDM pixel selection.")
     work_dir = Path(config.work_dir)
     output_dir = Path(config.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -630,33 +640,16 @@ def run(config: RunConfig) -> dict:
     )
 
     geometry = LISAGeometry.equilateral(LISA_ARM_M / C_M_PER_S)
-    michelson = compute_michelson_response_from_links(
-        links,
-        dt=dt,
-        geometry=geometry,
-        generation="second",
-        channels="aet",
-        output_domain="time",
+    t_aet_raw, pytdi_a_raw, pytdi_e_raw = load_pytdi_aet(work_dir, config.source)
+    selection_t, selection_a_t, selection_e_t, selection_dt = crop_and_downsample_aet(
+        t_aet_raw,
+        pytdi_a_raw,
+        pytdi_e_raw,
+        center_s=center_s,
+        duration_s=config.chunk_duration_s,
+        target_dt_s=config.target_dt_s,
+        resample_poly=resample_poly,
     )
-    a_t = np.asarray(michelson["time"]["A"])
-    e_t = np.asarray(michelson["time"]["E"])
-    selection_t = t
-    selection_dt = dt
-    selection_a_t = a_t
-    selection_e_t = e_t
-    if config.wdm_aet_source == "pytdi":
-        t_aet_raw, pytdi_a_raw, pytdi_e_raw = load_pytdi_aet(work_dir, config.source)
-        selection_t, selection_a_t, selection_e_t, selection_dt = crop_and_downsample_aet(
-            t_aet_raw,
-            pytdi_a_raw,
-            pytdi_e_raw,
-            center_s=center_s,
-            duration_s=config.chunk_duration_s,
-            target_dt_s=config.target_dt_s,
-            resample_poly=resample_poly,
-        )
-    elif config.wdm_aet_source != "internal":
-        raise ValueError("wdm_aet_source must be 'internal' or 'pytdi'.")
 
     sagnac_frequency_series = build_sagnac_frequency_series(links, t, dt, geometry)
     sky = sky_grid(config.nside, hp)
@@ -664,6 +657,7 @@ def run(config: RunConfig) -> dict:
 
     layer_summaries = []
     all_candidates = []
+    all_features = []
     all_clustered = []
     for wdm_m in wdm_ms:
         layer_config = replace(config, wdm_m=int(wdm_m))
@@ -687,10 +681,12 @@ def run(config: RunConfig) -> dict:
         )
         layer_summaries.append(layer_summary)
         all_candidates.append(candidates)
+        all_features.append(pd.read_csv(layer_output_dir / "kappa_features.csv"))
         all_clustered.append(clustered)
 
     if multi_resolution:
         pd.concat(all_candidates, ignore_index=True).to_csv(output_dir / "candidate_pixels_all_resolutions.csv", index=False)
+        pd.concat(all_features, ignore_index=True).to_csv(output_dir / "kappa_features_all_resolutions.csv", index=False)
         pd.concat(all_clustered, ignore_index=True).to_csv(output_dir / "pixel_clusters_all_resolutions.csv", index=False)
         summary = {
             "config": asdict(config),
@@ -704,7 +700,8 @@ def run(config: RunConfig) -> dict:
             "selection_chunk_start_s": float(selection_t[0]),
             "selection_chunk_stop_s": float(selection_t[-1]),
             "selection_dt_s": float(selection_dt),
-            "wdm_aet_source": config.wdm_aet_source,
+            "wdm_aet_source": "pytdi",
+            "run_hdbscan": bool(config.run_hdbscan),
             "resolutions": layer_summaries,
             "source_ra": metadata.get("ra"),
             "source_dec": metadata.get("dec"),
@@ -755,10 +752,9 @@ def parse_args() -> RunConfig:
         help="Fraction of WDM time bins on each edge used by offsource-frequency-median normalization.",
     )
     parser.add_argument(
-        "--wdm-aet-source",
-        choices=("internal", "pytdi"),
-        default="internal",
-        help="A/E time series used for WDM top-pixel selection. Kappa is always computed from the six links.",
+        "--skip-hdbscan",
+        action="store_true",
+        help="Write candidate pixels and kappa_features.csv, but leave HDBSCAN clustering for scripts/coronagraphic_hdbscan.py.",
     )
     parser.add_argument(
         "--selection-start-guard-s",
@@ -801,7 +797,8 @@ def parse_args() -> RunConfig:
         top_pixel_fraction=args.top_pixel_fraction,
         selection_normalization=args.selection_normalization,
         offsource_edge_fraction=args.offsource_edge_fraction,
-        wdm_aet_source=args.wdm_aet_source,
+        wdm_aet_source="pytdi",
+        run_hdbscan=not args.skip_hdbscan,
         selection_start_guard_s=args.selection_start_guard_s,
         selection_end_guard_s=args.selection_end_guard_s,
     )

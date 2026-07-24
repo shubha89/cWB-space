@@ -35,6 +35,7 @@ class LisaLinkSimulationConfig:
     science_duration: float = 100_000.0
     burn_in_seconds: float = 600.0
     center_waveform_peak: bool = True
+    edge_taper_seconds: float = 0.0
 
     ra: float = np.pi / 4.0
     dec: float = 0.3
@@ -44,8 +45,8 @@ class LisaLinkSimulationConfig:
     orbit_dt: float = 600.0
     orbit_duration_factor: float = 5.0
     orbit_start_offset_seconds: float | None = None
-    orbit_dataset: str = "tps/ppr"
-    gw_dataset: str = "tps"
+    orbit_dataset: str = "tcb/ltt"
+    gw_dataset: str = "tcb"
 
     seed: int = 12345
     frequency_low_hz: float = 1e-5
@@ -74,6 +75,8 @@ class LisaLinkSimulationPaths:
     noisy_links_csv: Path
     noisy_tdi_csv: Path
     gw_tdi_csv: Path
+    noisy_sagnac_tdi_csv: Path
+    gw_sagnac_tdi_csv: Path
     waveform_plot: Path
     gw_links_plot: Path
     noisy_links_plot: Path
@@ -81,6 +84,8 @@ class LisaLinkSimulationPaths:
     noisy_tdi_aet_plot: Path
     gw_tdi_xyz_plot: Path
     gw_tdi_aet_plot: Path
+    noisy_tdi_sagnac_plot: Path
+    gw_tdi_sagnac_plot: Path
     overlay_xyz_plot: Path
     overlay_aet_plot: Path
 
@@ -103,6 +108,8 @@ class LisaLinkSimulationPaths:
             noisy_links_csv=output_dir / "six_links_noisy.csv",
             noisy_tdi_csv=output_dir / "tdi_michelson_XYZ_AET.csv",
             gw_tdi_csv=output_dir / "tdi_gw_only_XYZ_AET.csv",
+            noisy_sagnac_tdi_csv=output_dir / "tdi_sagnac_noisy.csv",
+            gw_sagnac_tdi_csv=output_dir / "tdi_sagnac_gw_only.csv",
             waveform_plot=output_dir / "01_aligned_waveform_peak_centered.png",
             gw_links_plot=output_dir / "02_gw_only_six_links_peak_centered.png",
             noisy_links_plot=output_dir / "03_noisy_six_links.png",
@@ -110,6 +117,8 @@ class LisaLinkSimulationPaths:
             noisy_tdi_aet_plot=plot_dir / "04_tdi_AET_orbit_time.png",
             gw_tdi_xyz_plot=plot_dir / "05_tdi_gw_only_XYZ.png",
             gw_tdi_aet_plot=plot_dir / "05_tdi_gw_only_AET.png",
+            noisy_tdi_sagnac_plot=plot_dir / "04_tdi_sagnac_orbit_time.png",
+            gw_tdi_sagnac_plot=plot_dir / "05_tdi_gw_only_sagnac.png",
             overlay_xyz_plot=plot_dir / "06_tdi_noisy_with_gw_signal_XYZ.png",
             overlay_aet_plot=plot_dir / "06_tdi_noisy_with_gw_signal_AET.png",
         )
@@ -213,6 +222,16 @@ def prepare_science_waveform(
 
     hp = np.interp(interp_t, source_t, hp_raw, left=0.0, right=0.0)
     hc = np.interp(interp_t, source_t, hc_raw, left=0.0, right=0.0)
+    if config.edge_taper_seconds > 0.0:
+        taper_size = int(round(config.edge_taper_seconds / config.dt))
+        taper_size = max(0, min(taper_size, n // 2))
+        if taper_size:
+            ramp = 0.5 * (1.0 - np.cos(np.linspace(0.0, np.pi, taper_size, endpoint=False)))
+            taper = np.ones(n, dtype=float)
+            taper[:taper_size] = ramp
+            taper[-taper_size:] = ramp[::-1]
+            hp = hp * taper
+            hc = hc * taper
     amp = np.sqrt(hp**2 + hc**2)
     peak_index = int(np.argmax(amp))
 

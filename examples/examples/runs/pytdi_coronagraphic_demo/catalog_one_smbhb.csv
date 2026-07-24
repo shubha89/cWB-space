@@ -1,0 +1,2 @@
+source_id,total_mass,m1,m2,q,eta,distance_mpc,s1,s2,f_min_hz,iota,phi_ref,ra,dec
+demo_smbhb_m1e6,1000000.0,673205.0807568877,326794.9192431123,0.48543145110505587,0.22,3000.0,0.2,-0.1,0.0001,0.6,1.1,0.7,-0.55

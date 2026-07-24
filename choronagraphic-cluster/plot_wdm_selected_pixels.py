@@ -25,29 +25,23 @@ def reconstruct_ae_wdm(run_dir: Path):
     _, _, resample_poly, _, WDM = proto.require_dependencies()
 
     work_dir = PROJECT_ROOT / config.work_dir
-    t_raw, link_raw = proto.load_links(work_dir, config.source)
+    metadata = proto.load_source_metadata(work_dir)
+    t_raw, _ = proto.load_links(work_dir, config.source)
     center_s = float(t_raw[0]) + 0.5 * (float(t_raw[-1]) - float(t_raw[0]))
-    t, links, dt = proto.crop_and_downsample_links(
-        t_raw,
-        link_raw,
+    if "peak_time_s" in metadata:
+        center_s = float(t_raw[0]) + 0.5 * (float(t_raw[-1]) - float(t_raw[0]))
+    t_aet_raw, a_raw, e_raw = proto.load_pytdi_aet(work_dir, config.source)
+    t_sel, a_t, e_t, dt_sel = proto.crop_and_downsample_aet(
+        t_aet_raw,
+        a_raw,
+        e_raw,
         center_s=center_s,
         duration_s=config.chunk_duration_s,
         target_dt_s=config.target_dt_s,
         resample_poly=resample_poly,
     )
-    geometry = proto.LISAGeometry.equilateral(proto.LISA_ARM_M / proto.C_M_PER_S)
-    michelson = proto.compute_michelson_response_from_links(
-        links,
-        dt=dt,
-        geometry=geometry,
-        generation="second",
-        channels="aet",
-        output_domain="time",
-    )
-    a_t = np.asarray(michelson["time"]["A"])
-    e_t = np.asarray(michelson["time"]["E"])
-    power_a, freqs, times = proto.wdm_power(a_t, dt=dt, t0=float(t[0]), config=config, WDM=WDM)
-    power_e, _, _ = proto.wdm_power(e_t, dt=dt, t0=float(t[0]), config=config, WDM=WDM)
+    power_a, freqs, times = proto.wdm_power(a_t, dt=dt_sel, t0=float(t_sel[0]), config=config, WDM=WDM)
+    power_e, _, _ = proto.wdm_power(e_t, dt=dt_sel, t0=float(t_sel[0]), config=config, WDM=WDM)
     return power_a + power_e, freqs, times
 
 
