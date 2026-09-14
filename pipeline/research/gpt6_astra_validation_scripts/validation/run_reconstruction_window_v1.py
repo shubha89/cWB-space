@@ -7,7 +7,7 @@ from collections import deque
 from dataclasses import replace
 import importlib.metadata as md
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT))
-os.environ.setdefault('NUMBA_CACHE_DIR',str(ROOT/'.paper_agent/validation/.numba_cache'))
+os.environ.setdefault('NUMBA_CACHE_DIR',str(ROOT/'gpt6_astra_validation_scripts/validation/.numba_cache'))
 import numpy as np
 from wdm_wavelet.wdm import WDM
 DAY=86400.;LIMIT=4*1024**3
@@ -55,12 +55,12 @@ def select_observed(times,observed,original,grid_times,grid_freqs):
 
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--output',type=Path,required=True);args=ap.parse_args();out=args.output.resolve()
- if out.exists() or out!=ROOT/'.paper_agent/validation/reconstruction_window_v1':raise ValueError('Require fresh approved output path')
+ if out.exists() or out!=ROOT/'gpt6_astra_validation_scripts/validation/reconstruction_window_v1':raise ValueError('Require fresh approved output path')
  out.mkdir();started=time.monotonic();signal.signal(signal.SIGALRM,lambda *_: (_ for _ in ()).throw(TimeoutError('30minute ceiling')));signal.alarm(1800)
  report=dict(status='RUNNING',command=sys.argv,script_sha256=sha(Path(__file__)),python=sys.version,platform=platform.platform(),packages={x:md.version(x) for x in ['numpy','wdm-wavelet','numba']},selection='Observed data and original rank1 masks only; 2bin extension; unchangedband; fixed95percentile connectedgrowth',cases=[])
  try:
   for n,rel in enumerate(['precessing_v1/case01','precessing_v1/case02','precessing_earlier_start_v1/case03'],1):
-   base=ROOT/'.paper_agent/validation'/rel;dest=out/f'case{n:02}';dest.mkdir();row=next(csv.DictReader((base/'all_candidates.csv').open()));assert int(row['rank'])==1
+   base=ROOT/'gpt6_astra_validation_scripts/validation'/rel;dest=out/f'case{n:02}';dest.mkdir();row=next(csv.DictReader((base/'all_candidates.csv').open()));assert int(row['rank'])==1
    src=base/'reconstruction.npz';d=np.load(src);times=d['times'];obs={c:d[c+'_observed'] for c in ['A2','E2']};original=np.load(base/'discovered_masks.npz')[row['event_id']].astype(bool)
    gridt=d['wdm_times_day'];gridf=d['wdm_freqs_hz'];w,maps,valid,expanded,fullmask,power,floors,info=select_observed(times,obs,original,gridt,gridf)
    np.savez_compressed(dest/'selection.npz',original_mask=original,expanded_mask=expanded,normalized_power=power,grid_times_day=gridt,grid_freqs_hz=gridf,**{c+'_floor':x for c,x in floors.items()})

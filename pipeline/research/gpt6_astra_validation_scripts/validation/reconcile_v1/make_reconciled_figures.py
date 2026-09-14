@@ -7,7 +7,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT))
-OUT=ROOT/'.paper_agent/figures/reconcile_v1'
+OUT=ROOT/'gpt6_astra_validation_scripts/figures/reconcile_v1'
 OUT.mkdir(parents=True,exist_ok=True)
 spec=importlib.util.spec_from_file_location('original_paper_figures',ROOT/'docs/paper/cwb_space_prd/make_paper_figures.py')
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
@@ -29,7 +29,7 @@ if '--diagnostics' in sys.argv:
     m.make_primary_validation_summary();m.make_generic_burst_response()
 if '--reconstruction' in sys.argv:
     import csv
-    run=ROOT/'.paper_agent/validation/reconcile_v1/reconstruction_observed'
+    run=ROOT/'gpt6_astra_validation_scripts/validation/reconcile_v1/reconstruction_observed'
     data=np.load(run/'observed_cluster_reconstructed_ae_timeseries.npz')
     days=data['time_day'];metrics=[]
     fig,axs=plt.subplots(3,2,figsize=(8.3,7.4),layout='constrained')

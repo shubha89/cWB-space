@@ -2,16 +2,16 @@
   {
     "id": "continuous-noise",
     "description": "Generate one continuous instrument realization and continuous/split conditioning controls.",
-    "entrypoint": ".paper_agent/validation/continuous_noise_control_v1/generate.py",
+    "entrypoint": "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/generate.py",
     "args": [],
     "inputs": [
       "diagnostics/simulated_2week_mbhb_then_glitch_highrate/inputs/orbits_2week.h5",
       "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/mbhb_week1_sagnac_zeta_products.npz"
     ],
     "outputs": [
-      ".paper_agent/validation/continuous_noise_control_v1/noise_continuous.npz",
-      ".paper_agent/validation/continuous_noise_control_v1/noise_split.npz",
-      ".paper_agent/validation/continuous_noise_control_v1/generation.json"
+      "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/noise_continuous.npz",
+      "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/noise_split.npz",
+      "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/generation.json"
     ],
     "requires_modules": [
       "numpy",
@@ -34,17 +34,17 @@
   {
     "id": "clean-sources",
     "description": "Generate the 24 source configurations for the clean glitch suite.",
-    "entrypoint": ".paper_agent/validation/clean_glitch_suite_v1/generate.py",
+    "entrypoint": "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/generate.py",
     "args": [],
     "inputs": [
       "diagnostics/simulated_2week_mbhb_then_glitch_highrate/inputs/orbits_2week.h5",
       "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
-      ".paper_agent/validation/half_day_control_v1/sources/glitch.npz"
+      "gpt6_astra_validation_scripts/validation/half_day_control_v1/sources/glitch.npz"
     ],
     "outputs": [
-      ".paper_agent/validation/clean_glitch_suite_v1/manifest.json",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources",
-      ".paper_agent/validation/clean_glitch_suite_v1/generation.json"
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/manifest.json",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/generation.json"
     ],
     "requires_modules": [
       "numpy",
@@ -67,19 +67,19 @@
   {
     "id": "continuous-analysis",
     "description": "Analyze continuous/split controls and produce the noise maps required by the clean suite.",
-    "entrypoint": ".paper_agent/validation/continuous_noise_control_v1/analyze.py",
+    "entrypoint": "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/analyze.py",
     "args": [],
     "inputs": [
-      ".paper_agent/validation/continuous_noise_control_v1/noise_continuous.npz",
-      ".paper_agent/validation/continuous_noise_control_v1/noise_split.npz",
-      ".paper_agent/validation/half_day_control_v1/sources/mass_1000000.npz",
-      ".paper_agent/validation/half_day_control_v1/sources/glitch.npz"
+      "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/noise_continuous.npz",
+      "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/noise_split.npz",
+      "gpt6_astra_validation_scripts/validation/half_day_control_v1/sources/mass_1000000.npz",
+      "gpt6_astra_validation_scripts/validation/half_day_control_v1/sources/glitch.npz"
     ],
     "outputs": [
-      ".paper_agent/validation/continuous_noise_control_v1/continuous/noise_maps.npz",
-      ".paper_agent/validation/continuous_noise_control_v1/split/noise_maps.npz",
-      ".paper_agent/validation/continuous_noise_control_v1/all_candidates.csv",
-      ".paper_agent/validation/continuous_noise_control_v1/analysis_execution.json"
+      "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/continuous/noise_maps.npz",
+      "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/split/noise_maps.npz",
+      "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/all_candidates.csv",
+      "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/analysis_execution.json"
     ],
     "requires_modules": [
       "numpy",
@@ -102,43 +102,43 @@
   {
     "id": "response-analysis",
     "description": "Run all 41 clean-suite trials with observed-background operational R_zeta.",
-    "entrypoint": ".paper_agent/validation/clean_glitch_suite_v1/analyze.py",
+    "entrypoint": "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/analyze.py",
     "args": [],
     "inputs": [
-      ".paper_agent/validation/clean_glitch_suite_v1/manifest.json",
-      ".paper_agent/validation/continuous_noise_control_v1/noise_continuous.npz",
-      ".paper_agent/validation/continuous_noise_control_v1/continuous/noise_maps.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/mbhb_week1_m1e5_q1_day2p5.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/mbhb_week1_m3e5_q06_day4p0.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/mbhb_week1_m1e6_q03_day5p5.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/glitch_week2_12_day9p0.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/glitch_week2_23_day10p7.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/glitch_week2_31_day12p3.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/response_glitch_12_day6p85.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/response_glitch_31_day12p35.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/response_sg_01.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/response_wnb_01.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/response_sg_02.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/response_wnb_02.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/single_12_narrow_high_day8p2.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/single_23_wide_low_day9p1.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/single_31_mid_day10p3.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/single_13_high_day11p2.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/single_21_low_day12p4.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/single_32_mid_day13p0.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/pair_reciprocal_12_21_day8p7.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/pair_adjacent_12_23_stagger_day9p8.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/pair_cross_13_31_stagger_day10p6.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/triplet_clockwise_12_23_31_day11p4.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/triplet_counter_13_32_21_day12p1.npz",
-      ".paper_agent/validation/clean_glitch_suite_v1/sources/sixlink_common_day13p3.npz"
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/manifest.json",
+      "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/noise_continuous.npz",
+      "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/continuous/noise_maps.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/mbhb_week1_m1e5_q1_day2p5.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/mbhb_week1_m3e5_q06_day4p0.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/mbhb_week1_m1e6_q03_day5p5.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/glitch_week2_12_day9p0.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/glitch_week2_23_day10p7.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/glitch_week2_31_day12p3.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/response_glitch_12_day6p85.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/response_glitch_31_day12p35.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/response_sg_01.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/response_wnb_01.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/response_sg_02.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/response_wnb_02.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/single_12_narrow_high_day8p2.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/single_23_wide_low_day9p1.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/single_31_mid_day10p3.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/single_13_high_day11p2.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/single_21_low_day12p4.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/single_32_mid_day13p0.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/pair_reciprocal_12_21_day8p7.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/pair_adjacent_12_23_stagger_day9p8.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/pair_cross_13_31_stagger_day10p6.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/triplet_clockwise_12_23_31_day11p4.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/triplet_counter_13_32_21_day12p1.npz",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources/sixlink_common_day13p3.npz"
     ],
     "outputs": [
-      ".paper_agent/validation/clean_glitch_suite_v1/records.csv",
-      ".paper_agent/validation/clean_glitch_suite_v1/all_candidates.csv",
-      ".paper_agent/validation/clean_glitch_suite_v1/channel_sums.csv",
-      ".paper_agent/validation/clean_glitch_suite_v1/analysis_execution.json",
-      ".paper_agent/validation/clean_glitch_suite_v1/results"
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/records.csv",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/all_candidates.csv",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/channel_sums.csv",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/analysis_execution.json",
+      "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/results"
     ],
     "requires_modules": [
       "numpy",
@@ -159,10 +159,10 @@
     "limitations": "Matched level means amplitude calibrated to fixed Q=1053584.6062279106 using simulation noise A/E floors. Operational off_subtracted_R uses observed monitor powers and medians outside the union of all detected masks; matched_noise_R is audit-only. Association flags are timing checks, not source-identification decisions.",
     "input_json_relocations": [
       {
-        "file": ".paper_agent/validation/clean_glitch_suite_v1/manifest.json",
+        "file": "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/manifest.json",
         "array_key": null,
         "field": "source_path",
-        "target_directory": ".paper_agent/validation/clean_glitch_suite_v1/sources"
+        "target_directory": "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/sources"
       }
     ]
   }

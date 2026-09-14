@@ -13,6 +13,8 @@ class ArchivedSources(unittest.TestCase):
         for record in records:
             path = ROOT/'pipeline/research'/record['path']
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), record['sha256'], record['path'])
+            restored = path.read_bytes().replace(b'gpt6_astra_validation_scripts', b'.paper_agent')
+            self.assertEqual(hashlib.sha256(restored).hexdigest(), record['original_sha256'], record['path'])
 
 if __name__ == '__main__':
     unittest.main()

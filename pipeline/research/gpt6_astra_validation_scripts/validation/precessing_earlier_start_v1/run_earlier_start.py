@@ -3,8 +3,8 @@ import os,sys,json,time,hashlib,argparse,platform,resource,importlib.metadata as
 from pathlib import Path
 from dataclasses import replace
 ROOT=Path(__file__).resolve().parents[3];sys.path.insert(0,str(ROOT))
-os.environ.setdefault('NUMBA_CACHE_DIR',str(ROOT/'.paper_agent/validation/.numba_cache'))
-os.environ.setdefault('MPLCONFIGDIR',str(ROOT/'.paper_agent/validation/.mplconfig'))
+os.environ.setdefault('NUMBA_CACHE_DIR',str(ROOT/'gpt6_astra_validation_scripts/validation/.numba_cache'))
+os.environ.setdefault('MPLCONFIGDIR',str(ROOT/'gpt6_astra_validation_scripts/validation/.mplconfig'))
 import numpy as np
 from scipy.signal import resample_poly
 from phenomxpy import IMRPhenomTPHM
@@ -23,13 +23,13 @@ def metric(x,y):
 def inverse(w,tf):return .5*(w.w2t(tf).value+w.w2tQ(tf).value)
 def main():
  p=argparse.ArgumentParser();p.add_argument('--manifest',type=Path,required=True);p.add_argument('--case',type=int,required=True);p.add_argument('--output',type=Path,required=True);args=p.parse_args();out=args.output.resolve()
- if out.exists() or not out.is_relative_to(ROOT/'.paper_agent/validation/precessing_earlier_start_v1'):raise ValueError('Require isolated new output')
+ if out.exists() or not out.is_relative_to(ROOT/'gpt6_astra_validation_scripts/validation/precessing_earlier_start_v1'):raise ValueError('Require isolated new output')
  out.mkdir(parents=True);started=time.monotonic();manifest=json.loads(args.manifest.read_text());case=manifest['cases'][args.case-1];params=case['params'];report=dict(status='STARTED',case=case,command=sys.argv,script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),manifest_sha256=hashlib.sha256(args.manifest.read_bytes()).hexdigest(),packages={k:md.version(k) for k in ['numpy','scipy','phenomxpy','wdm-wavelet','lisagwresponse','pytdi','numba']},python=sys.version,platform=platform.platform())
  def checkpoint(stage):report['maxrss_bytes']=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss;report['stage']=stage;report['elapsed_s']=time.monotonic()-started;(out/'report.json').write_text(json.dumps(report,indent=2)+'\n');print(stage,flush=True)
  checkpoint('source_sampling')
  try:
   model=IMRPhenomTPHM(**params)
-  old_path=ROOT/'.paper_agent/validation/precessing_v1/case03/polarizations.npz';old=np.load(old_path);old_times=old['times'];ohp,ohc,ot=map(np.asarray,model.compute_polarizations(old_times));assert np.allclose(ot,old_times,atol=1e-8,rtol=0)
+  old_path=ROOT/'gpt6_astra_validation_scripts/validation/precessing_v1/case03/polarizations.npz';old=np.load(old_path);old_times=old['times'];ohp,ohc,ot=map(np.asarray,model.compute_polarizations(old_times));assert np.allclose(ot,old_times,atol=1e-8,rtol=0)
   original=np.concatenate([old['hplus'],old['hcross']]);new=np.concatenate([ohp,ohc]);overlap=metric(original,new);overlap['max_abs_difference_over_old_peak']=float(np.max(np.abs(new-original))/np.max(np.hypot(old['hplus'],old['hcross'])));overlap['old_array_sha256']=hashlib.sha256(old_path.read_bytes()).hexdigest();overlap['domain']='all exact saved old model timestamps, no fitting or shifting';report['old_source_comparison']=overlap
   np.savez_compressed(out/'old_source_comparison.npz',times=old_times,new_hplus=ohp,new_hcross=ohc,old_hplus=old['hplus'],old_hcross=old['hcross']);checkpoint('old_source_compared')
   if overlap['relative_l2']>1e-4:raise ValueError('Changed f_min alters common-source polarizations beyond numerical scale')
@@ -90,7 +90,7 @@ def main():
     rec=inverse(w,replace(rawtfs[c],data=np.where(mask,rawtfs[c].data,0j)));payload[f'rank{rank}_{c}_reconstruction']=rec;ys.append(rec[local]);xs.append(product.aet[c][local])
    x=np.concatenate(xs);y=np.concatenate(ys)
    if np.linalg.norm(x)>0 and np.linalg.norm(y)>0:comparisons.append(dict(rank=rank,event_id=row.event_id,start_day=row.start_day,stop_day=row.stop_day,domain='saved_candidate_center_extent',**metric(x,y)))
-  old_report=json.loads((ROOT/'.paper_agent/validation/precessing_v1/case03/report.json').read_text());old_event=old_report['comparisons'][0];fixed=((times-t0)/DAY>=old_event['start_day'])&((times-t0)/DAY<=old_event['stop_day']);fixed_x=np.concatenate([product.aet[c][fixed] for c in ['A2','E2']]);fixed_y=np.concatenate([payload['rank1_'+c+'_reconstruction'][fixed] for c in ['A2','E2']]);report['new_rank1_fixed_old_center_domain']=dict(start_day=old_event['start_day'],stop_day=old_event['stop_day'],**metric(fixed_x,fixed_y))
+  old_report=json.loads((ROOT/'gpt6_astra_validation_scripts/validation/precessing_v1/case03/report.json').read_text());old_event=old_report['comparisons'][0];fixed=((times-t0)/DAY>=old_event['start_day'])&((times-t0)/DAY<=old_event['stop_day']);fixed_x=np.concatenate([product.aet[c][fixed] for c in ['A2','E2']]);fixed_y=np.concatenate([payload['rank1_'+c+'_reconstruction'][fixed] for c in ['A2','E2']]);report['new_rank1_fixed_old_center_domain']=dict(start_day=old_event['start_day'],stop_day=old_event['stop_day'],**metric(fixed_x,fixed_y))
   report['comparisons']=comparisons;report['n_candidates']=len(events);report['status']='COMPLETED_TARGETED_EXAMPLE';report['units']='Hz TDI2, shared checkpoint instrument noise';report['selection']='all observed K32 events, no fitted amplitudes or truth-selected masks';np.savez_compressed(out/'reconstruction.npz',**payload);checkpoint('complete')
  except Exception as error:
   report['status']='BLOCKED';report['error']=repr(error);checkpoint('blocked');raise

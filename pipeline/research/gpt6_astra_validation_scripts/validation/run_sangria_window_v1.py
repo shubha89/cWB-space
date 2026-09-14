@@ -7,13 +7,13 @@ from pathlib import Path
 from dataclasses import replace
 import numpy as np
 from run_reconstruction_window_v1 import WDM,grow,inv,metrics,sha,check,DAY
-ROOT=Path(__file__).resolve().parents[2];out=ROOT/'.paper_agent/validation/sangria_window_v1'
+ROOT=Path(__file__).resolve().parents[2];out=ROOT/'gpt6_astra_validation_scripts/validation/sangria_window_v1'
 if out.exists():raise ValueError('Fresh output required')
 out.mkdir();beg=time.monotonic();signal.signal(signal.SIGALRM,lambda *_: (_ for _ in ()).throw(TimeoutError('30minute limit')));signal.alarm(1800)
 r=dict(status='RUNNING',script_sha256=sha(Path(__file__)),shared_driver_sha256=sha(Path(__file__).with_name('run_reconstruction_window_v1.py')),command=sys.argv,cases=[])
 try:
  for chunk in [3,8,9,11]:
-  src=ROOT/f'.paper_agent/validation/sangria_k256_v1/chunk{chunk:02}/reconstruction.npz';d=np.load(src);times=d['times'];t0=float(times[0]);grid=d['wdm_times_day'];freq=d['wdm_freqs_hz'];obs={c:d[c+'_observed'] for c in ['A','E']};w=WDM(M=512,K=256,beta_order=6,precision=6,backend='numba');maps={};power=0;floors={}
+  src=ROOT/f'gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk{chunk:02}/reconstruction.npz';d=np.load(src);times=d['times'];t0=float(times[0]);grid=d['wdm_times_day'];freq=d['wdm_freqs_hz'];obs={c:d[c+'_observed'] for c in ['A','E']};w=WDM(M=512,K=256,beta_order=6,precision=6,backend='numba');maps={};power=0;floors={}
   for c,x in obs.items():
    tf=w.t2w(x,sample_rate=.2,t0=t0);centers=tf.t0+(np.arange(tf.n_time)+.5)*tf.dt;valid=centers<=times[-1];relative=(centers[valid]-t0)/DAY
    assert np.array_equal(relative+t0/DAY,grid) and np.array_equal(np.arange(tf.n_freq)*tf.df,freq)

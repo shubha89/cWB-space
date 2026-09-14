@@ -1,7 +1,7 @@
 {
   "files": {
-    ".paper_agent/validation/clean_glitch_suite_v1/generate.py": "cf6ed5748578b8be2a8f9bf9752a313d08bb43750b3e67a5da22d223eddc31f2",
-    ".paper_agent/validation/continuous_noise_control_v1/generate.py": "bd65ea97bb910036cf31b01fba19d3eaadb071112ad5c01e974ab055688898a0",
+    "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/generate.py": "cf6ed5748578b8be2a8f9bf9752a313d08bb43750b3e67a5da22d223eddc31f2",
+    "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/generate.py": "bd65ea97bb910036cf31b01fba19d3eaadb071112ad5c01e974ab055688898a0",
     "cluster/__init__.py": "a6e3a95471538362c0a7ad14eac9656cc5ac9da6e49b280dc30bf7ff84c31e65",
     "cluster/config.py": "2f3b10013e734f76b56537ebd47026f21f94f594de8277e35abc2dee4468af08",
     "cluster/parameters.py": "6aee526322f6a2a651d537ad072514e6a4e58fe7dedc5e0341222a47ac3d133b",
@@ -23,8 +23,9 @@
     "scripts/tdi_computation.py": "c5d8ea4888ea23307c1f18754850a607ec5d110db48bf3c110b7d34ec42eee0c",
     "scripts/tdi_wdm_pipeline.py": "1c995b0f9054e962f2ade89509bde29b43b070384704bf0f71e1503a3a331561",
     "scripts/wdm_computation.py": "b595a47ea3caa2e7d5c791658d8c3a646d5f5df72de934935277e2b5b44641db",
-    ".paper_agent/validation/continuous_noise_control_v1/analyze.py": "ddc7aad35d9f74bb3154a650b54c3349a3c9e26b48d9cd6b818f39151bac4de0",
-    ".paper_agent/validation/clean_glitch_suite_v1/analyze.py": "74a452e5c616fe1e75efcdc21dddc5a664ca89780d24a79c6c61590121266411"
+    "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/analyze.py": "ddc7aad35d9f74bb3154a650b54c3349a3c9e26b48d9cd6b818f39151bac4de0",
+    "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/analyze.py": "74a452e5c616fe1e75efcdc21dddc5a664ca89780d24a79c6c61590121266411"
   },
-  "note": "Exact research source snapshots; do not directly run legacy broad-study main functions"
+  "note": "Exact research source snapshots; do not directly run legacy broad-study main functions",
+  "scope": "Packaged source hashes after directory-name substitution; original hashes in SOURCE_MANIFEST.json."
 }

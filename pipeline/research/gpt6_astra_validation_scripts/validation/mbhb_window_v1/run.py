@@ -9,7 +9,7 @@ import numpy as np
 ROOT=Path(__file__).resolve().parents[3];OUT=Path(__file__).resolve().parent
 os.environ.setdefault('NUMBA_CACHE_DIR',str(OUT/'numba_cache'))
 from wdm_wavelet.wdm import WDM
-BASE=ROOT/'.paper_agent/validation/reconcile_v1/reconstruction_observed';PRODUCT=ROOT/'diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz'
+BASE=ROOT/'gpt6_astra_validation_scripts/validation/reconcile_v1/reconstruction_observed';PRODUCT=ROOT/'diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz'
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def check():
  if resource.getrusage(resource.RUSAGE_SELF).ru_maxrss>4*1024**3:raise MemoryError('4GB ceiling')

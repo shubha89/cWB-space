@@ -1,8 +1,8 @@
 # Pipeline used for the paper
 
-This directory contains the actual simulation, response, TDI, conditioning, search and reconstruction drivers used for the paper studies, with their local import dependencies and frozen source configurations. The files under `research/` preserve the original directory layout and source bytes. They are not a new scientific implementation.
+This directory contains the actual simulation, response, TDI, conditioning, search and reconstruction drivers used for the paper studies, with their local import dependencies and frozen source configurations. The files under `research/` preserve the original algorithms and configurations, with the validation directory renamed to `gpt6_astra_validation_scripts`. They are not a new scientific implementation.
 
-The `.paper_agent` paths inside that snapshot are historical code locations. Only relevant drivers and configuration files are included, not private conversation logs or research notes. The launcher supplies writable workspaces and explicit input files so these paths no longer depend on the original author's checkout. Do not run the archived drivers directly in the source snapshot: some perform work immediately when imported, and some reset their output directories.
+The `gpt6_astra_validation_scripts/` directory contains the AI-assisted validation and plotting scripts. Directory references were updated consistently; original and packaged source hashes are retained in `SOURCE_MANIFEST.json`. Only relevant drivers and configuration files are included, not private conversation logs or research notes. The launcher supplies writable workspaces and explicit input files so these paths no longer depend on the original author's checkout. Do not run the archived drivers directly in the source snapshot: some perform work immediately when imported, and some reset their output directories.
 
 For a portable observed-TDI search and follow-up, start instead with:
 
@@ -25,7 +25,7 @@ python pipeline/run.py plan continuous-noise
 
 `plan` is read-only. It reports the entrypoint, exact required input paths, output paths, dependency availability and expected resources. It does not import the research drivers, download data or start a simulation.
 
-Supply the external files using their historical paths below an input root, or use a JSON mapping from each historical relative path to its actual location:
+Supply the external files using the recipe paths below an input root, or use a JSON mapping from each historical relative path to its actual location:
 
 ```bash
 python pipeline/run.py plan continuous-noise --external-data /path/to/paper-inputs
@@ -40,8 +40,8 @@ A file map can combine outputs from different stages without reorganizing the or
 
 ```json
 {
-  ".paper_agent/validation/continuous_noise_control_v1/noise_continuous.npz": "/path/to/noise-workspace/.paper_agent/validation/continuous_noise_control_v1/noise_continuous.npz",
-  ".paper_agent/validation/continuous_noise_control_v1/noise_split.npz": "/path/to/noise-workspace/.paper_agent/validation/continuous_noise_control_v1/noise_split.npz"
+  "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/noise_continuous.npz": "/path/to/noise-workspace/gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/noise_continuous.npz",
+  "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/noise_split.npz": "/path/to/noise-workspace/gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/noise_split.npz"
 }
 ```
 
@@ -69,3 +69,5 @@ Large orbit, noise, source-response and Sangria files are external. `INPUT_MANIF
 The high-rate noise and full source suites can take tens of minutes and multiple gigabytes. Resource figures in recipes are historical measurements or planning estimates, not enforced portable memory/disk caps. `--timeout-seconds` limits the direct driver wall time; original driver assertions are retained, including platform-dependent `ru_maxrss` conventions. Check capacity before production execution.
 
 Packaging checks established exact source copies, static recipe/input coverage, a successful staged original plotting run, and an actual observed-TDI search/response/inverse demonstration. The high-rate instrument simulation, all41 response trials, all precessing generations and the full-year scan were not newly rerun during packaging. Exact recreation on another environment still needs validation against the recorded products and effective parameters. No outcome should be repaired by silently changing source parameters or selection rules.
+
+Existing external archives using the former `.paper_agent/` directory are accepted as an input-only fallback. Prepared workspaces and new outputs use `gpt6_astra_validation_scripts/`.

@@ -3,8 +3,8 @@ import os,sys,json,time,hashlib,argparse,platform,importlib.metadata as md
 from pathlib import Path
 from dataclasses import replace
 ROOT=Path(__file__).resolve().parents[3];sys.path.insert(0,str(ROOT))
-os.environ.setdefault('NUMBA_CACHE_DIR',str(ROOT/'.paper_agent/validation/.numba_cache'))
-os.environ.setdefault('MPLCONFIGDIR',str(ROOT/'.paper_agent/validation/.mplconfig'))
+os.environ.setdefault('NUMBA_CACHE_DIR',str(ROOT/'gpt6_astra_validation_scripts/validation/.numba_cache'))
+os.environ.setdefault('MPLCONFIGDIR',str(ROOT/'gpt6_astra_validation_scripts/validation/.mplconfig'))
 import numpy as np
 from scipy.signal import resample_poly
 from phenomxpy import IMRPhenomTPHM
@@ -22,7 +22,7 @@ def metric(x,y):
 def inverse(w,tf):return .5*(w.w2t(tf).value+w.w2tQ(tf).value)
 def main():
  p=argparse.ArgumentParser();p.add_argument('--manifest',type=Path,required=True);p.add_argument('--case',type=int,required=True);p.add_argument('--output',type=Path,required=True);args=p.parse_args();out=args.output.resolve()
- if out.exists() or not out.is_relative_to(ROOT/'.paper_agent/validation/precessing_v1'):raise ValueError('Require isolated new output')
+ if out.exists() or not out.is_relative_to(ROOT/'gpt6_astra_validation_scripts/validation/precessing_v1'):raise ValueError('Require isolated new output')
  out.mkdir(parents=True);started=time.monotonic();manifest=json.loads(args.manifest.read_text());case=manifest['cases'][args.case-1];params=case['params'];report=dict(status='STARTED',case=case,command=sys.argv,script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),manifest_sha256=hashlib.sha256(args.manifest.read_bytes()).hexdigest(),packages={k:md.version(k) for k in ['numpy','scipy','phenomxpy','wdm-wavelet','lisagwresponse','pytdi','numba']},python=sys.version,platform=platform.platform())
  def checkpoint(stage):report['stage']=stage;report['elapsed_s']=time.monotonic()-started;(out/'report.json').write_text(json.dumps(report,indent=2)+'\n');print(stage,flush=True)
  checkpoint('source_sampling')

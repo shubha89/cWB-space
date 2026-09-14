@@ -3,7 +3,7 @@ import os,sys,csv,json,time,hashlib,argparse,platform,importlib.metadata as md
 from pathlib import Path
 from dataclasses import replace,asdict
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT))
-os.environ.setdefault('NUMBA_CACHE_DIR',str(ROOT/'.paper_agent/validation/.numba_cache'))
+os.environ.setdefault('NUMBA_CACHE_DIR',str(ROOT/'gpt6_astra_validation_scripts/validation/.numba_cache'))
 import numpy as np
 import h5py
 from wdm_wavelet.wdm import WDM
@@ -20,7 +20,7 @@ def metrics(x,y):
 def main():
  p=argparse.ArgumentParser();p.add_argument('--chunk',type=int,required=True);p.add_argument('--output',type=Path,required=True);args=p.parse_args()
  out=args.output.resolve()
- if out.exists() or not out.is_relative_to(ROOT/'.paper_agent/validation/sangria_k256_v1'):raise ValueError('Require new isolated output')
+ if out.exists() or not out.is_relative_to(ROOT/'gpt6_astra_validation_scripts/validation/sangria_k256_v1'):raise ValueError('Require new isolated output')
  out.mkdir(parents=True);began=time.monotonic()
  csvpath=ROOT/'data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv';expected=[r for r in csv.DictReader(csvpath.open()) if int(r['global_rank'])<=6 and int(r['chunk'])==args.chunk]
  if not expected:raise ValueError('No selected candidates')

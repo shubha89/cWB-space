@@ -57,7 +57,14 @@ def resolve_inputs(recipe, external_data=None, input_map=None):
     result = {}
     for name in recipe.get('inputs', []):
         rel = relative(name)
-        result[name] = mapping.get(name, base / rel if base else None)
+        source = mapping.get(name, base / rel if base else None)
+        legacy = name.replace('gpt6_astra_validation_scripts/', '.paper_agent/', 1)
+        if name not in mapping and legacy != name:
+            if legacy in mapping:
+                source = mapping[legacy]
+            elif base and not source.exists() and (base / legacy).is_file():
+                source = base / legacy
+        result[name] = source
     return result
 
 def plan(recipe, external_data=None, input_map=None):

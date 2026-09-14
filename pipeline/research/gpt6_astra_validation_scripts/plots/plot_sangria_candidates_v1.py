@@ -7,7 +7,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
 root = Path(__file__).resolve().parents[2]
-paths = [root/'data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv', root/'.paper_agent/validation/sangria_top_v1/top_candidate_associations.csv']
+paths = [root/'data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv', root/'gpt6_astra_validation_scripts/validation/sangria_top_v1/top_candidate_associations.csv']
 rows, associations = [list(csv.DictReader(p.open())) for p in paths]
 lookup = {r['event_id']: r for r in rows}
 assert len(lookup) == len(rows) == 155
@@ -35,8 +35,8 @@ ax.yaxis.set_major_formatter(ScalarFormatter())
 ax.grid(axis='y', which='major',color='#e5e7eb',lw=.6)
 ax.set_axisbelow(True)
 ax.legend(loc='lower left', bbox_to_anchor=(0,1.02), ncol=2, frameon=False, fontsize=10, borderaxespad=0)
-out=root/'.paper_agent/figures/sangria_candidates_v1'
+out=root/'gpt6_astra_validation_scripts/figures/sangria_candidates_v1'
 for ext in ['pdf','png']:
     fig.savefig(out/f'sangria_candidates.{ext}',dpi=220)
 plt.close(fig)
-(root/'.paper_agent/validation/sangria_candidates_v1/plot_checks.json').write_text(json.dumps({'status':'VERIFIED_FROM_ARTIFACT','candidate_count':len(rows),'highlighted_count':len(associations),'association_keys_values_exact':True,'all_saved_candidates_shown':True,'x':'saved peak_time_day, unchanged','y':'saved event_statistic, logarithmic display only','labels':'global rank, not catalog source number','inputs':{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'matplotlib':matplotlib.__version__},indent=2)+'\n')
+(root/'gpt6_astra_validation_scripts/validation/sangria_candidates_v1/plot_checks.json').write_text(json.dumps({'status':'VERIFIED_FROM_ARTIFACT','candidate_count':len(rows),'highlighted_count':len(associations),'association_keys_values_exact':True,'all_saved_candidates_shown':True,'x':'saved peak_time_day, unchanged','y':'saved event_statistic, logarithmic display only','labels':'global rank, not catalog source number','inputs':{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'matplotlib':matplotlib.__version__},indent=2)+'\n')

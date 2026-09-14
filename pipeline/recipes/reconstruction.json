@@ -37,14 +37,14 @@
       "entrypoint": "diagnostics/run_mbhb_observed_cluster_wdm_reconstruction.py",
       "args": [
         "--output-dir",
-        "{workspace}/.paper_agent/validation/reconcile_v1/reconstruction_observed"
+        "{workspace}/gpt6_astra_validation_scripts/validation/reconcile_v1/reconstruction_observed"
       ],
       "inputs": [
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/mbhb_catalog.csv"
       ],
       "outputs": [
-        ".paper_agent/validation/reconcile_v1/reconstruction_observed"
+        "gpt6_astra_validation_scripts/validation/reconcile_v1/reconstruction_observed"
       ],
       "requires_modules": [
         "numpy",
@@ -67,14 +67,14 @@
     {
       "id": "precessing-finite-1",
       "description": "Generate finite 14-day TPHM source response, search and raw K256 reconstructions for case 1",
-      "entrypoint": ".paper_agent/validation/precessing_v1/run_finite_case.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/precessing_v1/run_finite_case.py",
       "args": [
         "--manifest",
-        "{workspace}/.paper_agent/validation/precessing_v1/finite_manifest.json",
+        "{workspace}/gpt6_astra_validation_scripts/validation/precessing_v1/finite_manifest.json",
         "--case",
         "1",
         "--output",
-        "{workspace}/.paper_agent/validation/precessing_v1/case01"
+        "{workspace}/gpt6_astra_validation_scripts/validation/precessing_v1/case01"
       ],
       "inputs": [
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
@@ -83,7 +83,7 @@
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/glitch_week2_sagnac_zeta_products.npz"
       ],
       "outputs": [
-        ".paper_agent/validation/precessing_v1/case01"
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case01"
       ],
       "requires_modules": [
         "numpy",
@@ -102,21 +102,21 @@
       ],
       "expected_resources": "Historical main runs about100seconds and1.5GB on original machine; not a new-platform guarantee. Requires precomputed orbit/noise checkpoints.",
       "configuration_files": [
-        ".paper_agent/validation/precessing_v1/finite_manifest.json"
+        "gpt6_astra_validation_scripts/validation/precessing_v1/finite_manifest.json"
       ],
       "limitations": "No fresh instrument noise; source/response generation is real numerical work. Preserve padding, conditioning, effective spin/inclination and sampling checks."
     },
     {
       "id": "precessing-finite-2",
       "description": "Generate finite 14-day TPHM source response, search and raw K256 reconstructions for case 2",
-      "entrypoint": ".paper_agent/validation/precessing_v1/run_finite_case.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/precessing_v1/run_finite_case.py",
       "args": [
         "--manifest",
-        "{workspace}/.paper_agent/validation/precessing_v1/finite_manifest.json",
+        "{workspace}/gpt6_astra_validation_scripts/validation/precessing_v1/finite_manifest.json",
         "--case",
         "2",
         "--output",
-        "{workspace}/.paper_agent/validation/precessing_v1/case02"
+        "{workspace}/gpt6_astra_validation_scripts/validation/precessing_v1/case02"
       ],
       "inputs": [
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
@@ -125,7 +125,7 @@
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/glitch_week2_sagnac_zeta_products.npz"
       ],
       "outputs": [
-        ".paper_agent/validation/precessing_v1/case02"
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case02"
       ],
       "requires_modules": [
         "numpy",
@@ -144,21 +144,21 @@
       ],
       "expected_resources": "Historical main runs about100seconds and1.5GB on original machine; not a new-platform guarantee. Requires precomputed orbit/noise checkpoints.",
       "configuration_files": [
-        ".paper_agent/validation/precessing_v1/finite_manifest.json"
+        "gpt6_astra_validation_scripts/validation/precessing_v1/finite_manifest.json"
       ],
       "limitations": "No fresh instrument noise; source/response generation is real numerical work. Preserve padding, conditioning, effective spin/inclination and sampling checks."
     },
     {
       "id": "precessing-original-3",
       "description": "Original case03 source-initialization diagnostic required by the later common-time comparison",
-      "entrypoint": ".paper_agent/validation/precessing_v1/run_case.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/precessing_v1/run_case.py",
       "args": [
         "--manifest",
-        "{workspace}/.paper_agent/validation/precessing_v1/manifest.json",
+        "{workspace}/gpt6_astra_validation_scripts/validation/precessing_v1/manifest.json",
         "--case",
         "3",
         "--output",
-        "{workspace}/.paper_agent/validation/precessing_v1/case03"
+        "{workspace}/gpt6_astra_validation_scripts/validation/precessing_v1/case03"
       ],
       "inputs": [
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
@@ -167,7 +167,7 @@
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/glitch_week2_sagnac_zeta_products.npz"
       ],
       "outputs": [
-        ".paper_agent/validation/precessing_v1/case03"
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case03"
       ],
       "requires_modules": [
         "numpy",
@@ -186,32 +186,32 @@
       ],
       "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
       "configuration_files": [
-        ".paper_agent/validation/precessing_v1/manifest.json"
+        "gpt6_astra_validation_scripts/validation/precessing_v1/manifest.json"
       ],
       "limitations": "Historical source starts within record and has initialization feature; not the final published case03 waveform. Produces old polarizations/report needed by earlier-start driver."
     },
     {
       "id": "precessing-earlier-3",
       "description": "Final case03 earlier physical source start, exact old-time comparison, response and reconstruction",
-      "entrypoint": ".paper_agent/validation/precessing_earlier_start_v1/run_earlier_start.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/precessing_earlier_start_v1/run_earlier_start.py",
       "args": [
         "--manifest",
-        "{workspace}/.paper_agent/validation/precessing_earlier_start_v1/manifest.json",
+        "{workspace}/gpt6_astra_validation_scripts/validation/precessing_earlier_start_v1/manifest.json",
         "--case",
         "3",
         "--output",
-        "{workspace}/.paper_agent/validation/precessing_earlier_start_v1/case03"
+        "{workspace}/gpt6_astra_validation_scripts/validation/precessing_earlier_start_v1/case03"
       ],
       "inputs": [
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/inputs/orbits_2week.h5",
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/mbhb_week1_sagnac_zeta_products.npz",
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/glitch_week2_sagnac_zeta_products.npz",
-        ".paper_agent/validation/precessing_v1/case03/polarizations.npz",
-        ".paper_agent/validation/precessing_v1/case03/report.json"
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case03/polarizations.npz",
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case03/report.json"
       ],
       "outputs": [
-        ".paper_agent/validation/precessing_earlier_start_v1/case03"
+        "gpt6_astra_validation_scripts/validation/precessing_earlier_start_v1/case03"
       ],
       "requires_modules": [
         "numpy",
@@ -230,7 +230,7 @@
       ],
       "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
       "configuration_files": [
-        ".paper_agent/validation/precessing_earlier_start_v1/manifest.json"
+        "gpt6_astra_validation_scripts/validation/precessing_earlier_start_v1/manifest.json"
       ],
       "depends_on": [
         "precessing-original-3"
@@ -240,24 +240,24 @@
     {
       "id": "precessing-window-growth",
       "description": "Figure8 fixed observed-only two-bin95percentile reconstruction growth",
-      "entrypoint": ".paper_agent/validation/run_reconstruction_window_v1.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/run_reconstruction_window_v1.py",
       "args": [
         "--output",
-        "{workspace}/.paper_agent/validation/reconstruction_window_v1"
+        "{workspace}/gpt6_astra_validation_scripts/validation/reconstruction_window_v1"
       ],
       "inputs": [
-        ".paper_agent/validation/precessing_v1/case01/reconstruction.npz",
-        ".paper_agent/validation/precessing_v1/case01/all_candidates.csv",
-        ".paper_agent/validation/precessing_v1/case01/discovered_masks.npz",
-        ".paper_agent/validation/precessing_v1/case02/reconstruction.npz",
-        ".paper_agent/validation/precessing_v1/case02/all_candidates.csv",
-        ".paper_agent/validation/precessing_v1/case02/discovered_masks.npz",
-        ".paper_agent/validation/precessing_earlier_start_v1/case03/reconstruction.npz",
-        ".paper_agent/validation/precessing_earlier_start_v1/case03/all_candidates.csv",
-        ".paper_agent/validation/precessing_earlier_start_v1/case03/discovered_masks.npz"
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case01/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case01/all_candidates.csv",
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case01/discovered_masks.npz",
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case02/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case02/all_candidates.csv",
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case02/discovered_masks.npz",
+        "gpt6_astra_validation_scripts/validation/precessing_earlier_start_v1/case03/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/precessing_earlier_start_v1/case03/all_candidates.csv",
+        "gpt6_astra_validation_scripts/validation/precessing_earlier_start_v1/case03/discovered_masks.npz"
       ],
       "outputs": [
-        ".paper_agent/validation/reconstruction_window_v1"
+        "gpt6_astra_validation_scripts/validation/reconstruction_window_v1"
       ],
       "requires_modules": [
         "numpy",
@@ -285,16 +285,16 @@
     {
       "id": "aligned-window-check",
       "description": "Original known-window K256 three-MBHB growth check; does not replace Figure7",
-      "entrypoint": ".paper_agent/validation/mbhb_window_v1/run.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/mbhb_window_v1/run.py",
       "args": [],
       "inputs": [
         "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
-        ".paper_agent/validation/reconcile_v1/reconstruction_observed/observed_cluster_masks_and_maps.npz",
-        ".paper_agent/validation/reconcile_v1/reconstruction_observed/observed_cluster_reconstructed_ae_timeseries.npz",
-        ".paper_agent/validation/reconcile_v1/reconstruction_observed/selected_observed_cluster_events.csv"
+        "gpt6_astra_validation_scripts/validation/reconcile_v1/reconstruction_observed/observed_cluster_masks_and_maps.npz",
+        "gpt6_astra_validation_scripts/validation/reconcile_v1/reconstruction_observed/observed_cluster_reconstructed_ae_timeseries.npz",
+        "gpt6_astra_validation_scripts/validation/reconcile_v1/reconstruction_observed/selected_observed_cluster_events.csv"
       ],
       "outputs": [
-        ".paper_agent/validation/mbhb_window_v1/report.json"
+        "gpt6_astra_validation_scripts/validation/mbhb_window_v1/report.json"
       ],
       "requires_modules": [
         "numpy",
@@ -349,19 +349,19 @@
     {
       "id": "sangria-k256-03",
       "description": "Original top-six mask reproduction and K256 synthesis for Sangria chunk 3",
-      "entrypoint": ".paper_agent/validation/reconstruct_sangria_k256.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/reconstruct_sangria_k256.py",
       "args": [
         "--chunk",
         "3",
         "--output",
-        "{workspace}/.paper_agent/validation/sangria_k256_v1/chunk03"
+        "{workspace}/gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk03"
       ],
       "inputs": [
         "data/mbhb-unblinded.h5",
         "data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv"
       ],
       "outputs": [
-        ".paper_agent/validation/sangria_k256_v1/chunk03"
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk03"
       ],
       "requires_modules": [
         "numpy",
@@ -388,19 +388,19 @@
     {
       "id": "sangria-k256-08",
       "description": "Original top-six mask reproduction and K256 synthesis for Sangria chunk 8",
-      "entrypoint": ".paper_agent/validation/reconstruct_sangria_k256.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/reconstruct_sangria_k256.py",
       "args": [
         "--chunk",
         "8",
         "--output",
-        "{workspace}/.paper_agent/validation/sangria_k256_v1/chunk08"
+        "{workspace}/gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk08"
       ],
       "inputs": [
         "data/mbhb-unblinded.h5",
         "data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv"
       ],
       "outputs": [
-        ".paper_agent/validation/sangria_k256_v1/chunk08"
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk08"
       ],
       "requires_modules": [
         "numpy",
@@ -427,19 +427,19 @@
     {
       "id": "sangria-k256-09",
       "description": "Original top-six mask reproduction and K256 synthesis for Sangria chunk 9",
-      "entrypoint": ".paper_agent/validation/reconstruct_sangria_k256.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/reconstruct_sangria_k256.py",
       "args": [
         "--chunk",
         "9",
         "--output",
-        "{workspace}/.paper_agent/validation/sangria_k256_v1/chunk09"
+        "{workspace}/gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk09"
       ],
       "inputs": [
         "data/mbhb-unblinded.h5",
         "data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv"
       ],
       "outputs": [
-        ".paper_agent/validation/sangria_k256_v1/chunk09"
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk09"
       ],
       "requires_modules": [
         "numpy",
@@ -466,19 +466,19 @@
     {
       "id": "sangria-k256-11",
       "description": "Original top-six mask reproduction and K256 synthesis for Sangria chunk 11",
-      "entrypoint": ".paper_agent/validation/reconstruct_sangria_k256.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/reconstruct_sangria_k256.py",
       "args": [
         "--chunk",
         "11",
         "--output",
-        "{workspace}/.paper_agent/validation/sangria_k256_v1/chunk11"
+        "{workspace}/gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk11"
       ],
       "inputs": [
         "data/mbhb-unblinded.h5",
         "data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv"
       ],
       "outputs": [
-        ".paper_agent/validation/sangria_k256_v1/chunk11"
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk11"
       ],
       "requires_modules": [
         "numpy",
@@ -505,16 +505,16 @@
     {
       "id": "sangria-window-growth",
       "description": "Figure10 fixed observed-only K256 growth and raw inverse for all six leading candidates",
-      "entrypoint": ".paper_agent/validation/run_sangria_window_v1.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/run_sangria_window_v1.py",
       "args": [],
       "inputs": [
-        ".paper_agent/validation/sangria_k256_v1/chunk03/reconstruction.npz",
-        ".paper_agent/validation/sangria_k256_v1/chunk08/reconstruction.npz",
-        ".paper_agent/validation/sangria_k256_v1/chunk09/reconstruction.npz",
-        ".paper_agent/validation/sangria_k256_v1/chunk11/reconstruction.npz"
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk03/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk08/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk09/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk11/reconstruction.npz"
       ],
       "outputs": [
-        ".paper_agent/validation/sangria_window_v1"
+        "gpt6_astra_validation_scripts/validation/sangria_window_v1"
       ],
       "requires_modules": [
         "numpy",
@@ -543,15 +543,15 @@
     {
       "id": "plot-aligned-original",
       "description": "Render Figure7 using raw full-series reconstruction, also write original-domain metrics",
-      "entrypoint": ".paper_agent/validation/reconcile_v1/make_reconciled_figures.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/reconcile_v1/make_reconciled_figures.py",
       "args": [
         "--reconstruction"
       ],
       "inputs": [
-        ".paper_agent/validation/reconcile_v1/reconstruction_observed/observed_cluster_reconstructed_ae_timeseries.npz"
+        "gpt6_astra_validation_scripts/validation/reconcile_v1/reconstruction_observed/observed_cluster_reconstructed_ae_timeseries.npz"
       ],
       "outputs": [
-        ".paper_agent/figures/reconcile_v1"
+        "gpt6_astra_validation_scripts/figures/reconcile_v1"
       ],
       "requires_modules": [
         "numpy",
@@ -577,27 +577,27 @@
     {
       "id": "plot-precessing-original",
       "description": "Render Figure8 from regenerated final source and expanded-mask reconstructions",
-      "entrypoint": ".paper_agent/validation/plot_precessing_window_v1.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/plot_precessing_window_v1.py",
       "args": [],
       "inputs": [
-        ".paper_agent/validation/precessing_v1/case01/reconstruction.npz",
-        ".paper_agent/validation/precessing_v1/case01/report.json",
-        ".paper_agent/validation/precessing_v1/case01/all_candidates.csv",
-        ".paper_agent/validation/reconstruction_window_v1/case01/waveforms.npz",
-        ".paper_agent/validation/reconstruction_window_v1/case01/report.json",
-        ".paper_agent/validation/precessing_v1/case02/reconstruction.npz",
-        ".paper_agent/validation/precessing_v1/case02/report.json",
-        ".paper_agent/validation/precessing_v1/case02/all_candidates.csv",
-        ".paper_agent/validation/reconstruction_window_v1/case02/waveforms.npz",
-        ".paper_agent/validation/reconstruction_window_v1/case02/report.json",
-        ".paper_agent/validation/precessing_earlier_start_v1/case03/reconstruction.npz",
-        ".paper_agent/validation/precessing_earlier_start_v1/case03/report.json",
-        ".paper_agent/validation/precessing_earlier_start_v1/case03/all_candidates.csv",
-        ".paper_agent/validation/reconstruction_window_v1/case03/waveforms.npz",
-        ".paper_agent/validation/reconstruction_window_v1/case03/report.json"
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case01/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case01/report.json",
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case01/all_candidates.csv",
+        "gpt6_astra_validation_scripts/validation/reconstruction_window_v1/case01/waveforms.npz",
+        "gpt6_astra_validation_scripts/validation/reconstruction_window_v1/case01/report.json",
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case02/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case02/report.json",
+        "gpt6_astra_validation_scripts/validation/precessing_v1/case02/all_candidates.csv",
+        "gpt6_astra_validation_scripts/validation/reconstruction_window_v1/case02/waveforms.npz",
+        "gpt6_astra_validation_scripts/validation/reconstruction_window_v1/case02/report.json",
+        "gpt6_astra_validation_scripts/validation/precessing_earlier_start_v1/case03/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/precessing_earlier_start_v1/case03/report.json",
+        "gpt6_astra_validation_scripts/validation/precessing_earlier_start_v1/case03/all_candidates.csv",
+        "gpt6_astra_validation_scripts/validation/reconstruction_window_v1/case03/waveforms.npz",
+        "gpt6_astra_validation_scripts/validation/reconstruction_window_v1/case03/report.json"
       ],
       "outputs": [
-        ".paper_agent/figures/window_v1/precessing_earlier_start_reconstruction.pdf"
+        "gpt6_astra_validation_scripts/figures/window_v1/precessing_earlier_start_reconstruction.pdf"
       ],
       "requires_modules": [
         "numpy",
@@ -622,15 +622,15 @@
     {
       "id": "plot-sangria-candidates-original",
       "description": "Render Figure9 using all155 candidates and separately verified associations",
-      "entrypoint": ".paper_agent/plots/plot_sangria_candidates_v1.py",
+      "entrypoint": "gpt6_astra_validation_scripts/plots/plot_sangria_candidates_v1.py",
       "args": [],
       "inputs": [
         "data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv",
-        ".paper_agent/validation/sangria_top_v1/top_candidate_associations.csv"
+        "gpt6_astra_validation_scripts/validation/sangria_top_v1/top_candidate_associations.csv"
       ],
       "outputs": [
-        ".paper_agent/figures/sangria_candidates_v1/sangria_candidates.pdf",
-        ".paper_agent/validation/sangria_candidates_v1/plot_checks.json"
+        "gpt6_astra_validation_scripts/figures/sangria_candidates_v1/sangria_candidates.pdf",
+        "gpt6_astra_validation_scripts/validation/sangria_candidates_v1/plot_checks.json"
       ],
       "requires_modules": [
         "numpy",
@@ -653,34 +653,34 @@
       ],
       "limitations": "Requires separately supplied six-association table; rank is not an identity-assignment algorithm. Plot/output parent directories must be prepared explicitly.",
       "prepare_directories": [
-        ".paper_agent/figures/sangria_candidates_v1",
-        ".paper_agent/validation/sangria_candidates_v1"
+        "gpt6_astra_validation_scripts/figures/sangria_candidates_v1",
+        "gpt6_astra_validation_scripts/validation/sangria_candidates_v1"
       ]
     },
     {
       "id": "plot-sangria-reconstruction-original",
       "description": "Render Figure10 from all six regenerated expanded-mask outputs",
-      "entrypoint": ".paper_agent/validation/plot_sangria_window_v1.py",
+      "entrypoint": "gpt6_astra_validation_scripts/validation/plot_sangria_window_v1.py",
       "args": [],
       "inputs": [
-        ".paper_agent/validation/sangria_top_v1/top_candidate_associations.csv",
-        ".paper_agent/validation/sangria_window_v1/rank01/waveforms.npz",
-        ".paper_agent/validation/sangria_window_v1/rank02/waveforms.npz",
-        ".paper_agent/validation/sangria_window_v1/rank03/waveforms.npz",
-        ".paper_agent/validation/sangria_window_v1/rank04/waveforms.npz",
-        ".paper_agent/validation/sangria_window_v1/rank05/waveforms.npz",
-        ".paper_agent/validation/sangria_window_v1/rank06/waveforms.npz",
-        ".paper_agent/validation/sangria_k256_v1/chunk03/reconstruction.npz",
-        ".paper_agent/validation/sangria_k256_v1/chunk03/report.json",
-        ".paper_agent/validation/sangria_k256_v1/chunk08/reconstruction.npz",
-        ".paper_agent/validation/sangria_k256_v1/chunk08/report.json",
-        ".paper_agent/validation/sangria_k256_v1/chunk09/reconstruction.npz",
-        ".paper_agent/validation/sangria_k256_v1/chunk09/report.json",
-        ".paper_agent/validation/sangria_k256_v1/chunk11/reconstruction.npz",
-        ".paper_agent/validation/sangria_k256_v1/chunk11/report.json"
+        "gpt6_astra_validation_scripts/validation/sangria_top_v1/top_candidate_associations.csv",
+        "gpt6_astra_validation_scripts/validation/sangria_window_v1/rank01/waveforms.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_window_v1/rank02/waveforms.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_window_v1/rank03/waveforms.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_window_v1/rank04/waveforms.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_window_v1/rank05/waveforms.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_window_v1/rank06/waveforms.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk03/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk03/report.json",
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk08/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk08/report.json",
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk09/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk09/report.json",
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk11/reconstruction.npz",
+        "gpt6_astra_validation_scripts/validation/sangria_k256_v1/chunk11/report.json"
       ],
       "outputs": [
-        ".paper_agent/figures/window_v1/sangria_targeted_combined.pdf"
+        "gpt6_astra_validation_scripts/figures/window_v1/sangria_targeted_combined.pdf"
       ],
       "requires_modules": [
         "numpy",

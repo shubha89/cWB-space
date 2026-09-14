@@ -1,6 +1,6 @@
 from pathlib import Path
 import os,json,hashlib
-R=Path(__file__).resolve().parent;ROOT=R.parents[2];P=ROOT/'.paper_agent/validation/clean_glitch_suite_v1';os.environ.setdefault('MPLCONFIGDIR',str(P.parent/'.mplconfig'))
+R=Path(__file__).resolve().parent;ROOT=R.parents[2];P=ROOT/'gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1';os.environ.setdefault('MPLCONFIGDIR',str(P.parent/'.mplconfig'))
 import numpy as np,pandas as pd
 import matplotlib
 matplotlib.use('Agg')

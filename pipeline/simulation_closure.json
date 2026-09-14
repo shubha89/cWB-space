@@ -1,9 +1,9 @@
 {
   "files": [
-    ".paper_agent/validation/clean_glitch_suite_v1/analyze.py",
-    ".paper_agent/validation/clean_glitch_suite_v1/generate.py",
-    ".paper_agent/validation/continuous_noise_control_v1/analyze.py",
-    ".paper_agent/validation/continuous_noise_control_v1/generate.py",
+    "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/analyze.py",
+    "gpt6_astra_validation_scripts/validation/clean_glitch_suite_v1/generate.py",
+    "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/analyze.py",
+    "gpt6_astra_validation_scripts/validation/continuous_noise_control_v1/generate.py",
     "cluster/__init__.py",
     "cluster/config.py",
     "cluster/parameters.py",
