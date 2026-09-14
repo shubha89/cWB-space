@@ -1,0 +1,52 @@
+[
+  {
+    "figure": "fig07_mbhb_snr_rho_event.pdf",
+    "arxiv_sha256": "a448ba33b8073e7948ed0aac18b1eaf5476559c98818604132c9ebc073c0fb2f",
+    "local_identical": true
+  },
+  {
+    "figure": "multilink_current.pdf",
+    "arxiv_sha256": "4840fc80e7627310cda35e55adbefe38d2915e2f675d7c2145b0fafac6c5a1e9",
+    "local_identical": true
+  },
+  {
+    "figure": "primary_reconciled.pdf",
+    "arxiv_sha256": "3e62ab86860790ed491a736b2189057fa8db26536b3c21c7c1b9565e00484164",
+    "local_identical": true
+  },
+  {
+    "figure": "fig08_ae_coherence_mbhb_noise.pdf",
+    "arxiv_sha256": "d09430ecbb8c95ae4a52f0a1002378b2e9ff06ca583aa0ee7fda580db74ee630",
+    "local_identical": true
+  },
+  {
+    "figure": "fig01_diagram.pdf",
+    "arxiv_sha256": "0b05fb264370360db34f567d9a9378128803d37a4e1e7ec6fc2076f701765fc7",
+    "local_identical": true
+  },
+  {
+    "figure": "sangria_candidates.pdf",
+    "arxiv_sha256": "bb39b7c833412f987fb1c045a1b5ce47a70cdddcea8b9e2d196cfdddb7792124",
+    "local_identical": true
+  },
+  {
+    "figure": "generic_reconciled.pdf",
+    "arxiv_sha256": "bee575646e009cfcd5663e3407894413dd1563d5eba11f84a26a954ad9ec3c96",
+    "local_identical": true
+  },
+  {
+    "figure": "precessing_earlier_start_reconstruction.pdf",
+    "arxiv_sha256": "f797c098016cc590966ae41f6d8585d27334ab79d0309f5248a92b9d6b0cb87e",
+    "local_identical": true
+  },
+  {
+    "figure": "sangria_targeted_combined.pdf",
+    "arxiv_sha256": "419810527bff87d0a13cf6e57ca792b36d7909d94a0a22b4010953dac3ee5015",
+    "local_identical": true
+  },
+  {
+    "figure": "observed_reconstruction.pdf",
+    "arxiv_sha256": "c00f213eebe72e32351c7fa3c7da65b0a8bac83361bfb0ae16afe284d23c7c52",
+    "local_identical": true
+  }
+]

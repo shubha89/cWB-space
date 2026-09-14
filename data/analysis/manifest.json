@@ -1,0 +1,48 @@
+{
+  "record": "mbhb_week1_m1e6_q03_day5p5__native",
+  "scope": "Saved observed WDM maps; reproduces search and operational response, not instrument simulation or WDM transform",
+  "original_paths": {
+    "search_maps.npz": ".paper_agent/validation/clean_glitch_suite_v1/results/mbhb_week1_m1e6_q03_day5p5__native/search_maps.npz",
+    "masks.npz": ".paper_agent/validation/clean_glitch_suite_v1/results/mbhb_week1_m1e6_q03_day5p5__native/masks.npz",
+    "search.csv": ".paper_agent/validation/clean_glitch_suite_v1/results/mbhb_week1_m1e6_q03_day5p5__native/search.csv",
+    "evidence.npz": ".paper_agent/validation/clean_glitch_suite_v1/results/mbhb_week1_m1e6_q03_day5p5__native/evidence.npz"
+  },
+  "original_sha256": {
+    "search_maps.npz": "6ba8d1b624a3b7412cf6bf10536022dff06fe39f2e177a12f008eab33b555988",
+    "masks.npz": "44eb68a53a2a129ae3b41949def2c2d85d19de6bdd6c8863ab6e9b72e11f60f0",
+    "search.csv": "b3d25d772485df819caf8c3be786629d439c2b635b1b51f5b02ae0b9f6c20524",
+    "evidence.npz": "ad3707c536241e40833d0a7b13ae9a40b3723fdd9c4fc20c94dfe142bb7f0b7e"
+  },
+  "configuration": {
+    "low_hz": 1e-05,
+    "high_hz": 0.02,
+    "seed_quantile": 0.99,
+    "grow_quantile": 0.95,
+    "max_freq_jump_bins": 4,
+    "same_time_connect_bins": 1,
+    "min_pixels": 8,
+    "min_time_bins": 2,
+    "freq_tolerance_bins": 1.0,
+    "max_events": 30
+  },
+  "start_day": 4.25,
+  "stop_day": 5.75,
+  "normalization": "A/E coefficients divided by square root of observed-record frequency median power; monitors raw power",
+  "units": "Input TDI frequency fluctuations Hz; normalized map powers and event ratios dimensionless",
+  "K": 32,
+  "M": 512,
+  "source_reference_day": 4.5,
+  "reconstruction_selection": {
+    "original_path": ".paper_agent/validation/reconstruction_window_v1/case01/selection.npz",
+    "sha256": "6f8aa6c614a7616de797df2dffd0b34439dbed55bbdcd822a0c7b582ce221c7d",
+    "scope": "Precessing case01 observed K256 normalized-power two-bin95percentile connected growth; verifies mask only, not inverse",
+    "band_hz": [
+      1e-05,
+      0.02
+    ],
+    "guard_day": [
+      0.5,
+      13.5
+    ]
+  }
+}

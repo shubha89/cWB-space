@@ -1,0 +1,4 @@
+# Preserve archived source and scientific input bytes across platforms.
+* -text
+# Some preserved CSV artifacts use standard CRLF line endings.
+*.csv whitespace=cr-at-eol

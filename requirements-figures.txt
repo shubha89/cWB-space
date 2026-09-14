@@ -1,0 +1,5 @@
+# Versions used to verify the portable plotting examples (Python 3.12).
+# Historical generation environments may differ; see docs/REPRODUCIBILITY.md.
+numpy==2.4.6
+pandas==3.0.3
+matplotlib==3.10.9

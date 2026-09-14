@@ -1,0 +1,848 @@
+[
+  {
+    "case_id": "mbhb_week1_m1e5_q1_day2p5",
+    "group": "primary",
+    "kind": "mbhb",
+    "parameters": {
+      "case_id": "mbhb_week1_m1e5_q1_day2p5",
+      "total_mass": 100000.0,
+      "q": 1.0,
+      "ra": 0.45,
+      "dec": 0.35,
+      "peak_day": 4.5,
+      "iota": 0.35,
+      "phi_ref": 0.2,
+      "s1": 0.1,
+      "s2": -0.1,
+      "noise_seed": 752001
+    },
+    "ae_peak_day": 4.495231481481482,
+    "ae_timepower_fraction_two_days": 0.9990857364773622,
+    "full_source_samples": 151200,
+    "extra": {
+      "effective_inclination_rad": 0.0,
+      "AE_record_days": 14,
+      "Sagnac_record_days": 7
+    }
+  },
+  {
+    "case_id": "mbhb_week1_m3e5_q06_day4p0",
+    "group": "primary",
+    "kind": "mbhb",
+    "parameters": {
+      "case_id": "mbhb_week1_m3e5_q06_day4p0",
+      "total_mass": 300000.0,
+      "q": 0.6,
+      "ra": 1.75,
+      "dec": -0.45,
+      "peak_day": 4.5,
+      "iota": 0.75,
+      "phi_ref": 1.1,
+      "s1": -0.2,
+      "s2": 0.2,
+      "noise_seed": 752001
+    },
+    "ae_peak_day": 4.496990740740741,
+    "ae_timepower_fraction_two_days": 0.999943727030946,
+    "full_source_samples": 151200,
+    "extra": {
+      "effective_inclination_rad": 0.0,
+      "AE_record_days": 14,
+      "Sagnac_record_days": 7
+    }
+  },
+  {
+    "case_id": "mbhb_week1_m1e6_q03_day5p5",
+    "group": "primary",
+    "kind": "mbhb",
+    "parameters": {
+      "case_id": "mbhb_week1_m1e6_q03_day5p5",
+      "total_mass": 1000000.0,
+      "q": 0.3,
+      "ra": 3.1,
+      "dec": 0.1,
+      "peak_day": 4.5,
+      "iota": 1.05,
+      "phi_ref": 2.4,
+      "s1": 0.3,
+      "s2": -0.3,
+      "noise_seed": 752001
+    },
+    "ae_peak_day": 4.5028703703703705,
+    "ae_timepower_fraction_two_days": 0.9990702758088548,
+    "full_source_samples": 151200,
+    "extra": {
+      "effective_inclination_rad": 0.0,
+      "AE_record_days": 14,
+      "Sagnac_record_days": 7
+    }
+  },
+  {
+    "case_id": "glitch_week2_12_day9p0",
+    "group": "primary",
+    "kind": "glitch",
+    "parameters": {
+      "case_id": "glitch_week2_12_day9p0",
+      "injection_point": "readout_isi_carrier_12",
+      "inj_day": 5.5,
+      "width_s": 1400.0,
+      "level_hz": 0.00018,
+      "noise_seed": 752001
+    },
+    "ae_peak_day": 5.516712962962963,
+    "ae_timepower_fraction_two_days": 0.9999999997494061,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.5,
+          5.516203703703703
+        ]
+      ]
+    }
+  },
+  {
+    "case_id": "glitch_week2_23_day10p7",
+    "group": "primary",
+    "kind": "glitch",
+    "parameters": {
+      "case_id": "glitch_week2_23_day10p7",
+      "injection_point": "readout_isi_carrier_23",
+      "inj_day": 5.5,
+      "width_s": 2600.0,
+      "level_hz": 0.00012,
+      "noise_seed": 752001
+    },
+    "ae_peak_day": 5.530601851851852,
+    "ae_timepower_fraction_two_days": 0.9999999991931829,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.5,
+          5.530092592592593
+        ]
+      ]
+    }
+  },
+  {
+    "case_id": "glitch_week2_31_day12p3",
+    "group": "primary",
+    "kind": "glitch",
+    "parameters": {
+      "case_id": "glitch_week2_31_day12p3",
+      "injection_point": "readout_isi_carrier_31",
+      "inj_day": 5.5,
+      "width_s": 1000.0,
+      "level_hz": 0.0003,
+      "noise_seed": 752001
+    },
+    "ae_peak_day": 5.512083333333333,
+    "ae_timepower_fraction_two_days": 0.9999999998882916,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.5,
+          5.511574074074074
+        ]
+      ]
+    }
+  },
+  {
+    "case_id": "response_glitch_12_day6p85",
+    "group": "generic",
+    "kind": "glitch",
+    "parameters": {
+      "case_id": "response_glitch_12_day6p85",
+      "injection_point": "readout_isi_carrier_12",
+      "inj_day": 5.5,
+      "width_s": 5500.0,
+      "level_hz": 0.0002,
+      "noise_seed": 2301
+    },
+    "ae_peak_day": 5.564166666666667,
+    "ae_timepower_fraction_two_days": 0.9999999953265502,
+    "full_source_samples": 302400,
+    "extra": {
+      "input_intervals": [
+        [
+          5.5,
+          5.563657407407407
+        ]
+      ]
+    }
+  },
+  {
+    "case_id": "response_glitch_31_day12p35",
+    "group": "generic",
+    "kind": "glitch",
+    "parameters": {
+      "case_id": "response_glitch_31_day12p35",
+      "injection_point": "readout_isi_carrier_31",
+      "inj_day": 5.5,
+      "width_s": 2500.0,
+      "level_hz": 0.0003,
+      "noise_seed": 2302
+    },
+    "ae_peak_day": 5.529444444444445,
+    "ae_timepower_fraction_two_days": 0.9999999992328308,
+    "full_source_samples": 302400,
+    "extra": {
+      "input_intervals": [
+        [
+          5.5,
+          5.528935185185185
+        ]
+      ]
+    }
+  },
+  {
+    "case_id": "response_sg_01",
+    "group": "generic",
+    "kind": "sine_gaussian",
+    "parameters": {
+      "case_id": "response_sg_01",
+      "case_type": "signal_like",
+      "morphology": "sine_gaussian",
+      "center_day": 4.5,
+      "duration_s": 9000.0,
+      "ra": 0.45,
+      "dec": 0.35,
+      "strain_amp": 8e-18,
+      "frequency_hz": 0.0022,
+      "band_low_hz": null,
+      "band_high_hz": null,
+      "phase": 0.3,
+      "seed": 0
+    },
+    "ae_peak_day": 4.495648148148148,
+    "ae_timepower_fraction_two_days": 1.0,
+    "full_source_samples": 302400,
+    "extra": {
+      "generator_metadata": {
+        "case_id": "response_sg_01",
+        "case_type": "signal_like",
+        "morphology": "sine_gaussian",
+        "center_day": 4.5,
+        "duration_s": 9000.0,
+        "ra": 0.45,
+        "dec": 0.35,
+        "strain_amp": 8e-18,
+        "frequency_hz": 0.0022,
+        "band_low_hz": null,
+        "band_high_hz": null,
+        "phase": 0.3,
+        "seed": 0,
+        "injection_start_rel_s": 384536.0,
+        "injection_stop_rel_s": 392308.0,
+        "injection_peak_rel_s": 388800.0,
+        "injection_start_day": 4.447916666666667,
+        "injection_stop_day": 4.552083333333333,
+        "response_peak_rel_s": 388424.0,
+        "response_peak_day": 4.495648148148148,
+        "response_peak_power": 1.3217922716328076e-09,
+        "response_A2_absmax_hz": 3.6354363590917e-05,
+        "response_E2_absmax_hz": 2.547626835097068e-05,
+        "response_T2_absmax_hz": 3.8951155076435905e-07
+      }
+    }
+  },
+  {
+    "case_id": "response_wnb_01",
+    "group": "generic",
+    "kind": "white_noise_burst",
+    "parameters": {
+      "case_id": "response_wnb_01",
+      "case_type": "signal_like",
+      "morphology": "white_noise_burst",
+      "center_day": 4.5,
+      "duration_s": 11000.0,
+      "ra": 1.55,
+      "dec": -0.4,
+      "strain_amp": 7e-18,
+      "frequency_hz": null,
+      "band_low_hz": 0.0012,
+      "band_high_hz": 0.006,
+      "phase": 0.0,
+      "seed": 1101
+    },
+    "ae_peak_day": 4.496851851851852,
+    "ae_timepower_fraction_two_days": 1.0,
+    "full_source_samples": 302400,
+    "extra": {
+      "generator_metadata": {
+        "case_id": "response_wnb_01",
+        "case_type": "signal_like",
+        "morphology": "white_noise_burst",
+        "center_day": 4.5,
+        "duration_s": 11000.0,
+        "ra": 1.55,
+        "dec": -0.4,
+        "strain_amp": 7e-18,
+        "frequency_hz": null,
+        "band_low_hz": 0.0012,
+        "band_high_hz": 0.006,
+        "phase": 0.0,
+        "seed": 1101,
+        "injection_start_rel_s": 383820.0,
+        "injection_stop_rel_s": 393380.0,
+        "injection_peak_rel_s": 388800.0,
+        "injection_start_day": 4.436342592592593,
+        "injection_stop_day": 4.563657407407407,
+        "response_peak_rel_s": 388528.0,
+        "response_peak_day": 4.496851851851852,
+        "response_peak_power": 1.02632024590806e-07,
+        "response_A2_absmax_hz": 0.0003184317873513073,
+        "response_E2_absmax_hz": 0.00020157353347223736,
+        "response_T2_absmax_hz": 3.533577673183788e-06
+      }
+    }
+  },
+  {
+    "case_id": "response_sg_02",
+    "group": "generic",
+    "kind": "sine_gaussian",
+    "parameters": {
+      "case_id": "response_sg_02",
+      "case_type": "signal_like",
+      "morphology": "sine_gaussian",
+      "center_day": 4.5,
+      "duration_s": 6500.0,
+      "ra": 3.1,
+      "dec": 0.12,
+      "strain_amp": 8e-18,
+      "frequency_hz": 0.0075,
+      "band_low_hz": null,
+      "band_high_hz": null,
+      "phase": 1.4,
+      "seed": 0
+    },
+    "ae_peak_day": 4.5021759259259255,
+    "ae_timepower_fraction_two_days": 0.9999999999999999,
+    "full_source_samples": 302400,
+    "extra": {
+      "generator_metadata": {
+        "case_id": "response_sg_02",
+        "case_type": "signal_like",
+        "morphology": "sine_gaussian",
+        "center_day": 4.5,
+        "duration_s": 6500.0,
+        "ra": 3.1,
+        "dec": 0.12,
+        "strain_amp": 8e-18,
+        "frequency_hz": 0.0075,
+        "band_low_hz": null,
+        "band_high_hz": null,
+        "phase": 1.4,
+        "seed": 0,
+        "injection_start_rel_s": 386184.0,
+        "injection_stop_rel_s": 391852.0,
+        "injection_peak_rel_s": 388800.0,
+        "injection_start_day": 4.4623842592592595,
+        "injection_stop_day": 4.5376157407407405,
+        "response_peak_rel_s": 388988.0,
+        "response_peak_day": 4.5021759259259255,
+        "response_peak_power": 1.136434567547918e-06,
+        "response_A2_absmax_hz": 0.000982422399563606,
+        "response_E2_absmax_hz": 0.0006902896390077855,
+        "response_T2_absmax_hz": 1.3280669934834141e-05
+      }
+    }
+  },
+  {
+    "case_id": "response_wnb_02",
+    "group": "generic",
+    "kind": "white_noise_burst",
+    "parameters": {
+      "case_id": "response_wnb_02",
+      "case_type": "signal_like",
+      "morphology": "white_noise_burst",
+      "center_day": 4.5,
+      "duration_s": 8000.0,
+      "ra": 4.6,
+      "dec": -0.62,
+      "strain_amp": 7.5e-18,
+      "frequency_hz": null,
+      "band_low_hz": 0.003,
+      "band_high_hz": 0.012,
+      "phase": 0.0,
+      "seed": 1102
+    },
+    "ae_peak_day": 4.505324074074074,
+    "ae_timepower_fraction_two_days": 0.9999999999999998,
+    "full_source_samples": 302400,
+    "extra": {
+      "generator_metadata": {
+        "case_id": "response_wnb_02",
+        "case_type": "signal_like",
+        "morphology": "white_noise_burst",
+        "center_day": 4.5,
+        "duration_s": 8000.0,
+        "ra": 4.6,
+        "dec": -0.62,
+        "strain_amp": 7.5e-18,
+        "frequency_hz": null,
+        "band_low_hz": 0.003,
+        "band_high_hz": 0.012,
+        "phase": 0.0,
+        "seed": 1102,
+        "injection_start_rel_s": 386080.0,
+        "injection_stop_rel_s": 392544.0,
+        "injection_peak_rel_s": 388800.0,
+        "injection_start_day": 4.453703703703703,
+        "injection_stop_day": 4.546296296296297,
+        "response_peak_rel_s": 389260.0,
+        "response_peak_day": 4.505324074074074,
+        "response_peak_power": 4.1851876442525825e-06,
+        "response_A2_absmax_hz": 0.0014288209234690737,
+        "response_E2_absmax_hz": 0.0019979610626031903,
+        "response_T2_absmax_hz": 1.6943647735418765e-05
+      }
+    }
+  },
+  {
+    "case_id": "single_12_narrow_high_day8p2",
+    "group": "multilink",
+    "kind": "glitch",
+    "parameters": {
+      "components": [
+        {
+          "injection_point": "readout_isi_carrier_12",
+          "local_peak_day": 5.5,
+          "width_s": 600.0,
+          "level_hz": 0.00035
+        }
+      ]
+    },
+    "ae_peak_day": 5.507453703703704,
+    "ae_timepower_fraction_two_days": 0.9999999999487403,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.5,
+          5.506944444444445
+        ]
+      ],
+      "reuse": "D059 source scaled back to native level"
+    }
+  },
+  {
+    "case_id": "single_23_wide_low_day9p1",
+    "group": "multilink",
+    "kind": "glitch",
+    "parameters": {
+      "components": [
+        {
+          "injection_point": "readout_isi_carrier_23",
+          "local_peak_day": 5.5,
+          "width_s": 4000.0,
+          "level_hz": 8e-05
+        }
+      ]
+    },
+    "ae_peak_day": 5.546805555555555,
+    "ae_timepower_fraction_two_days": 0.9999999977411027,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.5,
+          5.546296296296297
+        ]
+      ],
+      "reuse": "regenerated epoch-dependent response"
+    }
+  },
+  {
+    "case_id": "single_31_mid_day10p3",
+    "group": "multilink",
+    "kind": "glitch",
+    "parameters": {
+      "components": [
+        {
+          "injection_point": "readout_isi_carrier_31",
+          "local_peak_day": 5.500000000000001,
+          "width_s": 1400.0,
+          "level_hz": 0.00018
+        }
+      ]
+    },
+    "ae_peak_day": 5.516712962962963,
+    "ae_timepower_fraction_two_days": 0.9999999997490611,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.500000000000001,
+          5.516203703703704
+        ]
+      ],
+      "reuse": "regenerated epoch-dependent response"
+    }
+  },
+  {
+    "case_id": "single_13_high_day11p2",
+    "group": "multilink",
+    "kind": "glitch",
+    "parameters": {
+      "components": [
+        {
+          "injection_point": "readout_isi_carrier_13",
+          "local_peak_day": 5.499999999999999,
+          "width_s": 1000.0,
+          "level_hz": 0.0004
+        }
+      ]
+    },
+    "ae_peak_day": 5.512083333333333,
+    "ae_timepower_fraction_two_days": 0.9999999998680211,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.499999999999999,
+          5.5115740740740735
+        ]
+      ],
+      "reuse": "regenerated epoch-dependent response"
+    }
+  },
+  {
+    "case_id": "single_21_low_day12p4",
+    "group": "multilink",
+    "kind": "glitch",
+    "parameters": {
+      "components": [
+        {
+          "injection_point": "readout_isi_carrier_21",
+          "local_peak_day": 5.5,
+          "width_s": 3000.0,
+          "level_hz": 0.0001
+        }
+      ]
+    },
+    "ae_peak_day": 5.535231481481482,
+    "ae_timepower_fraction_two_days": 0.9999999989584987,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.5,
+          5.534722222222222
+        ]
+      ],
+      "reuse": "regenerated epoch-dependent response"
+    }
+  },
+  {
+    "case_id": "single_32_mid_day13p0",
+    "group": "multilink",
+    "kind": "glitch",
+    "parameters": {
+      "components": [
+        {
+          "injection_point": "readout_isi_carrier_32",
+          "local_peak_day": 5.5,
+          "width_s": 1800.0,
+          "level_hz": 0.00022
+        }
+      ]
+    },
+    "ae_peak_day": 5.5213425925925925,
+    "ae_timepower_fraction_two_days": 0.9999999994633355,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.5,
+          5.520833333333333
+        ]
+      ],
+      "reuse": "regenerated epoch-dependent response"
+    }
+  },
+  {
+    "case_id": "pair_reciprocal_12_21_day8p7",
+    "group": "multilink",
+    "kind": "glitch",
+    "parameters": {
+      "components": [
+        {
+          "injection_point": "readout_isi_carrier_12",
+          "local_peak_day": 5.5,
+          "width_s": 1500.0,
+          "level_hz": 0.00015
+        },
+        {
+          "injection_point": "readout_isi_carrier_21",
+          "local_peak_day": 5.5,
+          "width_s": 1500.0,
+          "level_hz": 0.00015
+        }
+      ]
+    },
+    "ae_peak_day": 5.51787037037037,
+    "ae_timepower_fraction_two_days": 0.999999999718924,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.5,
+          5.517361111111111
+        ],
+        [
+          5.5,
+          5.517361111111111
+        ]
+      ],
+      "reuse": "regenerated epoch-dependent response"
+    }
+  },
+  {
+    "case_id": "pair_adjacent_12_23_stagger_day9p8",
+    "group": "multilink",
+    "kind": "glitch",
+    "parameters": {
+      "components": [
+        {
+          "injection_point": "readout_isi_carrier_12",
+          "local_peak_day": 5.498958333333334,
+          "width_s": 1400.0,
+          "level_hz": 0.00018
+        },
+        {
+          "injection_point": "readout_isi_carrier_23",
+          "local_peak_day": 5.501041666666666,
+          "width_s": 1400.0,
+          "level_hz": 0.00014
+        }
+      ]
+    },
+    "ae_peak_day": 5.4994907407407405,
+    "ae_timepower_fraction_two_days": 0.999999999863893,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.498958333333334,
+          5.515162037037038
+        ],
+        [
+          5.501041666666666,
+          5.517245370370369
+        ]
+      ],
+      "reuse": "regenerated epoch-dependent response"
+    }
+  },
+  {
+    "case_id": "pair_cross_13_31_stagger_day10p6",
+    "group": "multilink",
+    "kind": "glitch",
+    "parameters": {
+      "components": [
+        {
+          "injection_point": "readout_isi_carrier_13",
+          "local_peak_day": 5.497222222222222,
+          "width_s": 900.0,
+          "level_hz": 0.00025
+        },
+        {
+          "injection_point": "readout_isi_carrier_31",
+          "local_peak_day": 5.502777777777778,
+          "width_s": 900.0,
+          "level_hz": 0.00025
+        }
+      ]
+    },
+    "ae_peak_day": 5.513703703703704,
+    "ae_timepower_fraction_two_days": 0.999999999814738,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.497222222222222,
+          5.507638888888889
+        ],
+        [
+          5.502777777777778,
+          5.513194444444445
+        ]
+      ],
+      "reuse": "regenerated epoch-dependent response"
+    }
+  },
+  {
+    "case_id": "triplet_clockwise_12_23_31_day11p4",
+    "group": "multilink",
+    "kind": "glitch",
+    "parameters": {
+      "components": [
+        {
+          "injection_point": "readout_isi_carrier_12",
+          "local_peak_day": 5.5,
+          "width_s": 1600.0,
+          "level_hz": 0.00014
+        },
+        {
+          "injection_point": "readout_isi_carrier_23",
+          "local_peak_day": 5.5,
+          "width_s": 1600.0,
+          "level_hz": 0.00014
+        },
+        {
+          "injection_point": "readout_isi_carrier_31",
+          "local_peak_day": 5.5,
+          "width_s": 1600.0,
+          "level_hz": 0.00014
+        }
+      ]
+    },
+    "ae_peak_day": 5.519166666666667,
+    "ae_timepower_fraction_two_days": 0.9999999985478047,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.5,
+          5.518518518518518
+        ],
+        [
+          5.5,
+          5.518518518518518
+        ],
+        [
+          5.5,
+          5.518518518518518
+        ]
+      ],
+      "reuse": "regenerated epoch-dependent response"
+    }
+  },
+  {
+    "case_id": "triplet_counter_13_32_21_day12p1",
+    "group": "multilink",
+    "kind": "glitch",
+    "parameters": {
+      "components": [
+        {
+          "injection_point": "readout_isi_carrier_13",
+          "local_peak_day": 5.5,
+          "width_s": 2000.0,
+          "level_hz": 0.00012
+        },
+        {
+          "injection_point": "readout_isi_carrier_32",
+          "local_peak_day": 5.5,
+          "width_s": 2000.0,
+          "level_hz": 0.00012
+        },
+        {
+          "injection_point": "readout_isi_carrier_21",
+          "local_peak_day": 5.5,
+          "width_s": 2000.0,
+          "level_hz": 0.00012
+        }
+      ]
+    },
+    "ae_peak_day": 5.500648148148148,
+    "ae_timepower_fraction_two_days": 0.9999999947981594,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.5,
+          5.523148148148148
+        ],
+        [
+          5.5,
+          5.523148148148148
+        ],
+        [
+          5.5,
+          5.523148148148148
+        ]
+      ],
+      "reuse": "regenerated epoch-dependent response"
+    }
+  },
+  {
+    "case_id": "sixlink_common_day13p3",
+    "group": "multilink",
+    "kind": "glitch",
+    "parameters": {
+      "components": [
+        {
+          "injection_point": "readout_isi_carrier_12",
+          "local_peak_day": 5.500000000000001,
+          "width_s": 1800.0,
+          "level_hz": 7e-05
+        },
+        {
+          "injection_point": "readout_isi_carrier_13",
+          "local_peak_day": 5.500000000000001,
+          "width_s": 1800.0,
+          "level_hz": 7e-05
+        },
+        {
+          "injection_point": "readout_isi_carrier_21",
+          "local_peak_day": 5.500000000000001,
+          "width_s": 1800.0,
+          "level_hz": 7e-05
+        },
+        {
+          "injection_point": "readout_isi_carrier_23",
+          "local_peak_day": 5.500000000000001,
+          "width_s": 1800.0,
+          "level_hz": 7e-05
+        },
+        {
+          "injection_point": "readout_isi_carrier_31",
+          "local_peak_day": 5.500000000000001,
+          "width_s": 1800.0,
+          "level_hz": 7e-05
+        },
+        {
+          "injection_point": "readout_isi_carrier_32",
+          "local_peak_day": 5.500000000000001,
+          "width_s": 1800.0,
+          "level_hz": 7e-05
+        }
+      ]
+    },
+    "ae_peak_day": 5.521388888888889,
+    "ae_timepower_fraction_two_days": 0.9999999906791235,
+    "full_source_samples": 151200,
+    "extra": {
+      "input_intervals": [
+        [
+          5.500000000000001,
+          5.520833333333334
+        ],
+        [
+          5.500000000000001,
+          5.520833333333334
+        ],
+        [
+          5.500000000000001,
+          5.520833333333334
+        ],
+        [
+          5.500000000000001,
+          5.520833333333334
+        ],
+        [
+          5.500000000000001,
+          5.520833333333334
+        ],
+        [
+          5.500000000000001,
+          5.520833333333334
+        ]
+      ],
+      "reuse": "regenerated epoch-dependent response"
+    }
+  }
+]

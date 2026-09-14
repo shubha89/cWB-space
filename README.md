@@ -1,130 +1,97 @@
-# LISA-TF: Gravitational Wave Detection Analysis
+# cWB-space
 
-Analysis and simulation code for LISA (Laser Interferometer Space Antenna) gravitational wave detection using time-delay interferometry (TDI).
+Code, data and examples accompanying **cWB-space: A time-frequency transient-search pipeline for LISA**, [arXiv:2609.12986v1](https://arxiv.org/abs/2609.12986v1), by Shubhanshu Tiwari, Yumeng Xu and Giovanni A. Prodi.
 
-## Project Structure
+No project software or data license has yet been selected. See [NOTICE.md](NOTICE.md) before redistribution.
 
-```
-├── lisa_link_sim/              # Main simulation notebooks and data
-│   ├── *.ipynb                # Jupyter notebooks for analysis
-│   ├── inputs/                # Input data files
-│   └── outputs/               # Generated output files
-├── scripts/                    # Reusable importable pipeline scripts
-│   ├── six_link_generation.py  # Waveform alignment, orbit, GW links, noisy links
-│   ├── tdi_computation.py      # Noisy and GW-only XYZ/AET TDI products
-│   ├── wdm_computation.py      # Multi-resolution WDM and T-weighted A/E maps
-│   ├── plotting_utils.py       # Shared plotting helpers
-│   ├── lisa_link_simulation.py # Compatibility wrapper for the main pipeline
-│   └── tdi_wdm_pipeline.py     # Compatibility wrapper for WDM post-processing
-├── examples/                   # Runnable examples and smoke checks
-├── coronagraphic_tdi.py        # TDI analysis module
-├── create_lisalink.py          # LISA link creation utilities
-└── env.yml                     # Conda environment specification
-```
+This repository provides:
 
-## Setup Instructions
+- Portable examples that regenerate the paper's nine numerical figures from small saved scientific products. Figure 1 is supplied as its original diagram PDF.
+- A runnable observed-TDI pipeline: WDM transforms, candidate selection/ranking, observed-background response ratios and optional inverse reconstruction.
+- The original simulation, LISA response/TDI, conditioning and study-specific reconstruction drivers, with an isolated-workspace launcher and explicit external inputs.
+- A runnable regression example that repeats candidate selection, ranking and the response calculation from saved observed WDM maps, with tests against the original outputs.
+- Input checksums, injection parameters, figure provenance and the scope of each comparison.
 
-### Prerequisites
-- Conda (Miniconda or Anaconda)
-- Git
+## Reproduce the figures
 
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd LISA-TF
-   ```
-
-2. **Create and activate the conda environment**
-   ```bash
-   conda env create -f env.yml
-   conda activate lisa-tf
-   ```
-
-3. **Verify installation**
-   ```bash
-   python -c "import lisaorbits; import lisagwresponse; import lisainstrument; import pytdi; print('All packages imported successfully!')"
-   ```
-
-## Running the Analysis
-
-1. Start Jupyter Lab
-   ```bash
-   jupyter lab
-   ```
-
-2. Navigate to `lisa_link_sim/` and open the relevant notebooks:
-   - `orbit-lisa.ipynb` - Orbital analysis
-   - `phenomxpy-waveform.ipynb` - Waveform generation
-   - `TDI-test.ipynb` - TDI calculations
-   - `lisa-link-with-noise.ipynb` - Link analysis with noise
-
-### Reusable Pipeline Scripts
-
-The reusable scripts live in `scripts/` and can be called from notebooks or Python:
-
-- `scripts/six_link_generation.py` generates aligned waveform files, orbit files, six GW-only links, and six noisy links.
-- `scripts/tdi_computation.py` computes noisy and GW-only XYZ/AET TDI from the six-link products.
-- `scripts/wdm_computation.py` computes multi-resolution WDM products and noisy A/E maps weighted by the noisy T-channel proxy.
-- `scripts/plotting_utils.py` contains shared plotting helpers for link, TDI, WDM, best-pixel, and zoomed views.
-- `scripts/lisa_link_simulation.py` and `scripts/tdi_wdm_pipeline.py` remain compatibility wrappers for the full pipeline entry points.
-- `examples/example_lisa_link_simulation.ipynb` shows the main link/TDI pipeline.
-- `examples/example_tdi_wdm_pipeline.ipynb` shows the TDI/WDM and T-weighted stage.
-- `examples/smoke_test_generated_waveform.py` runs a fast generated-waveform smoke test without regenerating the full noisy products.
-
-Example:
-
-```python
-from scripts.tdi_wdm_pipeline import TDIWDMPipelineConfig, run_tdi_wdm_pipeline
-
-products = run_tdi_wdm_pipeline(
-    "lisa_link_sim/script_run",
-    config=TDIWDMPipelineConfig(make_grid_plots=True, make_t_weighted_plots=True),
-)
-products.wdm_summary.sort_values("signal_over_offsource_mean", ascending=False).head()
-```
-
-Fast smoke check:
+Use Python 3.12. From this directory:
 
 ```bash
-conda run -n lisa-tf python examples/smoke_test_generated_waveform.py
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-figures.txt
+python examples/reproduce_all.py
 ```
 
-## Key Dependencies
+PDFs and PNGs are written to `outputs/`. To choose another location:
 
-- **Python 3.12**
-- **lisaorbits** - LISA orbital mechanics
-- **lisagwresponse** - Gravitational wave response functions
-- **lisainstrument** - LISA instrument modeling
-- **pytdi** - Time-delay interferometry
-- **Scientific stack**: NumPy, SciPy, Pandas, Matplotlib, HDF5
+```bash
+python examples/reproduce_all.py --output-dir /path/to/figure-output
+```
 
-## Development
+No input downloads, source simulations, WDM transforms or waveform inversions occur in the plotting examples. Reconstruction plots use saved reconstructed samples. This reproduces the published visualizations; it is not a fresh end-to-end regeneration of every scientific result.
 
-To add new dependencies:
-1. Install with conda or pip
-2. Update `env.yml` with the new package
-3. Commit and push the updated `env.yml`
+| Paper figure | Subject | Example |
+|---|---|---|
+| 1 | Pipeline overview | Original artwork in `assets/figure01_pipeline.pdf` |
+| 2–3 | Signal strength and A/E coherence | `examples/plot_strength.py` |
+| 4–6 | MBHB, burst and multi-link response studies | `examples/plot_response.py` |
+| 7–8, 10 | Aligned-spin, precessing and Sangria reconstructions | `examples/plot_reconstruction.py` |
+| 9 | All 155 Sangria search candidates | `examples/plot_sangria.py` |
 
-## Output Files
+Every plotting example accepts `--output-dir`. Historical output stems such as `fig07_mbhb_snr_rho_event` refer to earlier working figure numbering; the table above gives the arXiv numbering.
 
-Generated files are stored in `lisa_link_sim/outputs/`:
-- `*.csv` - CSV data files
-- `*.h5` - HDF5 data files
-- `plots/` - Visualization outputs
-- `diagnostics/` - Diagnostic information
+## Run the pipeline on observed data
 
-## Notes
+```bash
+python -m pip install -r requirements-analysis.txt
+python examples/run_pipeline.py --output-dir outputs/tdi-demo --response --inverse
+```
 
-- Large data files (*.h5, *.npz, *.csv) are excluded from git via `.gitignore`
-- Store large datasets separately or use Git LFS if needed
-- See individual notebook documentation for detailed analysis steps
+This executes the transforms and analysis on the included 3 MB observed-TDI example. It reproduced the paper-study search maps, event mask, ranking and response ratio exactly; the optional inverse is a selected follow-up demonstration. Use `--input` for your own data and `--help` for time/channel keys and search settings. Defaults describe this example, not arbitrary LISA records.
 
-## License
+For the **original simulation and paper-study workflows**:
 
-[Add your license here]
+```bash
+python pipeline/run.py list
+python pipeline/run.py plan continuous-noise
+```
 
-## Contact
+Follow the [pipeline guide](pipeline/README.md) to supply external inputs, prepare a fresh workspace and execute a stage. The source tree includes instrument/source generation, LISA response, TDI, conditioning, precessing-binary studies and Sangria search/reconstruction. Full production suites have not been rerun during packaging.
 
-[Add contact information if needed]
+## Run the saved-map regression example
+
+```bash
+python examples/recover_candidates.py
+python -m unittest discover -s tests -v
+python examples/verify_data.py
+```
+
+This repeats the actual clustering and ranking on an included observed map and estimates the monitor-channel background outside the union of selected event pixels. It uses no separately supplied noise realization. The reference case's response ratio is approximately **0.016540485**. Regression tests also repeat the reconstruction-window selection on a saved observed map.
+
+The search/transform code is in `cwb_space/blind_event_clustering.py` and `cwb_space/clean_wdm.py`. `response.py` provides `observed_background_ratio`; `reconstruction.py` contains the connected-window selection and two-quadrature inverse convention. To use WDM transforms on your own channel data, install the additional dependencies:
+
+```bash
+python -m pip install -r requirements-analysis.txt
+python -m pip install --no-deps --no-build-isolation -e .
+```
+
+The latter installs the local code for import from other projects. It does not install the example data as wheel resources; run the reproduction examples from a checkout.
+
+See [the reproducibility guide](docs/REPRODUCIBILITY.md) for data domains, conventions, limitations, and what a full simulation rerun would additionally require. No detection threshold or calibrated false-alarm probability is supplied by these examples; a small response ratio alone does not identify a gravitational wave.
+
+## Layout
+
+```text
+cwb_space/       Search, response and reconstruction primitives
+examples/        Portable plotting and saved-map analysis examples
+data/            Scientific inputs, parameters and provenance
+assets/          Original pipeline diagram
+pipeline/        Original study drivers, configurations and isolated launcher
+tests/          Regression checks against stored research results
+docs/           Reproducibility and release-review notes
+```
+
+Large instrument/orbit products, historical source/noise checkpoints and full-year Sangria input remain external. The relevant producing and analysis code is now included; workflow recipes explicitly list required files and record their hashes. Exploratory outputs and manuscript drafts are not bundled.
+
+Use [CITATION.cff](CITATION.cff) to cite the accompanying paper.

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cwb-space"
+version = "0.0.0.dev0"
+description = "cWB-space transient-analysis code and reproduction examples for arXiv:2609.12986v1"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["numpy>=2", "pandas>=2"]
+
+[project.optional-dependencies]
+figures = ["matplotlib>=3.10"]
+wdm = ["scipy", "wdm-wavelet==0.3.0"]
+
+[tool.setuptools.packages.find]
+include = ["cwb_space*"]

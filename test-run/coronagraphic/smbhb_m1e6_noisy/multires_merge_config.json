@@ -1,9 +1,0 @@
-{
-  "run_dir": "test-run/coronagraphic/smbhb_m1e6_noisy",
-  "output_dir": null,
-  "input_csv": "pixel_clusters_all_resolutions.csv",
-  "min_cluster_size": 2,
-  "min_samples": null,
-  "min_resolutions": 2,
-  "make_plots": true
-}

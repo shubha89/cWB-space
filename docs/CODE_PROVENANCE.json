@@ -1,0 +1,21 @@
+{
+  "reference": "arXiv:2609.12986v1",
+  "modules": [
+    {
+      "file": "cwb_space/blind_event_clustering.py",
+      "original_identifier": "scripts/blind_event_clustering.py",
+      "sha256": "280abce4dbe87b64ef9782c1217609fc8bb36d5b15610bb7c6a45b4a2e0bb2f5",
+      "change": "Byte-identical copy; package initializer replaced to avoid eager simulator imports."
+    },
+    {
+      "file": "cwb_space/clean_wdm.py",
+      "original_identifier": "scripts/clean_wdm.py",
+      "sha256": "e6b94794b03171e3dc17416acaae71bd98f6c214c80013911b60c6322b76f36c",
+      "change": "Byte-identical copy; package initializer replaced to avoid eager simulator imports."
+    }
+  ],
+  "response": "Extraction of observed-data median/excess/sum formula from response-study driver, with explicit invalid-input checks; tested against stored sums.",
+  "reconstruction": "Extraction of original two-bin/95th-percentile connected growth and two-quadrature arithmetic mean. Mask regression tested; observed-TDI inverse later executed as an operational example, with no new truth-overlap validation.",
+  "plot_strength": "Five plotting/helper functions extracted from original paper figure driver without numerical changes.",
+  "upstream_generation_revision": "Unknown for some historical inputs; not inferred from current checkout HEAD."
+}

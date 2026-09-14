@@ -1,68 +1,58 @@
-# Environment
-.env
-conda/
+# Publish the paper pipeline and examples; retain local research outside Git.
+/*
+!/.gitattributes
+!/.gitignore
+!/CITATION.cff
+!/NOTICE.md
+!/README.md
+!/assets/
+!/cwb_space/
+!/data/
+!/docs/
+!/examples/
+!/pipeline/
+!/pyproject.toml
+!/requirements-analysis.txt
+!/requirements-figures.txt
+!/requirements-pipeline.txt
+!/tests/
 
-# Python
+/data/*
+!/data/analysis/
+!/data/checksums.json
+!/data/pipeline/
+!/data/published_figures.json
+!/data/reconstruction/
+!/data/response/
+!/data/sangria/
+!/data/strength/
+
+/docs/*
+!/docs/CODE_PROVENANCE.json
+!/docs/RELEASE_REVIEW.md
+!/docs/REPRODUCIBILITY.md
+
+/examples/*
+!/examples/plot_reconstruction.py
+!/examples/plot_response.py
+!/examples/plot_sangria.py
+!/examples/plot_strength.py
+!/examples/recover_candidates.py
+!/examples/reproduce_all.py
+!/examples/run_pipeline.py
+!/examples/verify_data.py
+
+# Generated outputs, environments and caches
+outputs/
+.venv/
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Jupyter Notebook
-.ipynb_checkpoints
-*.ipynb_checkpoints
-
-# Virtual environments
-venv/
-ENV/
-env/
-.venv
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Project specific
-outputs/plots/*
-outputs/diagnostics/*
-diagnostics/mbhb_sixlinks/outputs/
-diagnostics/mbhb_sixlinks_*/
-examples/runs/
-test-run/coronagraphic/
-test-run/pytdi_sagnac_kappa_example/
-test-run/slide_plots/
-lisa_link_sim/1e5-data/outputs/
 .pytest_cache/
-test_*.py
-*.pyc
-
-# Large data files (optional - remove if you want to track)
-*.h5
-*.npz
-*.csv
-inputs/
+.mplconfig/
+.numba_cache/
+*.egg-info/
+build/
+dist/
+.DS_Store
+.env
+external_data/

@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use these examples or algorithms, please cite the cWB-space paper."
+type: software
+title: "cWB-space: paper reproduction examples and transient-analysis code"
+authors:
+  - family-names: Tiwari
+    given-names: Shubhanshu
+  - family-names: Xu
+    given-names: Yumeng
+  - family-names: Prodi
+    given-names: Giovanni A.
+preferred-citation:
+  type: article
+  title: "cWB-space: A time-frequency transient-search pipeline for LISA"
+  authors:
+    - family-names: Tiwari
+      given-names: Shubhanshu
+    - family-names: Xu
+      given-names: Yumeng
+    - family-names: Prodi
+      given-names: Giovanni A.
+  year: 2026
+  url: "https://arxiv.org/abs/2609.12986"
+  identifiers:
+    - type: other
+      value: "arXiv:2609.12986v1"

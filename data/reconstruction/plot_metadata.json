@@ -1,0 +1,134 @@
+{
+  "figure7": [
+    {
+      "id": "mbhb1",
+      "source_peak_day": 2.495138888888889,
+      "display_half_width_days": 0.008,
+      "samples": 345
+    },
+    {
+      "id": "mbhb2",
+      "source_peak_day": 3.997037037037037,
+      "display_half_width_days": 0.008,
+      "samples": 345
+    },
+    {
+      "id": "mbhb3",
+      "source_peak_day": 5.502777777777778,
+      "display_half_width_days": 0.008,
+      "samples": 345
+    }
+  ],
+  "figure8": [
+    {
+      "id": "case01",
+      "mass": 1000000.0,
+      "window_days": [
+        2.025380710659859,
+        2.191201353637864
+      ],
+      "original_window_days": [
+        2.0727580372250154,
+        2.1438240270727933
+      ],
+      "samples": 3581,
+      "envelope_definition": "Non-overlapping 512-sample maximum of hypot(A2_source,E2_source); timestamp is bin endpoint midpoint."
+    },
+    {
+      "id": "case02",
+      "mass": 3000000.0,
+      "window_days": [
+        6.597292724196299,
+        6.952622673434844
+      ],
+      "original_window_days": [
+        6.644670050761455,
+        6.905245346869687
+      ],
+      "samples": 7675,
+      "envelope_definition": "Non-overlapping 512-sample maximum of hypot(A2_source,E2_source); timestamp is bin endpoint midpoint."
+    },
+    {
+      "id": "case03",
+      "mass": 10000000.0,
+      "window_days": [
+        10.766497461928951,
+        11.050761421319804
+      ],
+      "original_window_days": [
+        10.813874788494108,
+        11.003384094754647
+      ],
+      "samples": 6140,
+      "envelope_definition": "Non-overlapping 512-sample maximum of hypot(A2_source,E2_source); timestamp is bin endpoint midpoint."
+    }
+  ],
+  "figure10": [
+    {
+      "id": "rank01",
+      "rank": 1,
+      "catalog_coalescence_day": 313.01076469434406,
+      "original_window_days": [
+        312.92694965449164,
+        313.045409674235
+      ],
+      "display_half_width_days": 0.012,
+      "samples": 415
+    },
+    {
+      "id": "rank02",
+      "rank": 2,
+      "catalog_coalescence_day": 223.65811577475927,
+      "original_window_days": [
+        223.5192497532083,
+        223.6969397828233
+      ],
+      "display_half_width_days": 0.012,
+      "samples": 415
+    },
+    {
+      "id": "rank03",
+      "rank": 3,
+      "catalog_coalescence_day": 77.68986693219458,
+      "original_window_days": [
+        77.48766041461008,
+        77.69496544916092
+      ],
+      "display_half_width_days": 0.012,
+      "samples": 415
+    },
+    {
+      "id": "rank04",
+      "rank": 4,
+      "catalog_coalescence_day": 259.32766411351633,
+      "original_window_days": [
+        259.23494570582426,
+        259.3534057255676
+      ],
+      "display_half_width_days": 0.012,
+      "samples": 415
+    },
+    {
+      "id": "rank05",
+      "rank": 5,
+      "catalog_coalescence_day": 263.9052946472785,
+      "original_window_days": [
+        263.8252714708786,
+        263.97334649555773
+      ],
+      "display_half_width_days": 0.012,
+      "samples": 414
+    },
+    {
+      "id": "rank06",
+      "rank": 6,
+      "catalog_coalescence_day": 78.91494060336329,
+      "original_window_days": [
+        78.76110562685093,
+        78.90918065153011
+      ],
+      "display_half_width_days": 0.012,
+      "samples": 415
+    }
+  ]
+}

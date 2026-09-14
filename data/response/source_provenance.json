@@ -1,0 +1,308 @@
+{
+  "description": "Saved plot inputs, not a pipeline rerun. Original source identifiers below are relative logical names. All candidate rows retained. Historical production code/environment provenance is not inferred.",
+  "files": [
+    {
+      "source_name": "manifest.json",
+      "source_sha256": "b551ed0dbfbff7f3849abbd9993af8e43a8aef5593b4138966c6bba72cfd057c",
+      "packaged_path": "manifest.json",
+      "packaged_sha256": "99421e397fb4e2d8f86d3539508f395793978b4bb67d0d9aca67910cf4cbfa7a",
+      "projection": "Removed source_path from each case only; retained order, IDs, parameters, and other fields."
+    },
+    {
+      "source_name": "all_candidates.csv",
+      "source_sha256": "c2369b20a9dd84cb002c7314880aa5772cdd833a37c36cda8612b4b03b5ac3c0",
+      "packaged_path": "all_candidates.csv",
+      "packaged_sha256": "8b0ceea31c04d16a16257ced426fd2f682ab3358e042aefbd0ef4733dabbe09f",
+      "projection": {
+        "columns": [
+          "event_id",
+          "rank",
+          "case_id",
+          "group",
+          "kind",
+          "level",
+          "event_statistic",
+          "off_subtracted_R",
+          "associated"
+        ],
+        "rows": "all 81 rows, original order, original text values"
+      }
+    },
+    {
+      "source_name": "results/mbhb_week1_m1e5_q1_day2p5__native/search_maps.npz",
+      "source_sha256": "cd346327e477fb16f0faef51f787ca8059ceb2f7da09097917d29dea70a23d96",
+      "packaged_path": "results/mbhb_week1_m1e5_q1_day2p5__native/search_maps.npz",
+      "packaged_sha256": "ac79e9fea6de7ce0d6186546ee37ed0996f4ab33cfda116ce1bffc81e39ce21f",
+      "projection": {
+        "retained_arrays": [
+          "times_day",
+          "freqs_hz",
+          "A_power",
+          "E_power",
+          "AE_power"
+        ],
+        "operation": "lossless npz compression; no slicing or value/dtype changes"
+      }
+    },
+    {
+      "source_name": "results/mbhb_week1_m1e5_q1_day2p5__native/masks.npz",
+      "source_sha256": "59337e4fabaae9640d97365df6de7f2a9480dc503c05a1ab008de967f4acfbb5",
+      "packaged_path": "results/mbhb_week1_m1e5_q1_day2p5__native/masks.npz",
+      "packaged_sha256": "59337e4fabaae9640d97365df6de7f2a9480dc503c05a1ab008de967f4acfbb5",
+      "projection": "byte-identical copy, all event masks"
+    },
+    {
+      "source_name": "results/mbhb_week1_m3e5_q06_day4p0__native/search_maps.npz",
+      "source_sha256": "fe8248370070aebe2f12a6cbdadcd680883a633b75e3c35d3fc1c86113c0075c",
+      "packaged_path": "results/mbhb_week1_m3e5_q06_day4p0__native/search_maps.npz",
+      "packaged_sha256": "3b71daffb1b1bfc323804f785d02c9b08ef21915450b50b60e47f5730c3d7016",
+      "projection": {
+        "retained_arrays": [
+          "times_day",
+          "freqs_hz",
+          "A_power",
+          "E_power",
+          "AE_power"
+        ],
+        "operation": "lossless npz compression; no slicing or value/dtype changes"
+      }
+    },
+    {
+      "source_name": "results/mbhb_week1_m3e5_q06_day4p0__native/masks.npz",
+      "source_sha256": "41fed06ec8241f8ce696aecfc92bd220af8c5ff396a215c6ce18d660ef167a27",
+      "packaged_path": "results/mbhb_week1_m3e5_q06_day4p0__native/masks.npz",
+      "packaged_sha256": "41fed06ec8241f8ce696aecfc92bd220af8c5ff396a215c6ce18d660ef167a27",
+      "projection": "byte-identical copy, all event masks"
+    },
+    {
+      "source_name": "results/mbhb_week1_m1e6_q03_day5p5__native/search_maps.npz",
+      "source_sha256": "6ba8d1b624a3b7412cf6bf10536022dff06fe39f2e177a12f008eab33b555988",
+      "packaged_path": "results/mbhb_week1_m1e6_q03_day5p5__native/search_maps.npz",
+      "packaged_sha256": "923f3cea982e8aa4783e82a5b445b528264756e8a40bdd3d7cb6290660dcf484",
+      "projection": {
+        "retained_arrays": [
+          "times_day",
+          "freqs_hz",
+          "A_power",
+          "E_power",
+          "AE_power"
+        ],
+        "operation": "lossless npz compression; no slicing or value/dtype changes"
+      }
+    },
+    {
+      "source_name": "results/mbhb_week1_m1e6_q03_day5p5__native/masks.npz",
+      "source_sha256": "44eb68a53a2a129ae3b41949def2c2d85d19de6bdd6c8863ab6e9b72e11f60f0",
+      "packaged_path": "results/mbhb_week1_m1e6_q03_day5p5__native/masks.npz",
+      "packaged_sha256": "44eb68a53a2a129ae3b41949def2c2d85d19de6bdd6c8863ab6e9b72e11f60f0",
+      "projection": "byte-identical copy, all event masks"
+    },
+    {
+      "source_name": "results/glitch_week2_12_day9p0__matched/search_maps.npz",
+      "source_sha256": "8e45183861321b139b42eaf80362bd2aa1be05be6e4995aeea0ae6370b62913e",
+      "packaged_path": "results/glitch_week2_12_day9p0__matched/search_maps.npz",
+      "packaged_sha256": "72beb881e7d0524d1a85bd4edd05215ddfa90d75ed63f355ffdfc02776a2696a",
+      "projection": {
+        "retained_arrays": [
+          "times_day",
+          "freqs_hz",
+          "A_power",
+          "E_power",
+          "AE_power"
+        ],
+        "operation": "lossless npz compression; no slicing or value/dtype changes"
+      }
+    },
+    {
+      "source_name": "results/glitch_week2_12_day9p0__matched/masks.npz",
+      "source_sha256": "e67f3adb461d5332ea2411c46e14675b6e83158603ee5f14c0f97a5e257daaef",
+      "packaged_path": "results/glitch_week2_12_day9p0__matched/masks.npz",
+      "packaged_sha256": "e67f3adb461d5332ea2411c46e14675b6e83158603ee5f14c0f97a5e257daaef",
+      "projection": "byte-identical copy, all event masks"
+    },
+    {
+      "source_name": "results/glitch_week2_23_day10p7__matched/search_maps.npz",
+      "source_sha256": "68aa298e206921b4664db3c13521af8f8655298b8f184a76baf1064442d193d9",
+      "packaged_path": "results/glitch_week2_23_day10p7__matched/search_maps.npz",
+      "packaged_sha256": "06c72ee15f8fde8e190048c1898cb16c5ac577ead17f9a8a7e0d8e43228412b4",
+      "projection": {
+        "retained_arrays": [
+          "times_day",
+          "freqs_hz",
+          "A_power",
+          "E_power",
+          "AE_power"
+        ],
+        "operation": "lossless npz compression; no slicing or value/dtype changes"
+      }
+    },
+    {
+      "source_name": "results/glitch_week2_23_day10p7__matched/masks.npz",
+      "source_sha256": "9b70abaad07c5910d4b88cba5f915523e03b97526e997aa0cd89b14d470ef658",
+      "packaged_path": "results/glitch_week2_23_day10p7__matched/masks.npz",
+      "packaged_sha256": "9b70abaad07c5910d4b88cba5f915523e03b97526e997aa0cd89b14d470ef658",
+      "projection": "byte-identical copy, all event masks"
+    },
+    {
+      "source_name": "results/glitch_week2_31_day12p3__matched/search_maps.npz",
+      "source_sha256": "7cd6d017886fee565e0d0b5014a777c849d12f1e60a8ed2d4586b7747d2174db",
+      "packaged_path": "results/glitch_week2_31_day12p3__matched/search_maps.npz",
+      "packaged_sha256": "34c54f00cf098ad7299217b9bb5b7b70b30d18d161211b291b1bca86d00debcf",
+      "projection": {
+        "retained_arrays": [
+          "times_day",
+          "freqs_hz",
+          "A_power",
+          "E_power",
+          "AE_power"
+        ],
+        "operation": "lossless npz compression; no slicing or value/dtype changes"
+      }
+    },
+    {
+      "source_name": "results/glitch_week2_31_day12p3__matched/masks.npz",
+      "source_sha256": "ded70af57e74608ea584d7e49497a3170d334f6ed799b53dd6ce87856ba22701",
+      "packaged_path": "results/glitch_week2_31_day12p3__matched/masks.npz",
+      "packaged_sha256": "ded70af57e74608ea584d7e49497a3170d334f6ed799b53dd6ce87856ba22701",
+      "projection": "byte-identical copy, all event masks"
+    },
+    {
+      "source_name": "results/response_glitch_12_day6p85__matched/search_maps.npz",
+      "source_sha256": "3ea91dbe4ea0c8c372d4f67f6e1c36fea452ca07e3f70c25d5510f29374ccc63",
+      "packaged_path": "results/response_glitch_12_day6p85__matched/search_maps.npz",
+      "packaged_sha256": "1a26a09c870376f6d86f89ce6eeb6499ee8782a7e15cb935c3c82822b53d1fcb",
+      "projection": {
+        "retained_arrays": [
+          "times_day",
+          "freqs_hz",
+          "A_power",
+          "E_power",
+          "AE_power"
+        ],
+        "operation": "lossless npz compression; no slicing or value/dtype changes"
+      }
+    },
+    {
+      "source_name": "results/response_glitch_12_day6p85__matched/masks.npz",
+      "source_sha256": "5868e0f4657f40b07588c39f703a9361e51a9a7f7a5808797ac90b816b7b9299",
+      "packaged_path": "results/response_glitch_12_day6p85__matched/masks.npz",
+      "packaged_sha256": "5868e0f4657f40b07588c39f703a9361e51a9a7f7a5808797ac90b816b7b9299",
+      "projection": "byte-identical copy, all event masks"
+    },
+    {
+      "source_name": "results/response_glitch_31_day12p35__matched/search_maps.npz",
+      "source_sha256": "16210669b99fa464911ef601d6a2ade3f81273b3206097baac98ee788fe3df31",
+      "packaged_path": "results/response_glitch_31_day12p35__matched/search_maps.npz",
+      "packaged_sha256": "fad6f972c2d0bcb6c2923f644718c03ed0cbf8c3572bab12a37a2ededaee25ff",
+      "projection": {
+        "retained_arrays": [
+          "times_day",
+          "freqs_hz",
+          "A_power",
+          "E_power",
+          "AE_power"
+        ],
+        "operation": "lossless npz compression; no slicing or value/dtype changes"
+      }
+    },
+    {
+      "source_name": "results/response_glitch_31_day12p35__matched/masks.npz",
+      "source_sha256": "6acd2685b3ae688cb6a8a925bccd95a7650b9ef45ec39aa2180d7168e8ec975f",
+      "packaged_path": "results/response_glitch_31_day12p35__matched/masks.npz",
+      "packaged_sha256": "6acd2685b3ae688cb6a8a925bccd95a7650b9ef45ec39aa2180d7168e8ec975f",
+      "projection": "byte-identical copy, all event masks"
+    },
+    {
+      "source_name": "results/response_sg_01__native/search_maps.npz",
+      "source_sha256": "be8d8510e6fed048e653bb0f4ef01f328a122308a6bc3e7438731327934e37c6",
+      "packaged_path": "results/response_sg_01__native/search_maps.npz",
+      "packaged_sha256": "b2120544169f840cc8c1b10b410486789f8ca26c88468da04397a267f7e8e894",
+      "projection": {
+        "retained_arrays": [
+          "times_day",
+          "freqs_hz",
+          "A_power",
+          "E_power",
+          "AE_power"
+        ],
+        "operation": "lossless npz compression; no slicing or value/dtype changes"
+      }
+    },
+    {
+      "source_name": "results/response_sg_01__native/masks.npz",
+      "source_sha256": "506074d0cd7c61cd72e894774d3b51fc28d28944645652d10b4ab055aff4ad64",
+      "packaged_path": "results/response_sg_01__native/masks.npz",
+      "packaged_sha256": "506074d0cd7c61cd72e894774d3b51fc28d28944645652d10b4ab055aff4ad64",
+      "projection": "byte-identical copy, all event masks"
+    },
+    {
+      "source_name": "results/response_wnb_01__native/search_maps.npz",
+      "source_sha256": "94002e2b4fdbd8651560c01c124bfa1ba22bf2cab3691633a685d8abe402f59b",
+      "packaged_path": "results/response_wnb_01__native/search_maps.npz",
+      "packaged_sha256": "d50eba779f448af583c1a7248fe90d5c837d1692e03756e553c9387168ce3c02",
+      "projection": {
+        "retained_arrays": [
+          "times_day",
+          "freqs_hz",
+          "A_power",
+          "E_power",
+          "AE_power"
+        ],
+        "operation": "lossless npz compression; no slicing or value/dtype changes"
+      }
+    },
+    {
+      "source_name": "results/response_wnb_01__native/masks.npz",
+      "source_sha256": "9dde7dcc7df6350226645cbb109b0af98d27b2ff1c5ca0a674ff6a2294906c24",
+      "packaged_path": "results/response_wnb_01__native/masks.npz",
+      "packaged_sha256": "9dde7dcc7df6350226645cbb109b0af98d27b2ff1c5ca0a674ff6a2294906c24",
+      "projection": "byte-identical copy, all event masks"
+    },
+    {
+      "source_name": "results/response_sg_02__native/search_maps.npz",
+      "source_sha256": "050db209edf4099c638beb76fd3721fa5589881ee2f689405c1eab9c8e14d054",
+      "packaged_path": "results/response_sg_02__native/search_maps.npz",
+      "packaged_sha256": "5354902e95d2b89a953b8cb67d194a2c9252be474252d6c3bff10b9c972ebc43",
+      "projection": {
+        "retained_arrays": [
+          "times_day",
+          "freqs_hz",
+          "A_power",
+          "E_power",
+          "AE_power"
+        ],
+        "operation": "lossless npz compression; no slicing or value/dtype changes"
+      }
+    },
+    {
+      "source_name": "results/response_sg_02__native/masks.npz",
+      "source_sha256": "f014f3d925230e232a1987c77be582d85ea0866d8bc31201d71698cd130a8845",
+      "packaged_path": "results/response_sg_02__native/masks.npz",
+      "packaged_sha256": "f014f3d925230e232a1987c77be582d85ea0866d8bc31201d71698cd130a8845",
+      "projection": "byte-identical copy, all event masks"
+    },
+    {
+      "source_name": "results/response_wnb_02__native/search_maps.npz",
+      "source_sha256": "6735eea3b2182c7ef74ccbb9831200f62b3c1a2ee4b26e668d807e8943b4b30f",
+      "packaged_path": "results/response_wnb_02__native/search_maps.npz",
+      "packaged_sha256": "e91b6e3313b1786e2a3d3ad74fbddd18d9feb73405153863437e9b1d88dcdccf",
+      "projection": {
+        "retained_arrays": [
+          "times_day",
+          "freqs_hz",
+          "A_power",
+          "E_power",
+          "AE_power"
+        ],
+        "operation": "lossless npz compression; no slicing or value/dtype changes"
+      }
+    },
+    {
+      "source_name": "results/response_wnb_02__native/masks.npz",
+      "source_sha256": "1cc618d61aab06406e86f4c524176f4e46ca2321f245919ab6c2795df50140d9",
+      "packaged_path": "results/response_wnb_02__native/masks.npz",
+      "packaged_sha256": "1cc618d61aab06406e86f4c524176f4e46ca2321f245919ab6c2795df50140d9",
+      "projection": "byte-identical copy, all event masks"
+    }
+  ]
+}

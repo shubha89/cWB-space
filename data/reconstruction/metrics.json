@@ -1,0 +1,602 @@
+{
+  "figure7": {
+    "scope": "Full source record, concatenated A2/E2, unweighted zero-lag raw comparison. These are not metrics computed from the plotted zoom.",
+    "rows": [
+      {
+        "source_label": "mbhb1",
+        "match": 0.9314549082872428,
+        "rel_l2": 0.37196101606456483,
+        "norm_over_source": 1.0086769494683678
+      },
+      {
+        "source_label": "mbhb2",
+        "match": 0.993361796148199,
+        "rel_l2": 0.11508031335071636,
+        "norm_over_source": 0.9966989457812725
+      },
+      {
+        "source_label": "mbhb3",
+        "match": 0.9914943511421682,
+        "rel_l2": 0.13086657749519814,
+        "norm_over_source": 1.0051731468543637
+      }
+    ]
+  },
+  "figure8": {
+    "scope": "Saved comparisons explicitly separate original candidate-center interval, expanded reconstruction window, and full record. Do not estimate full-record metrics from the compact plotting arrays.",
+    "rows": [
+      {
+        "id": "case01",
+        "comparisons": {
+          "original_interval": {
+            "interval_days": [
+              2.0727580372250154,
+              2.1438240270727933
+            ],
+            "n_samples": 1535,
+            "old": {
+              "overlap": 0.4049239461530764,
+              "norm_ratio": 0.29532620881930277,
+              "relative_l2": 0.9208953588006096
+            },
+            "new": {
+              "overlap": 0.893184936974844,
+              "norm_ratio": 1.1489635084281054,
+              "relative_l2": 0.5173425808648612
+            }
+          },
+          "expanded_window": {
+            "interval_days": [
+              2.025380710659859,
+              2.191201353637864
+            ],
+            "n_samples": 3581,
+            "old": {
+              "overlap": 0.06861245428204468,
+              "norm_ratio": 0.05181736424133533,
+              "relative_l2": 0.9977847494158597
+            },
+            "new": {
+              "overlap": 0.9652994269780516,
+              "norm_ratio": 0.9593666878141505,
+              "relative_l2": 0.2612129661211933
+            }
+          },
+          "full_record": {
+            "interval_days": [
+              0.0,
+              13.999953703703703
+            ],
+            "n_samples": 302400,
+            "old": {
+              "overlap": 0.06860881839431497,
+              "norm_ratio": 0.05181966777918066,
+              "relative_l2": 0.9977848994732852
+            },
+            "new": {
+              "overlap": 0.9651966944936187,
+              "norm_ratio": 0.9594518445005774,
+              "relative_l2": 0.26158811945553195
+            }
+          }
+        },
+        "original_pixel_count": 52,
+        "expanded_pixel_count": 207,
+        "window_boundary_contact": {
+          "left": true,
+          "right": true,
+          "top_frequency": true
+        }
+      },
+      {
+        "id": "case02",
+        "comparisons": {
+          "original_interval": {
+            "interval_days": [
+              6.644670050761455,
+              6.905245346869687
+            ],
+            "n_samples": 5629,
+            "old": {
+              "overlap": 0.9926512516593878,
+              "norm_ratio": 0.7710545268367482,
+              "relative_l2": 0.25248485307275675
+            },
+            "new": {
+              "overlap": 0.9951668165961431,
+              "norm_ratio": 0.9923624999370154,
+              "relative_l2": 0.09823884841457955
+            }
+          },
+          "expanded_window": {
+            "interval_days": [
+              6.597292724196299,
+              6.952622673434844
+            ],
+            "n_samples": 7675,
+            "old": {
+              "overlap": 0.9926502434926573,
+              "norm_ratio": 0.7710551099705136,
+              "relative_l2": 0.25248742007210156
+            },
+            "new": {
+              "overlap": 0.9950150539089737,
+              "norm_ratio": 0.9925138488706922,
+              "relative_l2": 0.09975619540242749
+            }
+          },
+          "full_record": {
+            "interval_days": [
+              0.0,
+              13.999953703703703
+            ],
+            "n_samples": 302400,
+            "old": {
+              "overlap": 0.9926488263808905,
+              "norm_ratio": 0.7710539976518159,
+              "relative_l2": 0.2524927238639758
+            },
+            "new": {
+              "overlap": 0.995011752372941,
+              "norm_ratio": 0.9925143885334151,
+              "relative_l2": 0.09978902477736312
+            }
+          }
+        },
+        "original_pixel_count": 139,
+        "expanded_pixel_count": 321,
+        "window_boundary_contact": {
+          "left": true,
+          "right": true,
+          "top_frequency": true
+        }
+      },
+      {
+        "id": "case03",
+        "comparisons": {
+          "original_interval": {
+            "interval_days": [
+              10.813874788494108,
+              11.003384094754647
+            ],
+            "n_samples": 4094,
+            "old": {
+              "overlap": 0.9564467887752945,
+              "norm_ratio": 0.9049252173874385,
+              "relative_l2": 0.2964186440824891
+            },
+            "new": {
+              "overlap": 0.915061750464613,
+              "norm_ratio": 1.0943692272448744,
+              "relative_l2": 0.4413764425815481
+            }
+          },
+          "expanded_window": {
+            "interval_days": [
+              10.766497461928951,
+              11.050761421319804
+            ],
+            "n_samples": 6140,
+            "old": {
+              "overlap": 0.9549483172023394,
+              "norm_ratio": 0.9062831573007402,
+              "relative_l2": 0.30073577981455524
+            },
+            "new": {
+              "overlap": 0.9076501905999775,
+              "norm_ratio": 1.10338124897759,
+              "relative_l2": 0.46312177525727033
+            }
+          },
+          "full_record": {
+            "interval_days": [
+              0.0,
+              13.999953703703703
+            ],
+            "n_samples": 302400,
+            "old": {
+              "overlap": 0.9549316500715157,
+              "norm_ratio": 0.906271400102266,
+              "relative_l2": 0.3007879047082091
+            },
+            "new": {
+              "overlap": 0.9076160455898564,
+              "norm_ratio": 1.10338886146309,
+              "relative_l2": 0.46320633547346485
+            }
+          }
+        },
+        "original_pixel_count": 71,
+        "expanded_pixel_count": 112,
+        "window_boundary_contact": {
+          "left": false,
+          "right": false,
+          "top_frequency": false
+        }
+      }
+    ]
+  },
+  "figure10": {
+    "scope": "Source is the aggregate MBHB-only A/E contribution, not an individual-source isolated signal. Full-chunk metrics are explicitly aggregate, not recovery efficiency. Plot is catalog coalescence +/-0.012 day; metrics use their separately stated saved domains.",
+    "rows": [
+      {
+        "rank": 1,
+        "comparisons": {
+          "original_interval": {
+            "interval_days": [
+              312.92694965449164,
+              313.045409674235
+            ],
+            "n_samples": 2047,
+            "old": {
+              "overlap": 0.9906640873630287,
+              "norm_ratio": 0.8002623031584813,
+              "relative_l2": 0.23417409215678053
+            },
+            "new": {
+              "overlap": 0.9967200743259325,
+              "norm_ratio": 1.0033653421964601,
+              "relative_l2": 0.0811988486419515
+            }
+          },
+          "expanded_window": {
+            "interval_days": [
+              312.86771964461997,
+              313.1046396841066
+            ],
+            "n_samples": 4094,
+            "old": {
+              "overlap": 0.9876007234042462,
+              "norm_ratio": 0.800968277202451,
+              "relative_l2": 0.24387800455694073
+            },
+            "new": {
+              "overlap": 0.9956188301403599,
+              "norm_ratio": 1.004373394320934,
+              "relative_l2": 0.09391372351223506
+            }
+          },
+          "full_chunk_aggregate_not_individual": {
+            "interval_days": [
+              300.0,
+              329.99994212962963
+            ],
+            "n_samples": 518400,
+            "old": {
+              "overlap": 0.9851052687171146,
+              "norm_ratio": 0.7989472804781118,
+              "relative_l2": 0.25342140030189086
+            },
+            "new": {
+              "overlap": 0.9933937635639482,
+              "norm_ratio": 1.0021410515556062,
+              "relative_l2": 0.11508842495864194
+            }
+          }
+        },
+        "original_pixel_count": 45,
+        "expanded_pixel_count": 136,
+        "window_boundary_contact": {
+          "left": true,
+          "right": true,
+          "top_frequency": false
+        }
+      },
+      {
+        "rank": 2,
+        "comparisons": {
+          "original_interval": {
+            "interval_days": [
+              223.5192497532083,
+              223.6969397828233
+            ],
+            "n_samples": 3071,
+            "old": {
+              "overlap": 0.9905121056696429,
+              "norm_ratio": 0.7225529113684018,
+              "relative_l2": 0.30114431479352255
+            },
+            "new": {
+              "overlap": 0.9990600012149081,
+              "norm_ratio": 0.9988227911486347,
+              "relative_l2": 0.04334939724014601
+            }
+          },
+          "expanded_window": {
+            "interval_days": [
+              223.46001974333663,
+              223.75616979269495
+            ],
+            "n_samples": 5117,
+            "old": {
+              "overlap": 0.9892619041475794,
+              "norm_ratio": 0.7230751481955197,
+              "relative_l2": 0.30367132569043553
+            },
+            "new": {
+              "overlap": 0.9988636904506242,
+              "norm_ratio": 0.9990023799490844,
+              "relative_l2": 0.04765865224842932
+            }
+          },
+          "full_chunk_aggregate_not_individual": {
+            "interval_days": [
+              210.0,
+              239.99994212962963
+            ],
+            "n_samples": 518400,
+            "old": {
+              "overlap": 0.9886897731039196,
+              "norm_ratio": 0.7226574365082202,
+              "relative_l2": 0.30539439528957985
+            },
+            "new": {
+              "overlap": 0.9983584407007245,
+              "norm_ratio": 0.9984754230089355,
+              "relative_l2": 0.0572751042467806
+            }
+          }
+        },
+        "original_pixel_count": 49,
+        "expanded_pixel_count": 164,
+        "window_boundary_contact": {
+          "left": true,
+          "right": true,
+          "top_frequency": false
+        }
+      },
+      {
+        "rank": 3,
+        "comparisons": {
+          "original_interval": {
+            "interval_days": [
+              77.48766041461008,
+              77.69496544916092
+            ],
+            "n_samples": 3583,
+            "old": {
+              "overlap": 0.9950972267070722,
+              "norm_ratio": 0.7748517764084836,
+              "relative_l2": 0.2414323254602032
+            },
+            "new": {
+              "overlap": 0.9966776494819308,
+              "norm_ratio": 0.9982886732838847,
+              "relative_l2": 0.08146323355271341
+            }
+          },
+          "expanded_window": {
+            "interval_days": [
+              77.4284304047384,
+              77.75419545903257
+            ],
+            "n_samples": 5629,
+            "old": {
+              "overlap": 0.9930837154477642,
+              "norm_ratio": 0.7762014933974694,
+              "relative_l2": 0.24662244900644603
+            },
+            "new": {
+              "overlap": 0.9940485215740165,
+              "norm_ratio": 1.000863739598036,
+              "relative_l2": 0.10915119767198295
+            }
+          },
+          "full_chunk_aggregate_not_individual": {
+            "interval_days": [
+              60.0,
+              89.99994212962963
+            ],
+            "n_samples": 518400,
+            "old": {
+              "overlap": 0.7017620949043581,
+              "norm_ratio": 0.5485036872611789,
+              "relative_l2": 0.7287098885487773
+            },
+            "new": {
+              "overlap": 0.702394576193859,
+              "norm_ratio": 0.7073383531774815,
+              "relative_l2": 0.7118049594266072
+            }
+          }
+        },
+        "original_pixel_count": 63,
+        "expanded_pixel_count": 170,
+        "window_boundary_contact": {
+          "left": true,
+          "right": true,
+          "top_frequency": false
+        }
+      },
+      {
+        "rank": 4,
+        "comparisons": {
+          "original_interval": {
+            "interval_days": [
+              259.23494570582426,
+              259.3534057255676
+            ],
+            "n_samples": 2047,
+            "old": {
+              "overlap": 0.9921753845561405,
+              "norm_ratio": 0.7385858875659639,
+              "relative_l2": 0.282658166810383
+            },
+            "new": {
+              "overlap": 0.9930844635340361,
+              "norm_ratio": 1.0103949183262873,
+              "relative_l2": 0.1186713955948551
+            }
+          },
+          "expanded_window": {
+            "interval_days": [
+              259.1757156959526,
+              259.41263573543927
+            ],
+            "n_samples": 4094,
+            "old": {
+              "overlap": 0.989043808531474,
+              "norm_ratio": 0.7401590728334392,
+              "relative_l2": 0.2893716580265561
+            },
+            "new": {
+              "overlap": 0.9911885472325331,
+              "norm_ratio": 1.0122864758179426,
+              "relative_l2": 0.13412824618869526
+            }
+          },
+          "full_chunk_aggregate_not_individual": {
+            "interval_days": [
+              240.0,
+              269.99994212962963
+            ],
+            "n_samples": 518400,
+            "old": {
+              "overlap": 0.826423223719743,
+              "norm_ratio": 0.6184641714142382,
+              "relative_l2": 0.6002263095970333
+            },
+            "new": {
+              "overlap": 0.8282768110689529,
+              "norm_ratio": 0.845950606340163,
+              "relative_l2": 0.5605977945771252
+            }
+          }
+        },
+        "original_pixel_count": 54,
+        "expanded_pixel_count": 143,
+        "window_boundary_contact": {
+          "left": true,
+          "right": true,
+          "top_frequency": false
+        }
+      },
+      {
+        "rank": 5,
+        "comparisons": {
+          "original_interval": {
+            "interval_days": [
+              263.8252714708786,
+              263.97334649555773
+            ],
+            "n_samples": 2559,
+            "old": {
+              "overlap": 0.9593728235159434,
+              "norm_ratio": 0.7511850800425884,
+              "relative_l2": 0.3506364527991557
+            },
+            "new": {
+              "overlap": 0.996795757279373,
+              "norm_ratio": 0.999180614986775,
+              "relative_l2": 0.08002440762746015
+            }
+          },
+          "expanded_window": {
+            "interval_days": [
+              263.7660414610069,
+              264.03257650542946
+            ],
+            "n_samples": 4605,
+            "old": {
+              "overlap": 0.9576616429521023,
+              "norm_ratio": 0.7504703165324021,
+              "relative_l2": 0.3547004699205156
+            },
+            "new": {
+              "overlap": 0.9962594211497918,
+              "norm_ratio": 0.9996612755212545,
+              "relative_l2": 0.08647969925621804
+            }
+          },
+          "full_chunk_aggregate_not_individual": {
+            "interval_days": [
+              240.0,
+              269.99994212962963
+            ],
+            "n_samples": 518400,
+            "old": {
+              "overlap": 0.5238724183767917,
+              "norm_ratio": 0.4105335623302658,
+              "relative_l2": 0.8593040122994824
+            },
+            "new": {
+              "overlap": 0.5451454354045256,
+              "norm_ratio": 0.5469363570081979,
+              "relative_l2": 0.8383434031814185
+            }
+          }
+        },
+        "original_pixel_count": 32,
+        "expanded_pixel_count": 79,
+        "window_boundary_contact": {
+          "left": true,
+          "right": false,
+          "top_frequency": false
+        }
+      },
+      {
+        "rank": 6,
+        "comparisons": {
+          "original_interval": {
+            "interval_days": [
+              78.76110562685093,
+              78.90918065153011
+            ],
+            "n_samples": 2559,
+            "old": {
+              "overlap": 0.8432847869851632,
+              "norm_ratio": 0.9379625540722668,
+              "relative_l2": 0.5457422904814945
+            },
+            "new": {
+              "overlap": 0.8513528107127883,
+              "norm_ratio": 1.1558428131406686,
+              "relative_l2": 0.6065579554090159
+            }
+          },
+          "expanded_window": {
+            "interval_days": [
+              78.70187561697927,
+              78.96841066140178
+            ],
+            "n_samples": 4606,
+            "old": {
+              "overlap": 0.3879713397848876,
+              "norm_ratio": 0.25890970936331664,
+              "relative_l2": 0.93066381897686
+            },
+            "new": {
+              "overlap": 0.9940237805620691,
+              "norm_ratio": 0.9951934364904114,
+              "relative_l2": 0.1091700131541799
+            }
+          },
+          "full_chunk_aggregate_not_individual": {
+            "interval_days": [
+              60.0,
+              89.99994212962963
+            ],
+            "n_samples": 518400,
+            "old": {
+              "overlap": 0.2739496807579261,
+              "norm_ratio": 0.18322982484710737,
+              "relative_l2": 0.9660132838988862
+            },
+            "new": {
+              "overlap": 0.7026471584192217,
+              "norm_ratio": 0.7035855969686998,
+              "relative_l2": 0.7115390723159944
+            }
+          }
+        },
+        "original_pixel_count": 34,
+        "expanded_pixel_count": 159,
+        "window_boundary_contact": {
+          "left": true,
+          "right": true,
+          "top_frequency": false
+        }
+      }
+    ]
+  }
+}

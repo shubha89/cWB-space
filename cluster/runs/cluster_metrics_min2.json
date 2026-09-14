@@ -1,7 +1,0 @@
-{
-  "n_samples": 10,
-  "n_clusters": 2,
-  "n_noise": 6,
-  "noise_fraction": 0.6,
-  "silhouette_non_noise": 0.29876803243405925
-}

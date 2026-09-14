@@ -1,0 +1,46 @@
+{
+  "record": "mbhb_week1_m1e6_q03_day5p5__native",
+  "operation": "Exact float64 array sum observed[channel] = continuous_noise[channel] + 1.0 * source[channel]; source truth not packaged",
+  "channels": [
+    "A2",
+    "E2",
+    "T2",
+    "alpha2",
+    "beta2",
+    "gamma2",
+    "zeta21",
+    "zeta22",
+    "zeta23"
+  ],
+  "channel_units": "TDI frequency fluctuations Hz",
+  "time_key": "t_lisa",
+  "time_units": "seconds in original simulation time coordinate (absolute reference convention not independently inferred)",
+  "first_time_s": 61690239.327664,
+  "last_time_s": 61863035.327664,
+  "cadence_s": 4.0,
+  "samples": 43200,
+  "plot_day_definition": "(t_lisa-t_lisa[0])/86400 + 4",
+  "noise_input_sha256": "b1887f9aa3d5e7a737c34f42b097dd0d617fec013724027c33a14e42b0bb4430",
+  "source_input_sha256": "7cd54557bba0014ca9b70967de9fcdf550785b2757647ac5c0451766a274a023",
+  "observed_sha256": "d484517548d5ed1e5e7e7f04ebc6ae5ab536510e7ac31bcd43266114517756a4",
+  "parameters": {
+    "case_id": "mbhb_week1_m1e6_q03_day5p5",
+    "total_mass": 1000000.0,
+    "q": 0.3,
+    "ra": 3.1,
+    "dec": 0.1,
+    "peak_day": 4.5,
+    "iota": 1.05,
+    "phi_ref": 2.4,
+    "s1": 0.3,
+    "s2": -0.3,
+    "noise_seed": 752001
+  },
+  "expected_reference": "../analysis: saved original candidate, mask, and response checks; no reference used by run_pipeline.py",
+  "inverse_scope": "Optional new follow-up on this short observed record; not a paper Fig7 reconstruction reproduction",
+  "source_qualifications": {
+    "effective_inclination_rad": 0.0,
+    "AE_record_days": 14,
+    "Sagnac_record_days": 7
+  }
+}

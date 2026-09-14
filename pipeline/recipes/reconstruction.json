@@ -1,0 +1,707 @@
+{
+  "schema_version": 1,
+  "recipes": [
+    {
+      "id": "strength-study",
+      "description": "Figures 2/3: original fixed five-amplitude MBHB strength and coherence study",
+      "entrypoint": "diagnostics/run_mbhb_snr_event_statistic_study.py",
+      "args": [],
+      "inputs": [
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/mbhb_catalog.csv"
+      ],
+      "outputs": [
+        "diagnostics/mbhb_snr_event_statistic_study/outputs"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "limitations": "Original two-week checkpoint study; fixed CWD and output path, existing named files may be overwritten within staged workspace only."
+    },
+    {
+      "id": "aligned-reconstruction",
+      "description": "Figure 7: raw observed-cluster reconstruction in original known injection windows",
+      "entrypoint": "diagnostics/run_mbhb_observed_cluster_wdm_reconstruction.py",
+      "args": [
+        "--output-dir",
+        "{workspace}/.paper_agent/validation/reconcile_v1/reconstruction_observed"
+      ],
+      "inputs": [
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/mbhb_catalog.csv"
+      ],
+      "outputs": [
+        ".paper_agent/validation/reconcile_v1/reconstruction_observed"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "limitations": "Defaults are historical M512/K256 and .1Hz, +/-0.75day known windows. Driver also generates fitted diagnostic products, but paper uses raw observed_cluster keys."
+    },
+    {
+      "id": "precessing-finite-1",
+      "description": "Generate finite 14-day TPHM source response, search and raw K256 reconstructions for case 1",
+      "entrypoint": ".paper_agent/validation/precessing_v1/run_finite_case.py",
+      "args": [
+        "--manifest",
+        "{workspace}/.paper_agent/validation/precessing_v1/finite_manifest.json",
+        "--case",
+        "1",
+        "--output",
+        "{workspace}/.paper_agent/validation/precessing_v1/case01"
+      ],
+      "inputs": [
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/inputs/orbits_2week.h5",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/mbhb_week1_sagnac_zeta_products.npz",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/glitch_week2_sagnac_zeta_products.npz"
+      ],
+      "outputs": [
+        ".paper_agent/validation/precessing_v1/case01"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Historical main runs about100seconds and1.5GB on original machine; not a new-platform guarantee. Requires precomputed orbit/noise checkpoints.",
+      "configuration_files": [
+        ".paper_agent/validation/precessing_v1/finite_manifest.json"
+      ],
+      "limitations": "No fresh instrument noise; source/response generation is real numerical work. Preserve padding, conditioning, effective spin/inclination and sampling checks."
+    },
+    {
+      "id": "precessing-finite-2",
+      "description": "Generate finite 14-day TPHM source response, search and raw K256 reconstructions for case 2",
+      "entrypoint": ".paper_agent/validation/precessing_v1/run_finite_case.py",
+      "args": [
+        "--manifest",
+        "{workspace}/.paper_agent/validation/precessing_v1/finite_manifest.json",
+        "--case",
+        "2",
+        "--output",
+        "{workspace}/.paper_agent/validation/precessing_v1/case02"
+      ],
+      "inputs": [
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/inputs/orbits_2week.h5",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/mbhb_week1_sagnac_zeta_products.npz",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/glitch_week2_sagnac_zeta_products.npz"
+      ],
+      "outputs": [
+        ".paper_agent/validation/precessing_v1/case02"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Historical main runs about100seconds and1.5GB on original machine; not a new-platform guarantee. Requires precomputed orbit/noise checkpoints.",
+      "configuration_files": [
+        ".paper_agent/validation/precessing_v1/finite_manifest.json"
+      ],
+      "limitations": "No fresh instrument noise; source/response generation is real numerical work. Preserve padding, conditioning, effective spin/inclination and sampling checks."
+    },
+    {
+      "id": "precessing-original-3",
+      "description": "Original case03 source-initialization diagnostic required by the later common-time comparison",
+      "entrypoint": ".paper_agent/validation/precessing_v1/run_case.py",
+      "args": [
+        "--manifest",
+        "{workspace}/.paper_agent/validation/precessing_v1/manifest.json",
+        "--case",
+        "3",
+        "--output",
+        "{workspace}/.paper_agent/validation/precessing_v1/case03"
+      ],
+      "inputs": [
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/inputs/orbits_2week.h5",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/mbhb_week1_sagnac_zeta_products.npz",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/glitch_week2_sagnac_zeta_products.npz"
+      ],
+      "outputs": [
+        ".paper_agent/validation/precessing_v1/case03"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "configuration_files": [
+        ".paper_agent/validation/precessing_v1/manifest.json"
+      ],
+      "limitations": "Historical source starts within record and has initialization feature; not the final published case03 waveform. Produces old polarizations/report needed by earlier-start driver."
+    },
+    {
+      "id": "precessing-earlier-3",
+      "description": "Final case03 earlier physical source start, exact old-time comparison, response and reconstruction",
+      "entrypoint": ".paper_agent/validation/precessing_earlier_start_v1/run_earlier_start.py",
+      "args": [
+        "--manifest",
+        "{workspace}/.paper_agent/validation/precessing_earlier_start_v1/manifest.json",
+        "--case",
+        "3",
+        "--output",
+        "{workspace}/.paper_agent/validation/precessing_earlier_start_v1/case03"
+      ],
+      "inputs": [
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/inputs/orbits_2week.h5",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/mbhb_week1_sagnac_zeta_products.npz",
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/glitch_week2_sagnac_zeta_products.npz",
+        ".paper_agent/validation/precessing_v1/case03/polarizations.npz",
+        ".paper_agent/validation/precessing_v1/case03/report.json"
+      ],
+      "outputs": [
+        ".paper_agent/validation/precessing_earlier_start_v1/case03"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "configuration_files": [
+        ".paper_agent/validation/precessing_earlier_start_v1/manifest.json"
+      ],
+      "depends_on": [
+        "precessing-original-3"
+      ],
+      "limitations": "Old case03 artifacts mandatory even if final source could otherwise be generated alone. Do not disable original common-time/fixed-old-domain controls."
+    },
+    {
+      "id": "precessing-window-growth",
+      "description": "Figure8 fixed observed-only two-bin95percentile reconstruction growth",
+      "entrypoint": ".paper_agent/validation/run_reconstruction_window_v1.py",
+      "args": [
+        "--output",
+        "{workspace}/.paper_agent/validation/reconstruction_window_v1"
+      ],
+      "inputs": [
+        ".paper_agent/validation/precessing_v1/case01/reconstruction.npz",
+        ".paper_agent/validation/precessing_v1/case01/all_candidates.csv",
+        ".paper_agent/validation/precessing_v1/case01/discovered_masks.npz",
+        ".paper_agent/validation/precessing_v1/case02/reconstruction.npz",
+        ".paper_agent/validation/precessing_v1/case02/all_candidates.csv",
+        ".paper_agent/validation/precessing_v1/case02/discovered_masks.npz",
+        ".paper_agent/validation/precessing_earlier_start_v1/case03/reconstruction.npz",
+        ".paper_agent/validation/precessing_earlier_start_v1/case03/all_candidates.csv",
+        ".paper_agent/validation/precessing_earlier_start_v1/case03/discovered_masks.npz"
+      ],
+      "outputs": [
+        ".paper_agent/validation/reconstruction_window_v1"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Original driver30minute alarm/4GB bound; reruns K256 transforms and inverses, no new source/noise.",
+      "depends_on": [
+        "precessing-finite-1",
+        "precessing-finite-2",
+        "precessing-earlier-3"
+      ],
+      "limitations": "Output directory must not exist; band .02Hz, full valid-record median normalization, guarded threshold domain .5\u201313.5days."
+    },
+    {
+      "id": "aligned-window-check",
+      "description": "Original known-window K256 three-MBHB growth check; does not replace Figure7",
+      "entrypoint": ".paper_agent/validation/mbhb_window_v1/run.py",
+      "args": [],
+      "inputs": [
+        "diagnostics/simulated_2week_mbhb_then_glitch_highrate/outputs/two_week_mbhb_then_glitch_tdi.npz",
+        ".paper_agent/validation/reconcile_v1/reconstruction_observed/observed_cluster_masks_and_maps.npz",
+        ".paper_agent/validation/reconcile_v1/reconstruction_observed/observed_cluster_reconstructed_ae_timeseries.npz",
+        ".paper_agent/validation/reconcile_v1/reconstruction_observed/selected_observed_cluster_events.csv"
+      ],
+      "outputs": [
+        ".paper_agent/validation/mbhb_window_v1/report.json"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "depends_on": [
+        "aligned-reconstruction"
+      ],
+      "limitations": "Writes alongside copied driver; safe only in staged workspace. Fresh manifest required. Keep per-case known-window threshold domain and .1Hz band; not a blind K32 transfer."
+    },
+    {
+      "id": "sangria-full-search",
+      "description": "Figure9 original full-year30day chunk K32 candidate search",
+      "entrypoint": "diagnostics/run_sangria_full_mbhb_search.py",
+      "args": [],
+      "inputs": [
+        "data/LDC2_sangria_blind_v2.h5"
+      ],
+      "outputs": [
+        "data/sangria_full_mbhb_search"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Full-year HDF observation,30day chunks; substantial transform workload. Requires separately supplied exact input; no download or compute implied by preparation.",
+      "limitations": "CWD-relative paths/no CLI. Reads obs/tdi t,X,Y,Z and dt attribute. Five-second sampling, max12events/chunk. Does not assign physical source identities."
+    },
+    {
+      "id": "sangria-k256-03",
+      "description": "Original top-six mask reproduction and K256 synthesis for Sangria chunk 3",
+      "entrypoint": ".paper_agent/validation/reconstruct_sangria_k256.py",
+      "args": [
+        "--chunk",
+        "3",
+        "--output",
+        "{workspace}/.paper_agent/validation/sangria_k256_v1/chunk03"
+      ],
+      "inputs": [
+        "data/mbhb-unblinded.h5",
+        "data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv"
+      ],
+      "outputs": [
+        ".paper_agent/validation/sangria_k256_v1/chunk03"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy",
+        "jax"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "depends_on": [
+        "sangria-full-search"
+      ],
+      "limitations": "Requires obs/tdi and aggregate sky/mbhb/tdi structured t,X,Y,Z datasets. Candidate CSV compared to rebuilt K32 fields; K256 grids must be exactly equal. Truth loaded after selection. Queries jax metadata although numba backend selected."
+    },
+    {
+      "id": "sangria-k256-08",
+      "description": "Original top-six mask reproduction and K256 synthesis for Sangria chunk 8",
+      "entrypoint": ".paper_agent/validation/reconstruct_sangria_k256.py",
+      "args": [
+        "--chunk",
+        "8",
+        "--output",
+        "{workspace}/.paper_agent/validation/sangria_k256_v1/chunk08"
+      ],
+      "inputs": [
+        "data/mbhb-unblinded.h5",
+        "data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv"
+      ],
+      "outputs": [
+        ".paper_agent/validation/sangria_k256_v1/chunk08"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy",
+        "jax"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "depends_on": [
+        "sangria-full-search"
+      ],
+      "limitations": "Requires obs/tdi and aggregate sky/mbhb/tdi structured t,X,Y,Z datasets. Candidate CSV compared to rebuilt K32 fields; K256 grids must be exactly equal. Truth loaded after selection. Queries jax metadata although numba backend selected."
+    },
+    {
+      "id": "sangria-k256-09",
+      "description": "Original top-six mask reproduction and K256 synthesis for Sangria chunk 9",
+      "entrypoint": ".paper_agent/validation/reconstruct_sangria_k256.py",
+      "args": [
+        "--chunk",
+        "9",
+        "--output",
+        "{workspace}/.paper_agent/validation/sangria_k256_v1/chunk09"
+      ],
+      "inputs": [
+        "data/mbhb-unblinded.h5",
+        "data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv"
+      ],
+      "outputs": [
+        ".paper_agent/validation/sangria_k256_v1/chunk09"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy",
+        "jax"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "depends_on": [
+        "sangria-full-search"
+      ],
+      "limitations": "Requires obs/tdi and aggregate sky/mbhb/tdi structured t,X,Y,Z datasets. Candidate CSV compared to rebuilt K32 fields; K256 grids must be exactly equal. Truth loaded after selection. Queries jax metadata although numba backend selected."
+    },
+    {
+      "id": "sangria-k256-11",
+      "description": "Original top-six mask reproduction and K256 synthesis for Sangria chunk 11",
+      "entrypoint": ".paper_agent/validation/reconstruct_sangria_k256.py",
+      "args": [
+        "--chunk",
+        "11",
+        "--output",
+        "{workspace}/.paper_agent/validation/sangria_k256_v1/chunk11"
+      ],
+      "inputs": [
+        "data/mbhb-unblinded.h5",
+        "data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv"
+      ],
+      "outputs": [
+        ".paper_agent/validation/sangria_k256_v1/chunk11"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy",
+        "jax"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "depends_on": [
+        "sangria-full-search"
+      ],
+      "limitations": "Requires obs/tdi and aggregate sky/mbhb/tdi structured t,X,Y,Z datasets. Candidate CSV compared to rebuilt K32 fields; K256 grids must be exactly equal. Truth loaded after selection. Queries jax metadata although numba backend selected."
+    },
+    {
+      "id": "sangria-window-growth",
+      "description": "Figure10 fixed observed-only K256 growth and raw inverse for all six leading candidates",
+      "entrypoint": ".paper_agent/validation/run_sangria_window_v1.py",
+      "args": [],
+      "inputs": [
+        ".paper_agent/validation/sangria_k256_v1/chunk03/reconstruction.npz",
+        ".paper_agent/validation/sangria_k256_v1/chunk08/reconstruction.npz",
+        ".paper_agent/validation/sangria_k256_v1/chunk09/reconstruction.npz",
+        ".paper_agent/validation/sangria_k256_v1/chunk11/reconstruction.npz"
+      ],
+      "outputs": [
+        ".paper_agent/validation/sangria_window_v1"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Original driver30minute alarm/4GB inherited memory check; four30day chunks with K256 transforms.",
+      "depends_on": [
+        "sangria-k256-03",
+        "sangria-k256-08",
+        "sangria-k256-09",
+        "sangria-k256-11"
+      ],
+      "limitations": "No CLI; executes on import. Do not import for help or preflight. Output must not exist; five-second cadence and aggregate-source comparisons retained."
+    },
+    {
+      "id": "plot-aligned-original",
+      "description": "Render Figure7 using raw full-series reconstruction, also write original-domain metrics",
+      "entrypoint": ".paper_agent/validation/reconcile_v1/make_reconciled_figures.py",
+      "args": [
+        "--reconstruction"
+      ],
+      "inputs": [
+        ".paper_agent/validation/reconcile_v1/reconstruction_observed/observed_cluster_reconstructed_ae_timeseries.npz"
+      ],
+      "outputs": [
+        ".paper_agent/figures/reconcile_v1"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "depends_on": [
+        "aligned-reconstruction"
+      ],
+      "limitations": "Full-domain metric arithmetic occurs here; no new transform."
+    },
+    {
+      "id": "plot-precessing-original",
+      "description": "Render Figure8 from regenerated final source and expanded-mask reconstructions",
+      "entrypoint": ".paper_agent/validation/plot_precessing_window_v1.py",
+      "args": [],
+      "inputs": [
+        ".paper_agent/validation/precessing_v1/case01/reconstruction.npz",
+        ".paper_agent/validation/precessing_v1/case01/report.json",
+        ".paper_agent/validation/precessing_v1/case01/all_candidates.csv",
+        ".paper_agent/validation/reconstruction_window_v1/case01/waveforms.npz",
+        ".paper_agent/validation/reconstruction_window_v1/case01/report.json",
+        ".paper_agent/validation/precessing_v1/case02/reconstruction.npz",
+        ".paper_agent/validation/precessing_v1/case02/report.json",
+        ".paper_agent/validation/precessing_v1/case02/all_candidates.csv",
+        ".paper_agent/validation/reconstruction_window_v1/case02/waveforms.npz",
+        ".paper_agent/validation/reconstruction_window_v1/case02/report.json",
+        ".paper_agent/validation/precessing_earlier_start_v1/case03/reconstruction.npz",
+        ".paper_agent/validation/precessing_earlier_start_v1/case03/report.json",
+        ".paper_agent/validation/precessing_earlier_start_v1/case03/all_candidates.csv",
+        ".paper_agent/validation/reconstruction_window_v1/case03/waveforms.npz",
+        ".paper_agent/validation/reconstruction_window_v1/case03/report.json"
+      ],
+      "outputs": [
+        ".paper_agent/figures/window_v1/precessing_earlier_start_reconstruction.pdf"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "depends_on": [
+        "precessing-window-growth"
+      ]
+    },
+    {
+      "id": "plot-sangria-candidates-original",
+      "description": "Render Figure9 using all155 candidates and separately verified associations",
+      "entrypoint": ".paper_agent/plots/plot_sangria_candidates_v1.py",
+      "args": [],
+      "inputs": [
+        "data/sangria_full_mbhb_search/sangria_full_mbhb_candidate_events.csv",
+        ".paper_agent/validation/sangria_top_v1/top_candidate_associations.csv"
+      ],
+      "outputs": [
+        ".paper_agent/figures/sangria_candidates_v1/sangria_candidates.pdf",
+        ".paper_agent/validation/sangria_candidates_v1/plot_checks.json"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "depends_on": [
+        "sangria-full-search"
+      ],
+      "limitations": "Requires separately supplied six-association table; rank is not an identity-assignment algorithm. Plot/output parent directories must be prepared explicitly.",
+      "prepare_directories": [
+        ".paper_agent/figures/sangria_candidates_v1",
+        ".paper_agent/validation/sangria_candidates_v1"
+      ]
+    },
+    {
+      "id": "plot-sangria-reconstruction-original",
+      "description": "Render Figure10 from all six regenerated expanded-mask outputs",
+      "entrypoint": ".paper_agent/validation/plot_sangria_window_v1.py",
+      "args": [],
+      "inputs": [
+        ".paper_agent/validation/sangria_top_v1/top_candidate_associations.csv",
+        ".paper_agent/validation/sangria_window_v1/rank01/waveforms.npz",
+        ".paper_agent/validation/sangria_window_v1/rank02/waveforms.npz",
+        ".paper_agent/validation/sangria_window_v1/rank03/waveforms.npz",
+        ".paper_agent/validation/sangria_window_v1/rank04/waveforms.npz",
+        ".paper_agent/validation/sangria_window_v1/rank05/waveforms.npz",
+        ".paper_agent/validation/sangria_window_v1/rank06/waveforms.npz",
+        ".paper_agent/validation/sangria_k256_v1/chunk03/reconstruction.npz",
+        ".paper_agent/validation/sangria_k256_v1/chunk03/report.json",
+        ".paper_agent/validation/sangria_k256_v1/chunk08/reconstruction.npz",
+        ".paper_agent/validation/sangria_k256_v1/chunk08/report.json",
+        ".paper_agent/validation/sangria_k256_v1/chunk09/reconstruction.npz",
+        ".paper_agent/validation/sangria_k256_v1/chunk09/report.json",
+        ".paper_agent/validation/sangria_k256_v1/chunk11/reconstruction.npz",
+        ".paper_agent/validation/sangria_k256_v1/chunk11/report.json"
+      ],
+      "outputs": [
+        ".paper_agent/figures/window_v1/sangria_targeted_combined.pdf"
+      ],
+      "requires_modules": [
+        "numpy",
+        "pandas",
+        "scipy",
+        "matplotlib",
+        "h5py",
+        "wdm_wavelet",
+        "numba",
+        "lisagwresponse",
+        "pytdi",
+        "lisaorbits",
+        "lisainstrument",
+        "lisaglitch",
+        "phenomxpy"
+      ],
+      "expected_resources": "Numerical run; resource requirements depend on platform. No new production validation performed during packaging.",
+      "depends_on": [
+        "sangria-window-growth"
+      ],
+      "limitations": "Original plot retains old chunk loads for mapping/provenance; exact-source staging must supply them."
+    }
+  ]
+}

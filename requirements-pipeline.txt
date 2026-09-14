@@ -1,0 +1,12 @@
+# Installed versions inspected while packaging the historical workflows.
+# No fresh installation or full production rerun is claimed.
+-r requirements-analysis.txt
+lisaorbits==3.0.3
+lisagwresponse==3.0.2
+lisainstrument==2.1.0
+pytdi==2.1.0
+phenomxpy==0.1.1
+lisaglitch==2.0.0
+PyYAML==6.0.3
+# Historical Sangria report queries jax metadata even with the numba backend.
+jax==0.10.1
