@@ -12,6 +12,8 @@ This repository provides:
 - A runnable regression example that repeats candidate selection, ranking and the response calculation from saved observed WDM maps, with tests against the original outputs.
 - Input checksums, injection parameters, figure provenance and the scope of each comparison.
 
+AI-assisted validation and plotting scripts are collected in [`pipeline/research/gpt6_astra_validation_scripts/`](pipeline/research/gpt6_astra_validation_scripts/). The repository documentation was prepared with assistance from OpenAI Codex (GPT-6 Astra), under the authors’ supervision.
+
 ## Reproduce the figures
 
 Use Python 3.12. From this directory:
