@@ -10,6 +10,7 @@
 !/data/
 !/docs/
 !/examples/
+!/noise only generation/
 !/pipeline/
 !/pyproject.toml
 !/requirements-analysis.txt

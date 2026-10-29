@@ -61,6 +61,14 @@ python pipeline/run.py plan continuous-noise
 
 Follow the [pipeline guide](pipeline/README.md) to supply external inputs, prepare a fresh workspace and execute a stage. The source tree includes instrument/source generation, LISA response, TDI, conditioning, precessing-binary studies and Sangria search/reconstruction. Full production suites have not been rerun during packaging.
 
+To generate a new one-year instrument-noise dataset, open
+[`noise only generation/generate_one_year_noisy_lisa.ipynb`](noise%20only%20generation/generate_one_year_noisy_lisa.ipynb)
+with the `lisa-tf` kernel. It provides a short pilot, disk preflight, continuous
+LISA Instrument generation, overlapping second-generation XYZ/AET processing,
+and HDF5 output at 4 s spacing. Noise-only is the default; a binary test injection
+or a compatible external GW-response file is optional. The notebook documents
+the noise cutoff, units, clock-calibration limitation and production resources.
+
 ## Run the saved-map regression example
 
 ```bash
@@ -87,6 +95,7 @@ See [the reproducibility guide](docs/REPRODUCIBILITY.md) for data domains, conve
 ```text
 cwb_space/       Search, response and reconstruction primitives
 examples/        Portable plotting and saved-map analysis examples
+noise only generation/  One-year noise generation notebook and helper
 data/            Scientific inputs, parameters and provenance
 assets/          Original pipeline diagram
 pipeline/        Original study drivers, configurations and isolated launcher
